@@ -263,7 +263,7 @@ model Service {
   driver   Driver? @relation(fields: [driverId], references: [id])
 
   serviceType     ServiceType   @default(OTHER)
-  status          ServiceStatus @default(SCHEDULED)
+  status          ServiceStatus @default(COMPLETED)
   description     String?
   odometerKm      Int? // odometer reading at time of service
   nextServiceKm   Int? // next service due odometer — enables "due soon" dashboard alert
