@@ -265,7 +265,7 @@ const EditUserSchema = z
         }
       ),
     confirmPassword: z.string().optional(),
-    role: z.enum(["ADMIN", "DATA_ENTRY", "DRIVER"]).optional(),
+    role: z.enum(["ADMIN", "DATA_ENTRY", "MANAGER"]).optional(),
   })
   .refine((d) => !d.password || d.password === d.confirmPassword, {
     message: "Passwords do not match",
@@ -518,6 +518,8 @@ export default function EditUserPage() {
       setSubmitLoading(false);
     }
   }
+
+  console.log("checkin error", errors)
 
   // ── Loading skeleton ──────────────────────────────────────────────────────
   if (fetchLoading) {

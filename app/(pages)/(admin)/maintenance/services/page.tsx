@@ -332,7 +332,7 @@ export default function ServicesListPage() {
                         <td className="py-3.5 px-5"><DuePill date={svc.nextServiceDate} km={svc.nextServiceKm} /></td>
                         <td className="py-3.5 px-5 text-zinc-500 whitespace-nowrap">{svc.scheduledDate ? fmt(svc.scheduledDate) : "—"}</td>
                         <td className="py-3.5 px-5"><div className="flex items-center gap-2">
-                          {/* <button onClick={() => router.push(`/maintenance/services/update/${svc.id}`)} className="px-2 py-1 rounded text-xs border border-[#C8A96E]/30 text-[#C8A96E] hover:bg-[#C8A96E]/10 transition-colors">Edit</button> */}
+                          {svc.status==="COMPLETED"?(<></>):(<button onClick={() => router.push(`/maintenance/services/${svc.id}`)} className="px-2 py-1 rounded text-xs border border-[#C8A96E]/30 text-[#C8A96E] hover:bg-[#C8A96E]/10 transition-colors">Edit</button>)}
                         <ConfirmDeleteButton onConfirm={() => deleteService(svc.id)} /></div></td>
                       </motion.tr>
                     ))}

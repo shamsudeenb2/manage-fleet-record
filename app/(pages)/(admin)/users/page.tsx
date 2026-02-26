@@ -1,106 +1,3 @@
-// // src/app/admin/users/page.tsx
-// "use client";
-// import React, { useEffect, useState } from "react";
-// import { Card } from "@/components/ui/card";
-// import { Button } from "@/components/ui/button";
-// import { Toaster, toast } from "sonner";
-// import { motion } from "framer-motion";
-// import Pagination from "@/components/Pagination";
-// import ConfirmButton from "@/components/ComfirmButton";
-// import { useRouter } from "next/navigation";
-// import DashboardLayout from "@/components/layout/Dashboard";
-
-// type UserRow = { id:string; email:string; name?:string; role:string; profileImage?:string; createdAt:string };
-
-// export default function UsersPage() {
-//   const [items, setItems] = useState<UserRow[]>([]);
-//   const [page, setPage] = useState(1);
-//   const [limit] = useState(10);
-//   const [total, setTotal] = useState(0);
-//   const [q, setQ] = useState("");
-//   const [loading, setLoading] = useState(false);
-//   const router = useRouter();
-
-//   async function load() {
-//     setLoading(true);
-//     try {
-//       const res = await fetch(`/api/auth/users/register?page=${page}&limit=${limit}&search=${encodeURIComponent(q)}`);
-//       const json = await res.json();
-//       if (!res.ok) throw new Error(json?.message || "Failed");
-//       setItems(json.items || []);
-//       setTotal(json.total || 0);
-//     } catch (err:any) {
-//       console.error(err);
-//       toast.error(err?.message || "Failed to load users");
-//     } finally { setLoading(false); }
-//   }
-
-//   useEffect(()=>{ load() }, [page, q]);
-
-//   async function handleDelete(id:string) {
-//     const res = await fetch(`/api/admin/users/${id}`, { method: "DELETE" });
-//     if (!res.ok) {
-//       const j = await res.json().catch(()=>({}));
-//       throw new Error(j?.message || "Delete failed");
-//     }
-//     toast.success("Deleted");
-//     load();
-//   }
-
-//   return (
-//     <>
-//       <Toaster />
-//       <DashboardLayout>
-//       <main className="min-h-screen p-6 bg-gradient-to-br from-blue-50 to-blue-100">
-//         <motion.div initial={{ opacity:0,y:8 }} animate={{ opacity:1,y:0 }}>
-//           <Card className="p-4">
-//             <div className="flex items-center justify-between mb-4">
-//               <h2 className="text-lg font-semibold">Users</h2>
-//               <div className="flex items-center gap-2">
-//                 <input className="border px-2 py-1 rounded" placeholder="Search name or email" value={q} onChange={(e)=>setQ(e.target.value)} />
-//                 <Button onClick={()=>router.push("/users/create")}>Create user</Button>
-//               </div>
-//             </div>
-
-//             <div className="overflow-x-auto">
-//               <table className="w-full border-collapse">
-//                 <thead>
-//                   <tr className="text-left">
-//                     <th className="p-2">Name</th>
-//                     <th className="p-2">Email</th>
-//                     <th className="p-2">Role</th>
-//                     <th className="p-2">Created</th>
-//                     <th className="p-2"></th>
-//                   </tr>
-//                 </thead>
-//                 <tbody>
-//                   {items.map(u => (
-//                     <tr key={u.id} className="border-t">
-//                       <td className="p-2">{u.name || "—"}</td>
-//                       <td className="p-2">{u.email}</td>
-//                       <td className="p-2">{u.role}</td>
-//                       <td className="p-2">{new Date(u.createdAt).toLocaleString()}</td>
-//                       <td className="p-2 flex gap-2">
-//                         <Button onClick={()=>router.push(`/users/${u.id}`)}>View</Button>
-//                         <Button onClick={()=>router.push(`/users/update/${u.id}`)}>Edit</Button>
-//                         <ConfirmButton onConfirm={()=>handleDelete(u.id)} label="Delete" confirmText="Delete this user? This action is reversible via Restore only by DB." />
-//                       </td>
-//                     </tr>
-//                   ))}
-//                 </tbody>
-//               </table>
-//             </div>
-
-//             <Pagination page={page} total={total} limit={limit} onPage={(p)=>setPage(p)} />
-//           </Card>
-//         </motion.div>
-//       </main>
-//       </DashboardLayout>
-//     </>
-//   );
-// }
-
-
 // src/app/admin/users/page.tsx
 "use client";
 
@@ -122,7 +19,7 @@ type UserRow = {
 const ROLE_STYLES: Record<string, string> = {
   ADMIN: "bg-[#C8A96E]/20 text-[#C8A96E] border border-[#C8A96E]/30",
   DATA_ENTRY: "bg-[#3E6B8C]/20 text-sky-400 border border-[#3E6B8C]/30",
-  DRIVER: "bg-[#5C9669]/20 text-emerald-400 border border-[#5C9669]/30",
+  MANAGER: "bg-[#5C9669]/20 text-emerald-400 border border-[#5C9669]/30",
 };
 
 const fmt = (dateStr: string) =>
@@ -285,7 +182,7 @@ export default function UsersPage() {
 
             {/* Role filter pills */}
             <div className="flex gap-1">
-              {["ALL", "ADMIN", "DATA_ENTRY", "DRIVER"].map((r) => (
+              {["ALL", "ADMIN", "DATA_ENTRY", "MANAGER"].map((r) => (
                 <button
                   key={r}
                   onClick={() => setRoleFilter(r)}
@@ -309,7 +206,7 @@ export default function UsersPage() {
               { label: "Total Users", value: total, accent: "#3E6B8C", icon: "👥" },
               { label: "Admins", value: roleCounts["ADMIN"] ?? 0, accent: "#C8A96E", icon: "🔐" },
               { label: "Data Entry", value: roleCounts["DATA_ENTRY"] ?? 0, accent: "#3E7B8C", icon: "📋" },
-              { label: "Drivers", value: roleCounts["DRIVER"] ?? 0, accent: "#5C9669", icon: "🚛" },
+              { label: "MANAGERs", value: roleCounts["MANAGER"] ?? 0, accent: "#5C9669", icon: "🚛" },
             ].map((s, i) => (
               <motion.div
                 key={s.label}

@@ -1,84 +1,3 @@
-// // src/app/api/admin/users/[id]/route.ts
-// import { NextResponse } from "next/server";
-// import  prisma  from "@/components/lib/db";
-// import { z } from "zod";
-// import { hashPassword } from "@/app/lib/auth";
-// import { getServerSession } from "next-auth";
-// import { getSession } from "@/app/config/auth";
-
-
-// const UpdateUserSchema = z.object({
-//   name: z.string().min(1).optional(),
-//   role: z.enum(["ADMIN", "DATA_ENTRY", "DRIVER"]).optional(),
-//   profileImage: z.string().optional().nullable(),
-//   password: z.string().min(8).optional(),
-// });
-
-// export async function GET(req: Request, { params }: { params: { id: string } }) {
-//   try {
-//     const {id} = await params;
-//     const user = await prisma.user.findUnique({
-//       where: { id },
-//       select: { id: true, email: true, name: true, role: true, profileImage: true, createdAt: true, updatedAt: true },
-//     });
-//     if (!user) return NextResponse.json({ ok: false, message: "Not found" }, { status: 404 });
-//     return NextResponse.json({ ok: true, user }, { status: 200 });
-//   } catch (err) {
-//     console.error(err);
-//     return NextResponse.json({ ok: false, message: "Server error" }, { status: 500 });
-//   }
-// }
-
-// export async function PATCH(req: Request, { params }: { params: { id: string } }) {
-//   try {
-//     const session = await getSession();
-//     if (!session || !["ADMIN", "DATA_ENTRY"].includes((session as any).user?.role)) {
-//       return NextResponse.json({ ok: false, message: "Unauthorized" }, { status: 401 });
-//     }
-
-//     const {id} = await params;
-//     const body = await req.json().catch(() => ({}));
-//     const parsed = UpdateUserSchema.safeParse(body);
-//     if (!parsed.success) {
-//       return NextResponse.json({ ok: false, errors: parsed.error.format() }, { status: 400 });
-//     }
-
-//     const dataToUpdate: any = { ...parsed.data };
-//     if (dataToUpdate.password) {
-//       dataToUpdate.password = await hashPassword(dataToUpdate.password);
-//     }
-
-//     const updated = await prisma.user.update({
-//       where: { id },
-//       data: dataToUpdate,
-//       select: { id: true, email: true, name: true, role: true, profileImage: true, updatedAt: true },
-//     });
-
-//     return NextResponse.json({ ok: true, user: updated }, { status: 200 });
-//   } catch (err: any) {
-//     console.error(err);
-//     return NextResponse.json({ ok: false, message: "Server error" }, { status: 500 });
-//   }
-// }
-
-// export async function DELETE(req: Request, { params }: { params: { id: string } }) {
-//   try {
-//     const session = await getSession();
-//     if (!session || (session as any).user?.role !== "ADMIN") {
-//       return NextResponse.json({ ok: false, message: "Unauthorized" }, { status: 401 });
-//     }
-
-//     const {id} = await params;
-//     // soft-delete
-//     await prisma.user.update({ where: { id }, data: { deletedAt: new Date() } });
-
-//     return NextResponse.json({ ok: true }, { status: 200 });
-//   } catch (err) {
-//     console.error(err);
-//     return NextResponse.json({ ok: false, message: "Server error" }, { status: 500 });
-//   }
-// }
-
 // src/app/api/admin/users/[id]/route.ts
 import { NextResponse } from "next/server";
 import prisma from "@/components/lib/db";
@@ -142,7 +61,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
     const sessionRole = (session as any)?.user?.role;
     const sessionUserId = (session as any)?.user?.id;
 
-    if (!session || !["ADMIN", "DATA_ENTRY"].includes(sessionRole)) {
+    if (!session || !["ADMIN", "MANAGER"].includes(sessionRole)) {
       return NextResponse.json({ ok: false, message: "Unauthorized" }, { status: 401 });
     }
 
