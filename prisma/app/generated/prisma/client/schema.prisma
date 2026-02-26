@@ -1,0 +1,438 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "app/generated/prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  DATA_ENTRY
+  MANAGER
+}
+
+enum WorkOrderStatus {
+  PENDING
+  OPEN
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum FuelType {
+  DIESEL
+  PETROL
+  CNG
+  ELECTRIC
+  LPG
+  OTHER
+}
+
+enum TireActionType {
+  Installed
+  Rotated
+  Removed
+  OTHER
+}
+
+enum TripStatus {
+  PLANNED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+model User {
+  id                String              @id @default(uuid())
+  email             String              @unique
+  passwordChangedAt DateTime?
+  name              String?
+  profileImage      String
+  role              Role
+  password          String? // used if not NextAuth providers
+  passwordReset     PasswordResetToken?
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  deletedAt         DateTime? // soft-delete
+  // You may add Profile relations if needed
+}
+
+model PasswordResetToken {
+  id          String   @id @default(cuid())
+  hashedToken String   @unique
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id])
+  expiresAt   DateTime
+  createdAt   DateTime @default(now())
+}
+
+model Driver {
+  id            String        @id @default(uuid())
+  name          String
+  phone         String?
+  address       String
+  profileImage  String
+  licenseNo     String?       @unique
+  licenseExp    DateTime?
+  licenseImage  String
+  accountName   String
+  accountNumber String
+  bank          String
+  guarantorForm String //image 
+  fingerPrint   String
+  notes         String?
+  vehicle       Vehicle?
+  trips         Trip[]
+  services      Service[]
+  repairs       Repair[]
+  truckDriver   TruckDriver[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  deletedAt     DateTime?
+  // Drivers are not Users (no login); created by admin/data entry
+}
+
+// enhance Vehicle model to include fuel info (useful for computing consumption)
+
+model Vehicle {
+  id                      String   @id @default(uuid())
+  vin                     String?  @unique
+  plateNumber             String   @unique
+  cap_no                  String   @unique
+  make                    String?
+  vehicleImg              String?
+  model                   String?
+  year                    Int?
+  fuelType                FuelType @default(DIESEL)
+  // how many km this vehicle does per litre (or equivalent). For CNG, unit is "km per cubic" if using cubic m.
+  fuelEfficiencyKmPerUnit Float?   @default(2.0)
+
+  // driver relation (optional one-to-one)
+  driverId    String?       @unique
+  driver      Driver?       @relation(fields: [driverId], references: [id])
+  trips       Trip[]
+  truckDriver TruckDriver[]
+  // Relationships
+  services    Service[]
+  repairs     Repair[]
+  parts       Part[]
+  tires       Tire[]
+  currentOdo  Int?          @default(0) // current odometer (km)
+  createdAt   DateTime      @default(now())
+  asssignDate DateTime?
+  updatedAt   DateTime      @updatedAt
+  deletedAt   DateTime?
+}
+
+model TruckDriver {
+  id        String    @id @default(uuid())
+  vehicleId String
+  driverId  String
+  from      DateTime?
+  to        DateTime?
+  vehicle   Vehicle   @relation(fields: [vehicleId], references: [id])
+  driver    Driver    @relation(fields: [driverId], references: [id])
+  createdAt DateTime  @default(now())
+}
+
+model Trip {
+  id           String  @id @default(uuid())
+  vehicleId    String
+  driverId     String
+  loadingPlant String
+  waybill_no   String  @unique
+  atcNo        String  @unique
+  company      String?
+
+  destination     String
+  customer        Customer[]
+  despatchDate    DateTime
+  uploadDate      DateTime   @default(now())
+  totaldistanceKm Float? // distance from loadingPlant to destination (km)// either distanceKm provided or computed from odoStart/odoEnd
+  odoStart        Int? // optional odometer reading at departure
+  odoEnd          Int? // odometer at arrival
+  totalFuelCost   Float? // server-computed rollup: sum of all fuel costs
+  totalCO2Kg      Float? // server-computed rollup: sum of CO₂ across all fuel rows
+  costPerKm       Float?
+  status          TripStatus @default(COMPLETED)
+  notes           String?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id])
+  driver  Driver  @relation(fields: [driverId], references: [id])
+  fuels   Fuel[]
+
+  @@index([vehicleId])
+  @@index([driverId])
+  @@index([status])
+  @@index([despatchDate]) // date range filters on the list page
+}
+
+model Customer {
+  id           String   @id @default(cuid())
+  customerName String
+  tripId       String
+  company      String // in litre or cubic meters (unit depends on type)
+  noOfBags     Int?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  trip Trip @relation(fields: [tripId], references: [id])
+}
+
+model Fuel {
+  id                String   @id @default(cuid())
+  type              FuelType
+  tripId            String
+  qtyGiven          Float // in litre or cubic meters (unit depends on type)
+  unit              String // "litre" or "cubic" or "kWh"
+  unitPrice         Float?
+  fuelCost          Float?
+  distanceKm        Float? // distance from loadingPlant to destination (km)
+  estimatedCO2      Float? // kg CO₂ for this fuel row
+  dieselEquivalentL Float? // LDE for cross-fuel comparison
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  trip Trip @relation(fields: [tripId], references: [id])
+}
+
+model Part {
+  id        String  @id @default(uuid())
+  vehicleId String
+  vehicle   Vehicle @relation(fields: [vehicleId], references: [id])
+
+  repairId String? // optional — parts can exist standalone
+  repair   Repair? @relation(fields: [repairId], references: [id])
+
+  name           String // e.g. "Air Filter", "Engine Belt"
+  partNumber     String? // manufacturer / OEM part number
+  category       String? // "Engine" | "Brakes" | "Electrical" | "Tyres" | "Suspension" | "Body" | "Other"
+  quantity       Int       @default(1)
+  unitCost       Float // cost per unit (₦)
+  totalCost      Float // quantity × unitCost — SERVER-COMPUTED, never trust client
+  supplier       String?
+  supplierPhone  String?
+  purchaseDate   DateTime?
+  fittedDate     DateTime? // when physically installed (may differ from purchaseDate)
+  warrantyExpiry DateTime? // enables expiry alerts on the parts list page
+  notes          String?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime? // soft-delete — consistent with Driver, Vehicle, User
+
+  @@index([vehicleId])
+  @@index([repairId])
+  @@index([warrantyExpiry]) // for expiry alerts query
+  @@index([category])
+  @@index([deletedAt])
+}
+
+// ── B2. SERVICES ──────────────────────────────────────────────────────────────
+//
+// A Service is a PLANNED / PREVENTIVE maintenance event.
+// Oil change, inspection, full service — not unplanned breakdowns.
+
+enum ServiceStatus {
+  SCHEDULED // booked but not yet started
+  IN_PROGRESS // vehicle is currently in the workshop
+  COMPLETED // done
+  CANCELLED // cancelled / rescheduled
+}
+
+enum ServiceType {
+  OIL_CHANGE
+  PERIODIC_INSPECTION
+  AIR_FILTER
+  FULL_SERVICE
+  GENERATOR
+  OTHER
+}
+
+model Service {
+  id        String  @id @default(uuid())
+  vehicleId String
+  vehicle   Vehicle @relation(fields: [vehicleId], references: [id])
+
+  driverId String?
+  driver   Driver? @relation(fields: [driverId], references: [id])
+
+  serviceType     ServiceType   @default(OTHER)
+  status          ServiceStatus @default(SCHEDULED)
+  description     String?
+  odometerKm      Int? // odometer reading at time of service
+  nextServiceKm   Int? // next service due odometer — enables "due soon" dashboard alert
+  nextServiceDate DateTime? // next service due date — enables calendar-based alerts
+  laborCost       Float? // garage labor cost (₦)
+  partsCost       Float? // parts used in service (optional rollup)
+  totalCost       Float? // laborCost + partsCost — SERVER-COMPUTED
+  garage          String?
+  garagePhone     String?
+  scheduledDate   DateTime?
+  completedDate   DateTime?
+  notes           String?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@index([vehicleId])
+  @@index([status])
+  @@index([nextServiceKm]) // for "due soon" alert query
+  @@index([nextServiceDate])
+  @@index([deletedAt])
+}
+
+// Schema change notes:
+// 1. nextServiceKm + nextServiceDate: stored on both Service AND should be mirrored
+//    onto Vehicle.nextServiceKm / Vehicle.nextServiceDate for efficient dashboard
+//    "due soon" queries (avoid joining all Service records to find latest)
+// 2. ServiceType enum enables filtering on the list page without fuzzy string matching
+// 3. Auto-set completedDate server-side when status → COMPLETED (API enforces this)
+//
+// RECOMMENDED: Add to Vehicle model:
+//   nextServiceKm   Int?
+//   nextServiceDate DateTime?
+// Then update these whenever a Service is completed (see services API).
+
+// ── B3. REPAIRS ───────────────────────────────────────────────────────────────
+//
+// A Repair is a REACTIVE / UNPLANNED event — breakdown, accident, mechanical failure.
+// Repairs contain a Parts[] array for parts used during the fix.
+
+enum RepairStatus {
+  OPEN // reported, not yet started
+  IN_PROGRESS // mechanic working on it
+  COMPLETED // fixed
+  CANCELLED // written off / not repaired
+}
+
+enum RepairPriority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL // vehicle off-road — surfaces at top of list with red pulse animation
+}
+
+model Repair {
+  id        String  @id @default(uuid())
+  vehicleId String
+  vehicle   Vehicle @relation(fields: [vehicleId], references: [id])
+
+  driverId String?
+  driver   Driver? @relation(fields: [driverId], references: [id])
+
+  parts Part[] // parts used in this repair — Part.repairId FK back here
+
+  status        RepairStatus   @default(OPEN)
+  priority      RepairPriority @default(MEDIUM)
+  faultDesc     String // description of fault/breakdown (recorded at report time)
+  repairDesc    String? // what was actually done (filled in when completed)
+  odometerKm    Int? // odometer at breakdown — useful for maintenance interval analysis
+  laborCost     Float?
+  partsCost     Float? // auto-rollup from parts[] — updated via updateRepairPartsCostRollup()
+  totalCost     Float? // laborCost + partsCost — SERVER-COMPUTED
+  garage        String?
+  garagePhone   String?
+  reportedDate  DateTime       @default(now())
+  startedDate   DateTime? // auto-set when status → IN_PROGRESS
+  completedDate DateTime? // auto-set when status → COMPLETED
+  notes         String?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@index([vehicleId])
+  @@index([status, priority]) // CRITICAL + OPEN filters used together on list page
+  @@index([deletedAt])
+}
+
+// Schema change notes:
+// 1. faultDesc vs repairDesc: two separate fields. Fault is recorded immediately
+//    (driver's description), repair is filled in after the garage fixes it.
+// 2. partsCost is NOT user-editable. It is a rollup from Part rows WHERE repairId = this.id.
+//    The API route (updateRepairPartsCostRollup()) re-aggregates this whenever a Part
+//    under this repair is created, updated, or soft-deleted.
+// 3. startedDate / completedDate auto-set on status transition in the API —
+//    dispatcher doesn't need to manually set these for the common case.
+// 4. CRITICAL priority triggers the animated red pulse badge on the list page.
+//    Use CRITICAL for vehicles that are physically off the road (zero dispatch revenue).
+
+// ── B4. TIRES ─────────────────────────────────────────────────────────────────
+//
+// A Tire record tracks a single tire fitment event on a vehicle.
+// Nigerian fleet trucks have 10–18 tires. Each position is individually tracked.
+
+enum TireStatus {
+  FITTED // currently on the vehicle and in use
+  REPLACED // removed; a new tire put in its place
+  RETREADED // removed and sent for retreading (common in Nigerian commercial trucking)
+  SCRAPPED // written off, disposed
+}
+
+enum TirePosition {
+  FRONT_LEFT
+  FRONT_RIGHT
+  REAR_LEFT_INNER
+  REAR_LEFT_OUTER
+  REAR_RIGHT_INNER
+  REAR_RIGHT_OUTER
+  SPARE
+  OTHER // trailer axles or multi-axle configurations
+}
+
+model Tire {
+  id        String  @id @default(uuid())
+  vehicleId String
+  vehicle   Vehicle @relation(fields: [vehicleId], references: [id])
+
+  brand        String? // e.g. "Michelin", "Bridgestone", "Toyo", "Pirelli"
+  size         String? // e.g. "315/80R22.5", "11R22.5"
+  serialNumber String? // tire serial / DOT number (required for warranty claims)
+  position     TirePosition @default(OTHER)
+  status       TireStatus   @default(FITTED)
+
+  fittedOdometerKm  Int? // vehicle odometer when tire was fitted
+  removedOdometerKm Int? // vehicle odometer when tire was removed / replaced
+  kmCovered         Int? // removedOdo - fittedOdo — SERVER-COMPUTED
+  // compare to expectedLifeKm for cost-per-km analysis
+
+  treadDepthMm        Float? // tread depth at fitting (mm) — 8–12mm is new
+  treadDepthAtRemoval Float? // tread depth when removed (enables wear rate analysis)
+  expectedLifeKm      Int? // manufacturer expected life in km
+
+  unitCost     Float? // purchase cost per tire (₦)
+  supplier     String?
+  purchaseDate DateTime?
+  fittedDate   DateTime?
+  removedDate  DateTime? // auto-set when status → non-FITTED (API enforces)
+
+  notes     String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@index([vehicleId])
+  @@index([status])
+  @@index([position])
+  @@index([deletedAt])
+}
+
+// Schema change notes:
+// 1. kmCovered is SERVER-COMPUTED (removedOdo - fittedOdo). Stored so you can
+//    query average tire life across the fleet without re-calculating per row.
+// 2. treadDepthMm + treadDepthAtRemoval enables wear rate = (initial - final) / km.
+//    The list page shows a LifeBar (kmCovered / expectedLifeKm %) so managers
+//    see at a glance which tires are approaching end-of-life.
+// 3. serialNumber (DOT number): required for tire warranty claims and recall notices.
+//    Make this searchable on the list page.
+// 4. TireStatus RETREADED: very common in Nigerian commercial trucking — retreaded
+//    tires cost ~30% of new and can be reused 2–3 times on non-steer axles.
+//    Tracking retread status separately is operationally important.
+// 5. removedDate auto-set server-side when status changes from FITTED to anything else.

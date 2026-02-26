@@ -1,0 +1,73 @@
+
+model Part {
+  id        String      @id @default(uuid())
+  sku         String   @unique
+  name        String
+  description String?
+  unitCost    Float?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  inventory   PartInventory?
+  usages      PartUsage[]
+}
+
+model PartInventory {
+  id        String      @id @default(uuid())
+  partId     String   @unique
+  quantity   Int   @default(0)
+  minLevel   Int   @default(0)
+  part       Part  @relation(fields: [partId], references: [id])
+}
+
+model PartUsage {
+  id        String      @id @default(uuid())
+  partId     String
+  workOrderId Int
+  qty        Int
+  createdAt  DateTime @default(now())
+
+  part      Part @relation(fields: [partId], references: [id])
+  workOrder WorkOrder @relation(fields: [workOrderId], references: [id])
+}
+
+model MaintenancePlan {
+  id        String      @id @default(uuid())
+  vehicleId    String
+  name         String
+  // triggers: by km or days
+  intervalKm    Int?    // eg 5000
+  intervalDays  Int?    // eg 180
+  lastServiceAt DateTime? // date when last service occurred
+  lastServiceOdo Int?   // odo at last service
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id])
+}
+
+model WorkOrder {
+  id        String      @id @default(uuid())
+  vehicleId    String
+  createdById  String?
+  assignedToId String?           // optional, who does actual repairs
+  maintenancePlanId String?
+  description  String
+  status       WorkOrderStatus @default(PENDING)
+  scheduledFor DateTime?
+  completedAt  DateTime?
+  costTotal    Float? 
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id])
+  createdBy User? @relation(fields: [createdById], references: [id])
+  partUsages PartUsage[]
+}
+
+model AuditLog {
+  id        String      @id @default(uuid())
+  actorId   Int?
+  action    String
+  meta      Json?
+  createdAt DateTime @default(now())
+}
