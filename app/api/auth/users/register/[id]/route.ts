@@ -139,7 +139,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
 }
 
 // ── DELETE: Soft-delete user ──────────────────────────────────────────────
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> } ) {
   try {
     const session = await getSession();
     const sessionRole = (session as any)?.user?.role;
@@ -150,7 +150,7 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
       return NextResponse.json({ ok: false, message: "Unauthorized" }, { status: 401 });
     }
 
-    const { id } = params;
+    const { id } = await params;
 
     // Prevent self-deletion
     if (sessionUserId === id) {
