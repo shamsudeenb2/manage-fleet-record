@@ -353,12 +353,12 @@ async function kmDriverInWindow(vehicleId: string, driverId: string | null, cent
   return km > 0 ? +km.toFixed(1) : 0;
 }
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> } ) {
   try {
     const session = await getSession();
     if (!session) return NextResponse.json({ ok: false, message: "Unauthorized" }, { status: 401 });
 
-    const  id  = await params?.id;
+    const  {id}  = await params;
     const url    = new URL(req.url);
     const now    = new Date();
 

@@ -440,7 +440,7 @@ async function kmFromEventToEnd(
 // ─── Route ─────────────────────────────────────────────────────────────────────
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> } 
 ) {
   try {
     const session = await getSession();
@@ -450,7 +450,7 @@ export async function GET(
         { status: 401 }
       );
 
-    const id  = await params?.id;
+    const {id}  = await params;
     const url = new URL(req.url);
     const now = new Date();
 
@@ -1132,7 +1132,7 @@ export async function GET(
 // ── PATCH: Update driver fields ───────────────────────────────────────────
 export async function PATCH(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> } 
 ) {
   try {
     const session = await getSession();
@@ -1143,7 +1143,7 @@ export async function PATCH(
       return NextResponse.json({ ok: false, message: "Unauthorized" }, { status: 401 });
     }
 
-    const { id } = params;
+    const { id } = await params;
 
     const body   = await req.json().catch(() => ({}));
     const parsed = UpdateDriverSchema.safeParse(body);
@@ -1210,7 +1210,7 @@ export async function PATCH(
 // ── DELETE: Soft-delete a driver ──────────────────────────────────────────
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> } 
 ) {
   try {
     const session = await getSession();
@@ -1218,7 +1218,7 @@ export async function DELETE(
       return NextResponse.json({ ok: false, message: "Unauthorized" }, { status: 401 });
     }
 
-    const { id } = params;
+    const { id } = await params;
 
     // Verify driver exists and is not already deleted
     const existing = await prisma.driver.findUnique({

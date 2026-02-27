@@ -20,14 +20,14 @@ const UpdateUserSchema = z.object({
 });
 
 // ── GET: Fetch single user ────────────────────────────────────────────────
-export async function GET(req: Request, { params }: { params: { id: string } }) {
+export async function GET(req: Request, { params }: { params: Promise<{ id: string }> } ) {
   try {
     const session = await getSession();
     if (!session || !["ADMIN", "DATA_ENTRY"].includes((session as any)?.user?.role)) {
       return NextResponse.json({ ok: false, message: "Unauthorized" }, { status: 401 });
     }
 
-    const { id } = params;
+    const { id } = await params;
 
     const user = await prisma.user.findUnique({
       where: { id, deletedAt: null },

@@ -1,34 +1,3 @@
-// import { NextResponse } from "next/server";
-// import { z } from "zod";
-// import  prisma  from "@/components/lib/db";
-// import { getServerSession } from "next-auth";
-// import  {getSession}  from "@/app/config/auth";
-
-// export async function POST(req: Request) {
-//   try {
-
-//         const session = await getSession();
-//         if (!session || !["ADMIN", "DATA_ENTRY"].includes((session as any)?.user?.role)) {
-//         return NextResponse.json({ ok: false, message: "Unauthorized" }, { status: 401 });
-//         }
-
-//     const { driverId, fingerprint } = await req.json().catch(() => ({}));;
-
-//     // Store the binary data or serialized template
-//     const savedDriver = await prisma.driver.update({
-//       where: { id:driverId },
-//       data: {
-//         fingerPrint: fingerprint, // Store as a String or Bytes/Blob
-//       },
-//     });
-
-//     return NextResponse.json({ success: true, id: savedDriver.id });
-//   } catch (error) {
-//     return NextResponse.json({ error: 'Failed to store biometric data' }, { status: 500 });
-//   }
-// }
-
-
 // src/app/api/auth/users/driver/fingerprint/route.ts
 import { NextResponse } from "next/server";
 import { z } from "zod";

@@ -211,7 +211,7 @@ const UpdatePartSchema = z.object({
   notes:          z.string().optional().nullable(),
 });
 
-type Ctx = { params: { id: string } };
+type Ctx =  { params: Promise<{ id: string }> } ;
 
 // ─── GET: Single part ─────────────────────────────────────────────────────────
 export async function GET(_req: Request, { params }: Ctx) {
@@ -221,8 +221,9 @@ export async function GET(_req: Request, { params }: Ctx) {
       return NextResponse.json({ ok: false, message: "Unauthorized" }, { status: 401 });
     }
 
+    const {id } = await params
     const part = await prisma.part.findUnique({
-      where:   { id: params.id, deletedAt: null },
+      where:   { id: id, deletedAt: null },
       include: {
         vehicle: { select: { id: true, plateNumber: true, cap_no: true } },
         repair:  { select: { id: true, faultDesc: true, status: true } },
@@ -252,9 +253,9 @@ export async function PUT(req: Request, { params }: Ctx) {
     if (!session || !["ADMIN", "DATA_ENTRY"].includes((session as any)?.user?.role)) {
       return NextResponse.json({ ok: false, message: "Unauthorized" }, { status: 401 });
     }
-
+    const {id} = await params
     const existing = await prisma.part.findUnique({
-      where:  { id: params.id, deletedAt: null },
+      where:  { id: id, deletedAt: null },
       select: { id: true, quantity: true, unitCost: true, repairId: true },
     });
 
@@ -284,7 +285,7 @@ export async function PUT(req: Request, { params }: Ctx) {
     const totalCost = +(qty * cost).toFixed(2);
 
     const part = await prisma.part.update({
-      where: { id: params.id },
+      where: { id: id },
       data: {
         ...d,
         totalCost,
@@ -331,8 +332,9 @@ export async function DELETE(_req: Request, { params }: Ctx) {
       return NextResponse.json({ ok: false, message: "Unauthorized" }, { status: 401 });
     }
 
+    const {id} = await params
     const existing = await prisma.part.findUnique({
-      where:  { id: params.id, deletedAt: null },
+      where:  { id: id, deletedAt: null },
       select: { id: true, repairId: true },
     });
 
@@ -341,7 +343,7 @@ export async function DELETE(_req: Request, { params }: Ctx) {
     }
 
     await prisma.part.update({
-      where: { id: params.id },
+      where: { id: id },
       data:  { deletedAt: new Date() },
     });
 

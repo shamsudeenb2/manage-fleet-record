@@ -74,7 +74,7 @@ const UpdateRepairSchema = z.object({
   notes:         z.string().optional().nullable(),
 });
 
-type Ctx = { params: { id: string } };
+type Ctx =  { params: Promise<{ id: string }> } ;
 
 // ── GET single repair ─────────────────────────────────────────────────────────
 export async function GET(_req: Request, { params }: Ctx) {
@@ -82,7 +82,7 @@ export async function GET(_req: Request, { params }: Ctx) {
     const session = await getSession();
     if (!session) return NextResponse.json({ ok: false, message: "Unauthorized" }, { status: 401 });
 
-    const id = await params?.id
+    const {id} = await params
     const repair = await prisma.repair.findUnique({
       where: { id: id, deletedAt: null },
       include: {
@@ -113,7 +113,7 @@ export async function PATCH(req: Request, { params }: Ctx) {
       return NextResponse.json({ ok: false, message: "Unauthorized" }, { status: 401 });
     }
 
-    const id = await params?.id
+    const {id} = await params
     const existing = await prisma.repair.findUnique({
       where:  { id: id, deletedAt: null },
       select: { id: true, laborCost: true, partsCost: true },
@@ -158,7 +158,7 @@ export async function PATCH(req: Request, { params }: Ctx) {
     }
 
     const repair = await prisma.repair.update({
-      where: { id: params.id },
+      where: { id: id },
       data,
       include: {
         vehicle: { select: { id: true, plateNumber: true, cap_no: true } },
@@ -182,7 +182,7 @@ export async function DELETE(_req: Request, { params }: Ctx) {
       return NextResponse.json({ ok: false, message: "Unauthorized" }, { status: 401 });
     }
 
-    const id = await params?.id
+    const {id} = await params
     const existing = await prisma.repair.findUnique({
       where:  { id: id, deletedAt: null },
       select: { id: true },
@@ -192,11 +192,11 @@ export async function DELETE(_req: Request, { params }: Ctx) {
     // Soft-delete repair and all its child parts atomically
     await prisma.$transaction([
       prisma.part.updateMany({
-        where: { repairId: params.id, deletedAt: null },
+        where: { repairId: id, deletedAt: null },
         data:  { deletedAt: new Date() },
       }),
       prisma.repair.update({
-        where: { id: params.id },
+        where: { id: id },
         data:  { deletedAt: new Date() },
       }),
     ]);
