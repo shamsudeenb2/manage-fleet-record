@@ -168,7 +168,7 @@ export async function GET(req: Request) {
     const fuelType   = url.searchParams.get("fuelType");   // optional filter
     const hasDriver  = url.searchParams.get("hasDriver");  // "true" | "false"
 
-    const where: any = { deletedAt: null };
+    const where: Record<string, unknown> = { deletedAt: null };
 
     if (search) {
       where.OR = [
@@ -216,7 +216,7 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   try {
     const session = await getSession();
-    if (!session || !["ADMIN", "DATA_ENTRY"].includes((session as any)?.user?.role)) {
+    if (!session || !["ADMIN", "DATA_ENTRY"].includes(session?.user?.role)) {
       return NextResponse.json({ ok: false, message: "Unauthorized" }, { status: 401 });
     }
 

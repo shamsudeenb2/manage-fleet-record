@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { getSession } from "@/app/config/auth"
-import { Toaster, toast } from 'sonner'
+import { Toaster } from 'sonner'
 // import { SocketProvider } from '@/app/contexts/SocketContext';
 
 import SessionProvider from '@/app/config/SessionProvider'
@@ -39,7 +39,7 @@ export default async function RootLayout({
           {children}
         {/* </SocketProvider> */}
        </SessionProvider>
-       <script src="https://cdn.jsdelivr.net/pnpm/@digitalpersona/fingerprint@1.0.0/dist/fingerprint.sdk.min.js"></script>
+       {/* <script src="https://cdn.jsdelivr.net/pnpm/@digitalpersona/fingerprint@1.0.0/dist/fingerprint.sdk.min.js"></script> */}
       </body>
     </html>
   );

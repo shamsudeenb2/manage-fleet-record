@@ -1,54 +1,3 @@
-// "use client";
-
-// import { Bell, LogIn } from "lucide-react";
-// import Image from "next/image";
-// import { signIn, useSession } from "next-auth/react";
-// import { cn } from "@/lib/utils";
-
-// export default function Navbar() {
-//   const {data: session} = useSession()
-  
-//   return (
-//     <header className="fixed top-0 left-0 lg:left-0 right-0 h-16 bg-white shadow flex items-center justify-between px-6 z-20">
-//       {session?(
-//       <>
-//       <div className="absolute left-1/2 transform -translate-x-1/2 text-xl font-bold text-gray-700">
-//         OGBE TRADING VENTURE
-//       </div>
-//       {/* Centered App Name */}
-//         <div className="ml-auto flex items-center gap-6">
-//         <button className="relative hover:text-blue-700">
-//           <Bell className="w-6 h-6 text-gray-600" />
-//           <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500"></span>
-//         </button>
-        
-//         <div className="flex items-center gap-2">
-//           {/* <Image
-//             src=""
-//             alt="User Avatar"
-//             width={32}
-//             height={32}
-//             className="rounded-full"
-//           /> */}
-//           <span className="font-medium text-gray-700 hidden sm:inline">
-//             {session?.user?.name}
-//           </span>
-//         </div>
-//       </div>
-//       </>):(<div>
-//             <div className="absolute left-1/2 transform -translate-x-1/2 text-center text-xl font-bold text-gray-700">
-             
-//             </div>
-//             <button onClick={()=>signIn('/')}
-//              className={cn(" flex items-center gap-3 p-3 rounded-lg transition-colors hover:bg-blue-700 hover:font-medium")}>
-//              <LogIn className="w-5 h-5" />
-//               <p className="hidden sm:inline">signIn</p>
-//             </button> 
-//           </div>)}
-//     </header>
-//   );
-// }
-
 // src/components/layout/Navbar.tsx
 "use client";
 
@@ -110,9 +59,9 @@ export default function Navbar() {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const notifRef    = useRef<HTMLDivElement>(null);
 
-  const userName  = (session as any)?.user?.name  ?? "User";
-  const userImage = (session as any)?.user?.image ?? null;
-  const userRole  = (session as any)?.user?.role  ?? "";
+  const userName = session?.user?.name  ?? "User";
+  const userImage = session?.user?.image ?? null;
+  const userRole = session?.user?.role  ?? "";
 
   const pageTitle  = getPageTitle(pathname);
   const quickAction = getQuickAction(pathname);
@@ -257,7 +206,7 @@ export default function Navbar() {
                 {/* User info */}
                 <div className="px-4 py-3 border-b border-white/[0.06]">
                   <p className="text-xs font-semibold text-white truncate">{userName}</p>
-                  <p className="text-[10px] text-zinc-500 mt-0.5">{(session as any)?.user?.email}</p>
+                  <p className="text-[10px] text-zinc-500 mt-0.5">{session?.user?.email}</p>
                   <span className="inline-block mt-1 text-[10px] px-1.5 py-0.5 rounded bg-[#C8A96E]/20 text-[#C8A96E] font-bold border border-[#C8A96E]/30">
                     {userRole}
                   </span>
@@ -266,14 +215,14 @@ export default function Navbar() {
                 {/* Menu items */}
                 <div className="py-1">
                   <button
-                    onClick={() => { router.push(`/users/${(session as any)?.user?.id}`); setDropdownOpen(false); }}
+                    onClick={() => { router.push(`/users/${session?.user?.id }`); setDropdownOpen(false); }}
                     className="w-full flex items-center gap-3 px-4 py-2.5 text-xs text-zinc-400 hover:text-white hover:bg-white/[0.04] transition-all text-left"
                   >
                     <User className="w-3.5 h-3.5" />
                     My Profile
                   </button>
                   <button
-                    onClick={() => { router.push(`/users/update/${(session as any)?.user?.id}`); setDropdownOpen(false); }}
+                    onClick={() => { router.push(`/users/update/${session?.user?.id}`); setDropdownOpen(false); }}
                     className="w-full flex items-center gap-3 px-4 py-2.5 text-xs text-zinc-400 hover:text-white hover:bg-white/[0.04] transition-all text-left"
                   >
                     <Settings className="w-3.5 h-3.5" />
