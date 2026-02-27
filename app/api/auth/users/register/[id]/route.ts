@@ -55,7 +55,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
 }
 
 // ── PATCH: Update user ────────────────────────────────────────────────────
-export async function PATCH(req: Request, { params }: { params: { id: string } }) {
+export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> } ) {
   try {
     const session = await getSession();
     const sessionRole = (session as any)?.user?.role;
@@ -65,7 +65,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
       return NextResponse.json({ ok: false, message: "Unauthorized" }, { status: 401 });
     }
 
-    const { id } = params;
+    const { id } = await params;
 
     // Only ADMIN can change another user's role; DATA_ENTRY can only edit their own profile
     if (sessionRole !== "ADMIN" && sessionUserId !== id) {
