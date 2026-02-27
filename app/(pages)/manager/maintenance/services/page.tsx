@@ -253,7 +253,7 @@ export default function ServicesListPage() {
   const totalPages       = Math.max(1, Math.ceil(total / limit));
   const scheduled        = items.filter(s => s.status === "SCHEDULED").length;
   const inProgress       = items.filter(s => s.status === "IN_PROGRESS").length;
-  const totalSpend       = items.reduce((s, i) => s + (i.totalCost ?? 0), 0);
+  const totalSpend       = items.reduce((s:number, i) => s + (i.totalCost ?? 0), 0);
   const overdueServices  = items.filter(s => s.nextServiceDate && new Date(s.nextServiceDate) < new Date() && s.status !== "COMPLETED").length;
 
   return (

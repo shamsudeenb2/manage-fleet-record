@@ -53,12 +53,7 @@ async function tripFromEventToEnd(
     },
     select: { totaldistanceKm: true, odoStart: true, odoEnd: true },
   });
-  // const km = trips.reduce((s, t) => {
-  //   const d =
-  //     t.totaldistanceKm ??
-  //     (t.odoEnd && t.odoStart ? t.odoEnd - t.odoStart : 0);
-  //   return s + (d || 0);
-  // }, 0);
+ 
   return trips.length
 }
 
@@ -77,7 +72,7 @@ async function kmFromEventToEnd(
     },
     select: { totaldistanceKm: true, odoStart: true, odoEnd: true },
   });
-  const km = trips.reduce((s, t) => {
+  const km = trips.reduce((s: number, t) => {
     const d =
       t.totaldistanceKm ??
       (t.odoEnd && t.odoStart ? t.odoEnd - t.odoStart : 0);
@@ -197,24 +192,24 @@ export async function GET(
 
     // Totals
     const totalDistanceAllTime = +allTrips
-      .reduce((s, t) => s + (dist(t) || 0), 0)
+      .reduce((s: number, t) => s + (dist(t) || 0), 0)
       .toFixed(2);
     const totalDistanceInRange = +filteredTrips
-      .reduce((s, t) => s + (dist(t) || 0), 0)
+      .reduce((s: number, t) => s + (dist(t) || 0), 0)
       .toFixed(2);
     const allFuels = filteredTrips.flatMap((t) => t.fuels);
     const totalFuelQty = +allFuels
-      .reduce((s, f) => s + (f.qtyGiven ?? 0), 0)
+      .reduce((s: number, f) => s + (f.qtyGiven ?? 0), 0)
       .toFixed(2);
     const totalFuelCost = +allFuels
-      .reduce((s, f) => s + (f.fuelCost ?? 0), 0)
+      .reduce((s: number, f) => s + (f.fuelCost ?? 0), 0)
       .toFixed(2);
     const fuelEfficiency =
       totalFuelQty > 0
         ? +(totalDistanceInRange / totalFuelQty).toFixed(2)
         : 0;
     const estimatedCO2Kg = +allTrips
-      .reduce((s, t) => s + (t.totalCO2Kg ?? 0), 0)
+      .reduce((s: number, t) => s + (t.totalCO2Kg ?? 0), 0)
       .toFixed(2);
 
     // Fuel by type
@@ -302,7 +297,7 @@ export async function GET(
         plateNumber: t.vehicle?.plateNumber ?? null,
         cap_no: t.vehicle?.cap_no ?? null,
       },
-      fuelCost: t.fuels.reduce((s, f) => s + (f.fuelCost ?? 0), 0),
+      fuelCost: t.fuels.reduce((s: number, f) => s + (f.fuelCost ?? 0), 0),
     }));
 
     // ── Vehicle history (TruckDriver) ─────────────────────────────────────────
@@ -341,7 +336,7 @@ export async function GET(
             new Date(t.despatchDate) >= from &&
             new Date(t.despatchDate) <= to
         )
-        .reduce((s, t) => s + (dist(t) || 0), 0);
+        .reduce((s: number, t) => s + (dist(t) || 0), 0);
       return {
         id: dh.id,
         vehicleId: dh.vehicleId,
@@ -637,16 +632,16 @@ export async function GET(
 
     // ── Cost totals ────────────────────────────────────────────────────────────
     const totalRepairCost = +repairs
-      .reduce((s, r) => s + (r.totalCost ?? 0), 0)
+      .reduce((s: number, r) => s + (r.totalCost ?? 0), 0)
       .toFixed(2);
     const totalServiceCost = +services
-      .reduce((s, sv) => s + (sv.totalCost ?? 0), 0)
+      .reduce((s: number, sv) => s + (sv.totalCost ?? 0), 0)
       .toFixed(2);
     const totalPartsCost = +parts
-      .reduce((s, p) => s + (p.totalCost ?? 0), 0)
+      .reduce((s: number, p) => s + (p.totalCost ?? 0), 0)
       .toFixed(2);
     const totalTireCost = +tires
-      .reduce((s, t) => s + (t.unitCost ?? 0), 0)
+      .reduce((s: number, t) => s + (t.unitCost ?? 0), 0)
       .toFixed(2);
     const totalMaintenanceCost = +(
       totalRepairCost +

@@ -610,7 +610,7 @@ export async function POST(req: Request) {
 
     // 3. Sum of per-fuel estimated distances (last resort)
     if (resolvedDistanceKm == null) {
-      const fromFuel = payload.fuels.reduce((sum, f) => {
+      const fromFuel = payload.fuels.reduce((sum:number, f) => {
         const unit        = DEFAULT_FUEL_UNIT[f.type] ?? f.unit;
         const customKmPU  = vehicle.fuelEfficiencyKmPerUnit ?? null;
         return sum + (getEstimatedFuelConsumption(f.type, unit, f.qtyGiven, customKmPU) ?? 0);
@@ -645,11 +645,11 @@ export async function POST(req: Request) {
 
     // ── Trip-level rollups ────────────────────────────────────────────────
     const serverTotalFuelCost = +verifiedFuels
-      .reduce((s, f) => s + f.fuelCost, 0)
+      .reduce((s:number, f) => s + f.fuelCost, 0)
       .toFixed(2);
 
     const serverTotalCO2 = +verifiedFuels
-      .reduce((s, f) => s + f.estimatedCO2, 0)
+      .reduce((s:number, f) => s + f.estimatedCO2, 0)
       .toFixed(2);
 
     const serverCostPerKm = costPerKm(serverTotalFuelCost, resolvedDistanceKm ?? 0);

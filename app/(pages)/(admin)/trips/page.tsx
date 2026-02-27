@@ -560,8 +560,8 @@ export default function TripsListPage() {
   const totalPages = Math.max(1, Math.ceil(total / limit));
 
   // Summary stats from current page
-  const totalFuelCost = items.reduce((s, t) => s + t.fuels.reduce((a, f) => a + (f.fuelCost ?? 0), 0), 0);
-  const totalDistance = items.reduce((s, t) => s + (t.totaldistanceKm ?? 0), 0);
+  const totalFuelCost = items.reduce((s:number, t) => s + t.fuels.reduce((a:number, f) => a + (f.fuelCost ?? 0), 0), 0);
+  const totalDistance = items.reduce((s:number, t) => s + (t.totaldistanceKm ?? 0), 0);
   const completedCount = items.filter((t) => t.status === "COMPLETED").length;
   const inProgressCount = items.filter((t) => t.status === "IN_PROGRESS").length;
 
@@ -721,7 +721,7 @@ export default function TripsListPage() {
                           {/* Fuel cost */}
                           <td className="py-3.5 px-5 font-mono text-zinc-300">
                             {trip.fuels.length > 0
-                              ? fmtCurrency(trip.fuels.reduce((s, f) => s + (f.fuelCost ?? 0), 0))
+                              ? fmtCurrency(trip.fuels.reduce((s:number, f) => s + (f.fuelCost ?? 0), 0))
                               : "—"}
                           </td>
 

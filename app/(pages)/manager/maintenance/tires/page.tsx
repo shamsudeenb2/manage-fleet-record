@@ -102,7 +102,7 @@ export default function TiresListPage() {
   const totalPages    = Math.max(1, Math.ceil(total / limit));
   const fittedCount   = items.filter(t => t.status === "FITTED").length;
   const wornCount     = items.filter(t => t.kmCovered && t.expectedLifeKm && (t.kmCovered / t.expectedLifeKm) >= 0.9).length;
-  const totalSpend    = items.reduce((s, t) => s + (t.unitCost ?? 0), 0);
+  const totalSpend    = items.reduce((s:number, t) => s + (t.unitCost ?? 0), 0);
 
   return (
     <DashboardLayout>

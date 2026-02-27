@@ -50,7 +50,7 @@ export async function GET(req: Request) {
       t.totaldistanceKm ?? ((t.odoEnd && t.odoStart) ? t.odoEnd - t.odoStart : 0);
 
     const totalTrips    = tripsInRange.length;
-    const totalDistance = +tripsInRange.reduce((s, t) => s + (dist(t) || 0), 0).toFixed(2);
+    const totalDistance = +tripsInRange.reduce((s:number, t) => s + (dist(t) || 0), 0).toFixed(2);
 
     const activeVehicleIdSet = new Set(tripsInRange.map(t => t.vehicleId));
     const activeVehicles     = activeVehicleIdSet.size;
@@ -67,10 +67,10 @@ export async function GET(req: Request) {
     }
 
     console.log("fuel type", fuelByType["DIESEL"])
-    const totalFuelGiven      = +Object.values(fuelByType).reduce((s, v) => s + v.qtyGiven, 0).toFixed(2);
-    const totalFuelCost       = +Object.values(fuelByType).reduce((s, v) => s + v.fuelCost, 0).toFixed(2);
+    const totalFuelGiven      = +Object.values(fuelByType).reduce((s:number, v) => s + v.qtyGiven, 0).toFixed(2);
+    const totalFuelCost       = +Object.values(fuelByType).reduce((s:number, v) => s + v.fuelCost, 0).toFixed(2);
     const fleetFuelEfficiency = totalFuelGiven > 0 ? +(totalDistance / totalFuelGiven).toFixed(2) : 0;
-    const estimatedCO2Kg      = +tripsInRange.reduce((s, t) => s + (t.totalCO2Kg ?? 0), 0).toFixed(2);
+    const estimatedCO2Kg      = +tripsInRange.reduce((s:number, t) => s + (t.totalCO2Kg ?? 0), 0).toFixed(2);
 
     // ── 4. Maintenance costs ──────────────────────────────────────────────────
     const [repairAgg, serviceAgg, partsAgg, tireAgg] = await Promise.all([
@@ -144,8 +144,8 @@ export async function GET(req: Request) {
       const d = dist(t) || 0;
       // vehicles
       const prev = vehicleTripMap.get(t.vehicleId) ?? { count: 0, km: 0, fuelQty: 0, fuelCost: 0, vehicle: t.vehicle };
-      const fQty  = t.fuels.reduce((s, f) => s + (f.qtyGiven ?? 0), 0);
-      const fCost = t.fuels.reduce((s, f) => s + (f.fuelCost ?? 0), 0);
+      const fQty  = t.fuels.reduce((s:number, f) => s + (f.qtyGiven ?? 0), 0);
+      const fCost = t.fuels.reduce((s:number, f) => s + (f.fuelCost ?? 0), 0);
       vehicleTripMap.set(t.vehicleId, { count: prev.count + 1, km: prev.km + d, fuelQty: prev.fuelQty + fQty, fuelCost: prev.fuelCost + fCost, vehicle: prev.vehicle ?? t.vehicle });
       // drivers
       if (t.driverId) {

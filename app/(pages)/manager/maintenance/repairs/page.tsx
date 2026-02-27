@@ -86,7 +86,7 @@ export default function RepairsListPage() {
   const totalPages    = Math.max(1, Math.ceil(total / limit));
   const openCount     = items.filter(r => r.status === "OPEN").length;
   const criticalCount = items.filter(r => r.priority === "CRITICAL" && r.status !== "COMPLETED").length;
-  const totalSpend    = items.reduce((s, r) => s + (r.totalCost ?? 0), 0);
+  const totalSpend    = items.reduce((s:number, r) => s + (r.totalCost ?? 0), 0);
 
   return (
     <DashboardLayout>

@@ -267,7 +267,7 @@ export default function PartsListPage() {
   }
 
   const totalPages  = Math.max(1, Math.ceil(total / limit));
-  const totalSpend  = items.reduce((s, p) => s + (p.totalCost ?? 0), 0);
+  const totalSpend  = items.reduce((s:number, p) => s + (p.totalCost ?? 0), 0);
   const expiredWarranty = items.filter(p => p.warrantyExpiry && new Date(p.warrantyExpiry) < new Date()).length;
   const expiringWarranty = items.filter(p => {
     if (!p.warrantyExpiry) return false;

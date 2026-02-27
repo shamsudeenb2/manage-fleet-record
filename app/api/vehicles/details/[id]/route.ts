@@ -1,295 +1,4 @@
 
-// // src/app/api/vehicles/details/[id]/route.ts
-// import { NextRequest, NextResponse } from "next/server";
-// import  prisma  from "@/components/lib/db"; // adjust to your prisma client path
-
-// export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
-//   const id  = await params?.id;
-//   const { searchParams } = new URL(req.url);
-//   const startDateRaw = searchParams.get("startDate");
-//   const endDateRaw = searchParams.get("endDate");
-
-//   const startDate = startDateRaw ? new Date(startDateRaw) : undefined;
-//   const endDate = endDateRaw ? new Date(endDateRaw) : undefined;
-
-//   const dateFilter =
-//     startDate || endDate
-//       ? {
-//           despatchDate: {
-//             ...(startDate ? { gte: startDate } : {}),
-//             ...(endDate ? { lte: endDate } : {}),
-//           },
-//         }
-//       : {};
-
-//   try {
-//     // ── Vehicle core ──────────────────────────────────────────────
-//     const vehicle = await prisma.vehicle.findUnique({
-//       where: { id },
-//       include: { driver: true },
-//     });
-
-//     if (!vehicle) {
-//       return NextResponse.json({ message: "Vehicle not found" }, { status: 404 });
-//     }
-
-//     // ── All trips for this vehicle (no date filter) ───────────────
-//     const allTrips = await prisma.trip.findMany({
-//       where: { vehicleId: id },
-//       include: { fuels: true, driver: true },
-//       orderBy: { despatchDate: "desc" },
-//     });
-
-//     // ── Trips in date range ───────────────────────────────────────
-//     const filteredTrips = await prisma.trip.findMany({
-//       where: { vehicleId: id, ...dateFilter },
-//       include: { fuels: true, driver: true },
-//       orderBy: { despatchDate: "desc" },
-//     });
-
-//     // ── Totals ────────────────────────────────────────────────────
-//     const totalTrips = allTrips.length;
-//     const totalDistanceAllTime = allTrips.reduce((sum, t) => {
-//       const d = t.totaldistanceKm ?? (t.odoEnd && t.odoStart ? t.odoEnd - t.odoStart : 0);
-//       return sum + (d || 0);
-//     }, 0);
-//     const totalDistanceInRange = filteredTrips.reduce((sum, t) => {
-//       const d = t.totaldistanceKm ?? (t.odoEnd && t.odoStart ? t.odoEnd - t.odoStart : 0);
-//       return sum + (d || 0);
-//     }, 0);
-
-//     const allFuels = filteredTrips.flatMap((t) => t.fuels);
-//     const totalFuelConsume = allFuels.reduce((s, f) => s + (f.qtyGiven || 0), 0);
-//     const totalFuelCost = allFuels.reduce((s, f) => s + (f.fuelCost || 0), 0);
-
-//     // ── Fuel efficiency (km per litre in range) ───────────────────
-//     const fuelEfficiency =
-//       totalFuelConsume > 0 ? totalDistanceInRange / totalFuelConsume : vehicle.fuelEfficiencyKmPerUnit ?? 0;
-
-//     // ── Fuel breakdown by type ────────────────────────────────────
-//     const fuelByType: Record<string, { qtyConsume: number; cost: number }> = {};
-//     for (const f of allFuels) {
-//       if (!fuelByType[f.type]) fuelByType[f.type] = { qtyConsume: 0, cost: 0 };
-//       fuelByType[f.type].qtyConsume += f.qtyGiven || 0;
-//       fuelByType[f.type].cost += f.fuelCost || 0;
-//     }
-
-//     // ── Trip trend by month ───────────────────────────────────────
-//     const monthlyMap: Record<string, number> = {};
-//     for (const t of allTrips) {
-//       const key = t.despatchDate.toISOString().slice(0, 7); // "YYYY-MM"
-//       monthlyMap[key] = (monthlyMap[key] || 0) + 1;
-//     }
-//     const tripTrend = Object.entries(monthlyMap)
-//       .sort(([a], [b]) => a.localeCompare(b))
-//       .map(([month, count]) => ({ month, count }));
-
-//     // ── Loading plant distribution ────────────────────────────────
-//     const plantMap: Record<string, number> = {};
-//     for (const t of allTrips) {
-//       plantMap[t.loadingPlant] = (plantMap[t.loadingPlant] || 0) + 1;
-//     }
-//     const loadingPlantChart = Object.entries(plantMap).map(([name, value]) => ({ name, value }));
-
-//     // ── Destination distribution ──────────────────────────────────
-//     const destMap: Record<string, number> = {};
-//     for (const t of allTrips) {
-//       destMap[t.destination] = (destMap[t.destination] || 0) + 1;
-//     }
-//     const destinationChart = Object.entries(destMap)
-//       .sort(([, a], [, b]) => b - a)
-//       .slice(0, 8)
-//       .map(([name, value]) => ({ name, value }));
-
-//     // ── Top drivers (by trip count on this vehicle) ───────────────
-//     const driverMap: Record<string, { driver: any; trips: number }> = {};
-//     for (const t of allTrips) {
-//       if (!driverMap[t.driverId]) driverMap[t.driverId] = { driver: t.driver, trips: 0 };
-//       driverMap[t.driverId].trips++;
-//     }
-//     const topDrivers = Object.values(driverMap).sort((a, b) => b.trips - a.trips).slice(0, 5);
-
-//     // ── Driver history (TruckDriver table) ───────────────────────
-//     const driverHistory = await prisma.truckDriver.findMany({
-//       where: { vehicleId: id },
-//       include: { driver: true },
-//       orderBy: { from: "desc" },
-//     });
-//     const driverHistoryMapped = driverHistory.map((dh) => {
-//       const from = new Date(dh.from);
-//       const to = new Date(dh.to);
-//       const days = Math.ceil((to.getTime() - from.getTime()) / (1000 * 60 * 60 * 24));
-//       return {
-//         id: dh.id,
-//         driverName: dh.driver?.name ?? "Unknown",
-//         driverPhone: dh.driver?.phone ?? null,
-//         driverId: dh.driverId,
-//         from: dh.from,
-//         to: dh.to,
-//         daysAssigned: days,
-//       };
-//     });
-
-//     // ── Recent trips ──────────────────────────────────────────────
-//     const recentTrips = filteredTrips.slice(0, 10).map((t) => ({
-//       id: t.id,
-//       waybill_no: t.waybill_no,
-//       atcNo: t.atcNo,
-//       destination: t.destination,
-//       loadingPlant: t.loadingPlant,
-//       distanceKm: t.totaldistanceKm ?? (t.odoEnd && t.odoStart ? t.odoEnd - t.odoStart : null),
-//       despatchDate: t.despatchDate,
-//       status: t.status,
-//       driver: { name: t.driver?.name ?? null },
-//       fuelCost: t.fuels.reduce((s, f) => s + (f.fuelCost || 0), 0),
-//     }));
-
-//     // ── Parts with km-on-vehicle ──────────────────────────────────
-//     const parts = await prisma.part.findMany({
-//       where: { vehicleId: id },
-//       include: {
-//         usedInRepair: {
-//           include: {
-//             repair: { select: { repairDate: true, odometerReadingKm: true } },
-//             service: { select: { serviceDate: true, odometerReadingKm: true } },
-//           },
-//         },
-//       },
-//       orderBy: { createdAt: "desc" },
-//     });
-
-//     const partsTable = parts.map((p) => {
-//       // Determine installation date: use dateReplaced or the earliest repair/service date
-//       const installDate =
-//         p.dateReplaced ??
-//         p.usedInRepair
-//           .map((u) => u.repair?.repairDate ?? u.service?.serviceDate)
-//           .filter(Boolean)
-//           .sort()[0] ??
-//         p.createdAt;
-
-//       const installOdo =
-//         p.usedInRepair
-//           .map((u) => u.repair?.odometerReadingKm ?? u.service?.odometerReadingKm)
-//           .filter((v): v is number => typeof v === "number")
-//           .sort((a, b) => a - b)[0] ?? null;
-
-//       const kmOnVehicle = installOdo != null ? (vehicle.currentOdo ?? 0) - installOdo : null;
-//       const daysOnVehicle = Math.floor(
-//         (Date.now() - new Date(installDate).getTime()) / (1000 * 60 * 60 * 24)
-//       );
-
-//       return {
-//         id: p.id,
-//         name: p.name,
-//         brand: p.brand,
-//         model: p.model,
-//         serialNumber: p.serialNumber,
-//         supplier: p.supplier,
-//         unitCost: p.unitCost,
-//         quantity: p.quantity,
-//         installDate,
-//         installOdo,
-//         kmOnVehicle,
-//         daysOnVehicle,
-//         description: p.description,
-//       };
-//     });
-
-//     const totalPartsCost = parts.reduce((s, p) => s + (p.unitCost || 0) * (p.quantity || 1), 0);
-
-//     // ── Repairs ───────────────────────────────────────────────────
-//     const repairs = await prisma.repair.findMany({
-//       where: { vehicleId: id },
-//       orderBy: { repairDate: "desc" },
-//     });
-//     const totalRepairsCost = repairs.reduce((s, r) => s + (r.totalCost || 0), 0);
-
-//     // ── Services ──────────────────────────────────────────────────
-//     const services = await prisma.service.findMany({
-//       where: { vehicleId: id },
-//       orderBy: { serviceDate: "desc" },
-//     });
-//     const totalServicesCost = services.reduce((s, sv) => s + (sv.cost || 0), 0);
-
-//     // ── Tire actions ──────────────────────────────────────────────
-//     const tireActions = await prisma.tireAction.findMany({
-//       where: { tire: { vehicleId: id } },
-//       include: { tire: true },
-//       orderBy: { actionDate: "desc" },
-//       take: 20,
-//     }).catch(() => []); // graceful if TireAction model not yet in schema
-
-//     // ── Trip status breakdown ─────────────────────────────────────
-//     const statusMap: Record<string, number> = {};
-//     for (const t of allTrips) {
-//       statusMap[t.status] = (statusMap[t.status] || 0) + 1;
-//     }
-//     const tripStatusChart = Object.entries(statusMap).map(([name, value]) => ({ name, value }));
-
-//     // ── Monthly fuel cost trend ───────────────────────────────────
-//     const fuelTrendMap: Record<string, { cost: number; qty: number }> = {};
-//     for (const t of allTrips) {
-//       const key = t.despatchDate.toISOString().slice(0, 7);
-//       for (const f of t.fuels) {
-//         if (!fuelTrendMap[key]) fuelTrendMap[key] = { cost: 0, qty: 0 };
-//         fuelTrendMap[key].cost += f.fuelCost || 0;
-//         fuelTrendMap[key].qty += f.qtyGiven || 0;
-//       }
-//     }
-//     const fuelTrend = Object.entries(fuelTrendMap)
-//       .sort(([a], [b]) => a.localeCompare(b))
-//       .map(([month, v]) => ({ month, ...v }));
-
-//     // ── CO2 estimation (rough: 2.68 kg CO2 per litre diesel) ─────
-//     const dieselQty = fuelByType["DIESEL"]?.qtyConsume ?? totalFuelConsume;
-//     const estimatedCO2Kg = dieselQty * 2.68;
-
-//     return NextResponse.json({
-//       data: {
-//         vehicle: {
-//           ...vehicle,
-//           driver: vehicle.driver,
-//         },
-//         totals: {
-//           totalTrips,
-//           totalDistanceAllTime,
-//           totalDistanceInRange,
-//           totalFuelConsume,
-//           totalFuelCost,
-//           fuelEfficiency: Number(fuelEfficiency.toFixed(2)),
-//           estimatedCO2Kg: Number(estimatedCO2Kg.toFixed(2)),
-//         },
-//         fuelByType,
-//         tripTrend,
-//         fuelTrend,
-//         loadingPlantChart,
-//         destinationChart,
-//         tripStatusChart,
-//         topDrivers,
-//         driverHistory: driverHistoryMapped,
-//         recentTrips,
-//         parts: {
-//           items: partsTable,
-//           totalPartsCost,
-//         },
-//         repairs: {
-//           items: repairs,
-//           totalCost: totalRepairsCost,
-//         },
-//         services: {
-//           items: services,
-//           totalCost: totalServicesCost,
-//         },
-//         tireActions,
-//       },
-//     });
-//   } catch (err: any) {
-//     console.error("[vehicle-details]", err);
-//     return NextResponse.json({ message: err?.message ?? "Internal error" }, { status: 500 });
-//   }
-// }
-
 // src/app/api/vehicles/details/[id]/route.ts
 //
 // Returns all data for the Vehicle Dashboard page.
@@ -328,12 +37,7 @@ async function tripFromEventToEnd(
     },
     select: { totaldistanceKm: true, odoStart: true, odoEnd: true },
   });
-  // const km = trips.reduce((s, t) => {
-  //   const d =
-  //     t.totaldistanceKm ??
-  //     (t.odoEnd && t.odoStart ? t.odoEnd - t.odoStart : 0);
-  //   return s + (d || 0);
-  // }, 0);
+
   return trips.length
 }
 
@@ -346,7 +50,7 @@ async function kmDriverInWindow(vehicleId: string, driverId: string | null, cent
     where:  { vehicleId, driverId, despatchDate: { gte: from, lte: to } },
     select: { totaldistanceKm: true, odoStart: true, odoEnd: true },
   });
-  const km = trips.reduce((s, t) => {
+  const km = trips.reduce((s:number, t) => {
     const d = t.totaldistanceKm ?? ((t.odoEnd && t.odoStart) ? t.odoEnd - t.odoStart : 0);
     return s + (d || 0);
   }, 0);
@@ -412,14 +116,14 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
     const dist = (t: any): number =>
       t.totaldistanceKm ?? ((t.odoEnd && t.odoStart) ? t.odoEnd - t.odoStart : 0);
 
-    const totalDistanceAllTime  = +allTrips.reduce((s,t)      => s + (dist(t)||0), 0).toFixed(2);
-    const totalDistanceInRange  = +filteredTrips.reduce((s,t) => s + (dist(t)||0), 0).toFixed(2);
+    const totalDistanceAllTime  = +allTrips.reduce((s:number,t)      => s + (dist(t)||0), 0).toFixed(2);
+    const totalDistanceInRange  = +filteredTrips.reduce((s:number,t) => s + (dist(t)||0), 0).toFixed(2);
 
     const allFuels      = filteredTrips.flatMap(t => t.fuels);
-    const totalFuelQty  = +allFuels.reduce((s,f) => s + (f.qtyGiven ?? 0), 0).toFixed(2);
-    const totalFuelCost = +allFuels.reduce((s,f) => s + (f.fuelCost ?? 0), 0).toFixed(2);
+    const totalFuelQty  = +allFuels.reduce((s:number,f) => s + (f.qtyGiven ?? 0), 0).toFixed(2);
+    const totalFuelCost = +allFuels.reduce((s:number,f) => s + (f.fuelCost ?? 0), 0).toFixed(2);
     const fuelEfficiency = totalFuelQty > 0 ? +(totalDistanceInRange / totalFuelQty).toFixed(2) : (vehicle.fuelEfficiencyKmPerUnit ?? 0);
-    const estimatedCO2Kg = +allTrips.reduce((s,t) => s + (t.totalCO2Kg ?? 0), 0).toFixed(2);
+    const estimatedCO2Kg = +allTrips.reduce((s:number,t) => s + (t.totalCO2Kg ?? 0), 0).toFixed(2);
 
     // Fuel by type
     const fuelByType: Record<string, { qtyConsume: number; cost: number }> = {};
@@ -471,7 +175,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
       distanceKm: dist(t) || null,
       despatchDate: t.despatchDate, status: t.status,
       driver: { id: t.driver?.id, name: t.driver?.name ?? null },
-      fuelCost: t.fuels.reduce((s,f)=>s+(f.fuelCost??0),0),
+      fuelCost: t.fuels.reduce((s:number,f)=>s+(f.fuelCost??0),0),
     }));
 
     // ── Driver history (TruckDriver table) ────────────────────────────────────
@@ -676,10 +380,10 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
     }));
 
     // ── Cost aggregates ───────────────────────────────────────────────────────
-    const repairCostTotal  = +repairs.reduce((s,r)  => s+(r.totalCost??0), 0).toFixed(2);
-    const serviceCostTotal = +services.reduce((s,s2)=> s+(s2.totalCost??0), 0).toFixed(2);
-    const partsCostTotal   = +parts.reduce((s,p)    => s+(p.totalCost??0), 0).toFixed(2);
-    const tireCostTotal    = +tires.reduce((s,t)    => s+(t.unitCost??0),  0).toFixed(2);
+    const repairCostTotal  = +repairs.reduce((s:number,r)  => s+(r.totalCost??0), 0).toFixed(2);
+    const serviceCostTotal = +services.reduce((s:number,s2)=> s+(s2.totalCost??0), 0).toFixed(2);
+    const partsCostTotal   = +parts.reduce((s:number,p)    => s+(p.totalCost??0), 0).toFixed(2);
+    const tireCostTotal    = +tires.reduce((s:number,t)    => s+(t.unitCost??0),  0).toFixed(2);
     const totalMaintenanceCost = +(repairCostTotal + serviceCostTotal + partsCostTotal + tireCostTotal).toFixed(2);
 
     return NextResponse.json({
