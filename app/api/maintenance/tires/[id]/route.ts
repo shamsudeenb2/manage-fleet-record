@@ -31,16 +31,16 @@ const UpdateTireSchema = z.object({
   notes:                z.string().optional().nullable(),
 });
 
-type Ctx = { params: { id: string } };
+type Ctx ={ params: Promise<{ id: string }> } 
 
 // ── GET single tire ───────────────────────────────────────────────────────────
 export async function GET(_req: Request, { params }: Ctx) {
   try {
     const session = await getSession();
     if (!session) return NextResponse.json({ ok: false, message: "Unauthorized" }, { status: 401 });
-
+    const {id} = await params
     const tire = await prisma.tire.findUnique({
-      where:   { id: params.id, deletedAt: null },
+      where:   { id: id, deletedAt: null },
       include: { vehicle: { select: { id: true, plateNumber: true, cap_no: true, currentOdo: true } } },
     });
     if (!tire) return NextResponse.json({ ok: false, message: "Tire not found" }, { status: 404 });
@@ -60,8 +60,10 @@ export async function PATCH(req: Request, { params }: Ctx) {
       return NextResponse.json({ ok: false, message: "Unauthorized" }, { status: 401 });
     }
 
+    const {id}= await params
+
     const existing = await prisma.tire.findUnique({
-      where:  { id: params.id, deletedAt: null },
+      where:  { id: id, deletedAt: null },
       select: { id: true, fittedOdometerKm: true, removedOdometerKm: true },
     });
     if (!existing) return NextResponse.json({ ok: false, message: "Tire not found" }, { status: 404 });
@@ -100,7 +102,7 @@ export async function PATCH(req: Request, { params }: Ctx) {
     }
 
     const tire = await prisma.tire.update({
-      where:   { id: params.id },
+      where:   { id: id },
       data,
       include: { vehicle: { select: { id: true, plateNumber: true, cap_no: true } } },
     });
@@ -119,15 +121,15 @@ export async function DELETE(_req: Request, { params }: Ctx) {
     if (!session || (session as any)?.user?.role !== "ADMIN") {
       return NextResponse.json({ ok: false, message: "Unauthorized" }, { status: 401 });
     }
-
+    const {id} = await params
     const existing = await prisma.tire.findUnique({
-      where:  { id: params.id, deletedAt: null },
+      where:  { id: id, deletedAt: null },
       select: { id: true },
     });
     if (!existing) return NextResponse.json({ ok: false, message: "Tire not found" }, { status: 404 });
 
     await prisma.tire.update({
-      where: { id: params.id },
+      where: { id:id },
       data:  { deletedAt: new Date() },
     });
 

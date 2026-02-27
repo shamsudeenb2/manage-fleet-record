@@ -85,14 +85,14 @@ export async function PATCH(
   }
 }
 
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> } ) {
   try {
     const session = await getSession();
     if (!session || (session as any).user?.role !== "ADMIN") {
       return NextResponse.json({ ok: false, message: "Unauthorized" }, { status: 401 });
     }
 
-    const id = await params.id;
+    const {id} = await params;
     await prisma.vehicle.delete({ where: { id } });
     return NextResponse.json({ ok: true }, { status: 200 });
   } catch (err) {

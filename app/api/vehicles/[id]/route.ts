@@ -42,7 +42,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
 // ── PATCH: Update vehicle fields and/or reassign driver ──────────────────
 export async function PATCH(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> } 
 ) {
   try {
     const session = await getSession();
@@ -53,7 +53,7 @@ export async function PATCH(
       return NextResponse.json({ ok: false, message: "Unauthorized" }, { status: 401 });
     }
 
-    const { id } = params;
+    const { id } = await params;
 
     const body = await req.json().catch(() => ({}));
     const parsed = UpdateVehicleSchema.safeParse(body);
@@ -178,7 +178,7 @@ export async function PATCH(
 // ── DELETE: Soft-delete a vehicle ────────────────────────────────────────
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> } 
 ) {
   try {
     const session = await getSession();
@@ -186,7 +186,7 @@ export async function DELETE(
       return NextResponse.json({ ok: false, message: "Unauthorized" }, { status: 401 });
     }
 
-    const { id } = params;
+    const { id } = await params;
 
     // Verify vehicle exists and isn't already deleted
     const existing = await prisma.vehicle.findUnique({
