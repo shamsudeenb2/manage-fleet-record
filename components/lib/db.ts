@@ -13,7 +13,8 @@
 
 // if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
 
-import { PrismaClient } from '@/prisma/app/generated/prisma/client'
+
+import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
