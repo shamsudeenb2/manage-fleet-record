@@ -1,5 +1,5 @@
 // src/app/api/vehicles/deleted/route.ts
-import { NextResponse } from "next/server";
+import {NextRequest, NextResponse } from "next/server";
 import prisma           from "@/components/lib/db";
 import { getSession }   from "@/app/config/auth";
 
@@ -10,7 +10,7 @@ import { getSession }   from "@/app/config/auth";
 //   limit  (default 10, max 100)
 //   search (plate, cap_no, VIN, make, model)
 //
-export async function GET(req: Request) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const session = await getSession();
     if (!session || (session as any)?.user?.role !== "ADMIN") {

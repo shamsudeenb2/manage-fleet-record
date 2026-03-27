@@ -1,5 +1,5 @@
 // src/app/api/vehicles/restore/[id]/route.ts
-import { NextResponse } from "next/server";
+import {NextRequest, NextResponse } from "next/server";
 import prisma           from "@/components/lib/db";
 import { getSession }   from "@/app/config/auth";
 
@@ -13,14 +13,14 @@ type Ctx = { params: { id: string } };
 //
 // Returns the restored vehicle record with basic fields.
 //
-export async function PATCH(_req: Request, { params }: Ctx) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> } ) {
   try {
     const session = await getSession();
     if (!session || (session as any)?.user?.role !== "ADMIN") {
       return NextResponse.json({ ok: false, message: "Unauthorized — admin only" }, { status: 401 });
     }
 
-    const { id } = params;
+    const  {id}  = await params;
 
     // Verify the vehicle exists AND is currently soft-deleted
     const existing = await prisma.vehicle.findUnique({
