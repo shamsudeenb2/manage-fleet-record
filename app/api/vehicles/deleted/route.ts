@@ -10,7 +10,7 @@ import { getSession }   from "@/app/config/auth";
 //   limit  (default 10, max 100)
 //   search (plate, cap_no, VIN, make, model)
 //
-export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(req: NextRequest) {
   try {
     const session = await getSession();
     if (!session || (session as any)?.user?.role !== "ADMIN") {
