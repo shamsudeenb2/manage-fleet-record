@@ -85,11 +85,11 @@ function Field({
 }) {
   return (
     <div className="space-y-1.5">
-      <label className="block text-xs font-semibold uppercase tracking-widest text-zinc-400">
+      <label className="block text-xs font-semibold uppercase tracking-widest text-[#6B6560]">
         {label}{required && <span className="text-red-400 ml-0.5">*</span>}
       </label>
       {children}
-      {hint && !error && <p className="text-[10px] text-zinc-600">{hint}</p>}
+      {hint && !error && <p className="text-[10px] text-[#9C9590]">{hint}</p>}
       {error && <p className="text-[10px] text-red-400">{error}</p>}
     </div>
   );
@@ -101,8 +101,8 @@ function TextInput({
   return (
     <input
       {...props}
-      className={`w-full bg-[#0D1117] border rounded-lg px-3 py-2.5 text-xs text-zinc-200 placeholder-zinc-600 focus:outline-none transition-colors ${
-        error ? "border-red-700/60 focus:border-red-500" : "border-white/[0.06] focus:border-[#C8A96E]/50"
+      className={`w-full bg-[#F8F6F1] border rounded-lg px-3 py-2.5 text-xs text-[#1C1917] placeholder-[#B0AAA4] focus:outline-none transition-colors ${
+        error ? "border-red-700/60 focus:border-red-500" : "border-[#E8E2D9] focus:border-[#B8860B]/50"
       } ${className}`}
     />
   );
@@ -114,8 +114,8 @@ function SelectInput({
   return (
     <select
       {...props}
-      className={`w-full bg-[#0D1117] border rounded-lg px-3 py-2.5 text-xs text-zinc-200 focus:outline-none transition-colors appearance-none ${
-        error ? "border-red-700/60 focus:border-red-500" : "border-white/[0.06] focus:border-[#C8A96E]/50"
+      className={`w-full bg-[#F8F6F1] border rounded-lg px-3 py-2.5 text-xs text-[#1C1917] focus:outline-none transition-colors appearance-none ${
+        error ? "border-red-700/60 focus:border-red-500" : "border-[#E8E2D9] focus:border-[#B8860B]/50"
       }`}
     >
       {children}
@@ -129,11 +129,11 @@ function ReadField({ label, value, hint, accent }: {
 }) {
   return (
     <div className="space-y-1.5">
-      <label className="block text-xs font-semibold uppercase tracking-widest text-zinc-500">{label}</label>
-      <div className={`w-full bg-[#0D1117]/60 border border-white/[0.04] rounded-lg px-3 py-2.5 text-xs font-mono ${accent ? "text-[#C8A96E]" : "text-zinc-400"}`}>
+      <label className="block text-xs font-semibold uppercase tracking-widest text-[#9C9590]">{label}</label>
+      <div className={`w-full bg-[#F8F6F1]/60 border border-[#EDE8E0] rounded-lg px-3 py-2.5 text-xs font-mono ${accent ? "text-[#B8860B]" : "text-[#6B6560]"}`}>
         {value || "—"}
       </div>
-      {hint && <p className="text-[10px] text-zinc-700">{hint}</p>}
+      {hint && <p className="text-[10px] text-[#B0AAA4]">{hint}</p>}
     </div>
   );
 }
@@ -142,8 +142,8 @@ function EfficiencyBadge({ rating }: { rating: "good" | "average" | "poor" | nul
   if (!rating) return null;
   const styles = {
     good:    "bg-[#5C9669]/20 text-emerald-400 border border-[#5C9669]/30",
-    average: "bg-amber-900/20 text-amber-400 border border-amber-700/30",
-    poor:    "bg-red-900/20 text-red-400 border border-red-800/30",
+    average: "bg-amber-50 text-amber-400 border border-amber-700/30",
+    poor:    "bg-red-50 text-red-400 border border-red-800/30",
   };
   const icons = { good: "✓", average: "~", poor: "↓" };
   return (
@@ -343,15 +343,15 @@ export default function CreateTripPage() {
   return (
     <DashboardLayout>
       <Toaster theme="dark" position="top-right" />
-      <div className="min-h-screen bg-[#0D1117] text-white" style={{ fontFamily: "'DM Mono','Fira Mono',monospace" }}>
+      <div className="min-h-screen bg-[#F8F6F1] text-[#1C1917]" style={{ fontFamily: "'DM Mono','Fira Mono',monospace" }}>
 
         {/* HEADER */}
-        <div className="border-b border-white/[0.06] bg-[#0D1117]/80 backdrop-blur sticky top-0 z-30">
+        <div className="border-b border-[#E8E2D9] bg-[#F8F6F1]/80 backdrop-blur sticky top-0 z-30">
           <div className="max-w-4xl mx-auto px-6 py-4 flex items-center gap-4">
-            <button onClick={() => router.back()} className="text-zinc-500 hover:text-white transition-colors text-lg">←</button>
+            <button onClick={() => router.back()} className="text-[#9C9590] hover:text-[#1C1917] transition-colors text-lg">←</button>
             <div>
               <h1 className="text-base font-bold tracking-wider">Log Trip</h1>
-              <p className="text-xs text-zinc-500 mt-0.5">Record a new dispatch trip</p>
+              <p className="text-xs text-[#9C9590] mt-0.5">Record a new dispatch trip</p>
             </div>
           </div>
         </div>
@@ -365,8 +365,8 @@ export default function CreateTripPage() {
             className="space-y-5"
           >
             {/* ═══ SECTION 1: Driver & Vehicle ══════════════════════════════ */}
-            <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-6 space-y-5">
-              <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400">Driver & Vehicle</h2>
+            <div className="bg-white border border-[#E8E2D9] rounded-xl p-6 space-y-5">
+              <h2 className="text-xs font-bold uppercase tracking-widest text-[#6B6560]">Driver & Vehicle</h2>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Field label="Driver" error={(errors.driverId as any)?.message} required>
@@ -395,7 +395,7 @@ export default function CreateTripPage() {
                 {selectedVehicle && (
                   <motion.div
                     initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
-                    className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-[#0D1117] rounded-xl px-4 py-4 border border-[#C8A96E]/20"
+                    className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-[#F8F6F1] rounded-xl px-4 py-4 border border-[#B8860B]/20"
                   >
                     {[
                       { label: "Plate",     value: selectedVehicle.plateNumber, gold: true  },
@@ -410,8 +410,8 @@ export default function CreateTripPage() {
                       },
                     ].map((row) => (
                       <div key={row.label}>
-                        <p className="text-[10px] text-zinc-600">{row.label}</p>
-                        <p className={`text-xs font-mono font-semibold ${row.gold ? "text-[#C8A96E]" : "text-zinc-300"}`}>
+                        <p className="text-[10px] text-[#9C9590]">{row.label}</p>
+                        <p className={`text-xs font-mono font-semibold ${row.gold ? "text-[#B8860B]" : "text-[#2C2825]"}`}>
                           {row.value}
                         </p>
                       </div>
@@ -422,8 +422,8 @@ export default function CreateTripPage() {
             </div>
 
             {/* ═══ SECTION 2: Trip Details ═══════════════════════════════════ */}
-            <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-6 space-y-5">
-              <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400">Trip Details</h2>
+            <div className="bg-white border border-[#E8E2D9] rounded-xl p-6 space-y-5">
+              <h2 className="text-xs font-bold uppercase tracking-widest text-[#6B6560]">Trip Details</h2>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Field label="Loading Plant" error={(errors.loadingPlant as any)?.message} required>
@@ -457,8 +457,8 @@ export default function CreateTripPage() {
               </div>
 
               {/* Odometer */}
-              <div className="pt-3 border-t border-white/[0.04] space-y-3">
-                <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-600">
+              <div className="pt-3 border-t border-[#EDE8E0] space-y-3">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-[#9C9590]">
                   Odometer readings — optional, overrides fuel-estimated distance
                 </p>
                 <div className="grid grid-cols-2 gap-4">
@@ -474,24 +474,24 @@ export default function CreateTripPage() {
               <Field label="Notes" hint="Optional">
                 <textarea
                   {...register("notes")} rows={2} placeholder="Any notes about this trip…"
-                  className="w-full bg-[#0D1117] border border-white/[0.06] rounded-lg px-3 py-2.5 text-xs text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-[#C8A96E]/50 transition-colors resize-none"
+                  className="w-full bg-[#F8F6F1] border border-[#E8E2D9] rounded-lg px-3 py-2.5 text-xs text-[#1C1917] placeholder-[#B0AAA4] focus:outline-none focus:border-[#B8860B]/50 transition-colors resize-none"
                 />
               </Field>
             </div>
 
             {/* ═══ SECTION 3: Customers ══════════════════════════════════════ */}
-            <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-6 space-y-4">
+            <div className="bg-white border border-[#E8E2D9] rounded-xl p-6 space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400">
+                <h2 className="text-xs font-bold uppercase tracking-widest text-[#6B6560]">
                   Customers
-                  <span className="ml-2 text-zinc-600 font-normal normal-case tracking-normal">
+                  <span className="ml-2 text-[#9C9590] font-normal normal-case tracking-normal">
                     ({customerFA.fields.length})
                   </span>
                 </h2>
                 <button
                   type="button"
                   onClick={() => customerFA.append({ customerName: "", company: "", noOfBags: 0 })}
-                  className="px-3 py-1 rounded-lg text-[10px] border border-[#C8A96E]/30 text-[#C8A96E] hover:bg-[#C8A96E]/10 transition-colors font-semibold"
+                  className="px-3 py-1 rounded-lg text-[10px] border border-[#B8860B]/30 text-[#B8860B] hover:bg-[#B8860B]/10 transition-colors font-semibold"
                 >
                   + Add Customer
                 </button>
@@ -499,9 +499,9 @@ export default function CreateTripPage() {
 
               <div className="space-y-3">
                 {customerFA.fields.map((field, idx) => (
-                  <div key={field.id} className="bg-[#0D1117] rounded-xl border border-white/[0.04] p-4">
+                  <div key={field.id} className="bg-[#F8F6F1] rounded-xl border border-[#EDE8E0] p-4">
                     <div className="flex items-center justify-between mb-3">
-                      <span className="text-[10px] font-semibold text-zinc-500 uppercase tracking-widest">Customer {idx + 1}</span>
+                      <span className="text-[10px] font-semibold text-[#9C9590] uppercase tracking-widest">Customer {idx + 1}</span>
                       {idx > 0 && (
                         <button type="button" onClick={() => customerFA.remove(idx)} className="text-[10px] text-red-400 hover:text-red-300 transition-colors">
                           Remove
@@ -525,11 +525,11 @@ export default function CreateTripPage() {
             </div>
 
             {/* ═══ SECTION 4: Fuel Records ═══════════════════════════════════ */}
-            <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-6 space-y-4">
+            <div className="bg-white border border-[#E8E2D9] rounded-xl p-6 space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400">Fuel Records</h2>
-                  <p className="text-[10px] text-zinc-600 mt-0.5">
+                  <h2 className="text-xs font-bold uppercase tracking-widest text-[#6B6560]">Fuel Records</h2>
+                  <p className="text-[10px] text-[#9C9590] mt-0.5">
                     {selectedVehicle
                       ? `${selectedVehicle.fuelType} · measured in ${DEFAULT_FUEL_UNIT[selectedVehicle.fuelType] ?? "L"} · ${selectedVehicle.fuelEfficiencyKmPerUnit ?? FUEL_CONFIG[selectedVehicle.fuelType as FuelType]?.defaultKmPerUnit} km/${DEFAULT_FUEL_UNIT[selectedVehicle.fuelType] ?? "L"}`
                       : "Select a driver first to auto-fill fuel type"}
@@ -542,7 +542,7 @@ export default function CreateTripPage() {
                     const unit = DEFAULT_FUEL_UNIT[ft] ?? "L";
                     fuelFA.append({ type: ft as any, qtyGiven: 0, unitPrice: 0, fuelCost: 0, unit, distanceKm: 0, estimatedCO2: 0, dieselEquivalentL: 0 });
                   }}
-                  className="px-3 py-1 rounded-lg text-[10px] border border-[#C8A96E]/30 text-[#C8A96E] hover:bg-[#C8A96E]/10 transition-colors font-semibold"
+                  className="px-3 py-1 rounded-lg text-[10px] border border-[#B8860B]/30 text-[#B8860B] hover:bg-[#B8860B]/10 transition-colors font-semibold"
                 >
                   + Add Fuel
                 </button>
@@ -559,11 +559,11 @@ export default function CreateTripPage() {
                   const rowRating = actualEff ? efficiencyRating(fuelType, actualEff) : null;
 
                   return (
-                    <div key={field.id} className="bg-[#0D1117] rounded-xl border border-white/[0.04] p-4 space-y-4">
+                    <div key={field.id} className="bg-[#F8F6F1] rounded-xl border border-[#EDE8E0] p-4 space-y-4">
                       {/* Row header */}
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                          <span className="text-[10px] font-semibold text-zinc-500 uppercase tracking-widest">
+                          <span className="text-[10px] font-semibold text-[#9C9590] uppercase tracking-widest">
                             Fuel Entry {idx + 1}
                           </span>
                           {rowRating && <EfficiencyBadge rating={rowRating} />}
@@ -650,8 +650,8 @@ export default function CreateTripPage() {
 
                       {/* Diesel equivalent note for non-diesel fuels */}
                       {fuelType !== "DIESEL" && (fuel?.dieselEquivalentL ?? 0) > 0 && (
-                        <div className="flex items-center gap-2 text-[10px] text-zinc-600 bg-[#161B22] rounded-lg px-3 py-2 border border-white/[0.04]">
-                          <span className="text-zinc-500">⇌</span>
+                        <div className="flex items-center gap-2 text-[10px] text-[#9C9590] bg-white rounded-lg px-3 py-2 border border-[#EDE8E0]">
+                          <span className="text-[#9C9590]">⇌</span>
                           <span>
                             {(fuel!.dieselEquivalentL!).toLocaleString("en-NG", { minimumFractionDigits: 2 })} L diesel equivalent
                             &nbsp;·&nbsp;{FUEL_CONFIG[fuelType as FuelType]?.ldePerUnit} LDE per {fuel?.unit ?? "unit"}
@@ -668,36 +668,36 @@ export default function CreateTripPage() {
                 {fuels.some((f) => (f.qtyGiven ?? 0) > 0) && (
                   <motion.div
                     initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
-                    className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-[#0D1117] rounded-xl px-4 py-4 border border-[#C8A96E]/20"
+                    className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-[#F8F6F1] rounded-xl px-4 py-4 border border-[#B8860B]/20"
                   >
                     <div>
-                      <p className="text-[10px] text-zinc-600">Total Fuel Cost</p>
-                      <p className="font-mono text-[#C8A96E] font-bold text-sm">
+                      <p className="text-[10px] text-[#9C9590]">Total Fuel Cost</p>
+                      <p className="font-mono text-[#B8860B] font-bold text-sm">
                         ₦{watchedTotalFuelCost.toLocaleString("en-NG", { minimumFractionDigits: 2 })}
                       </p>
                     </div>
                     <div>
-                      <p className="text-[10px] text-zinc-600">Est. Distance</p>
-                      <p className="font-mono text-zinc-300 text-sm">
+                      <p className="text-[10px] text-[#9C9590]">Est. Distance</p>
+                      <p className="font-mono text-[#2C2825] text-sm">
                         {watchedTotalDist ? `${Number(watchedTotalDist).toLocaleString("en-NG")} km` : "—"}
                       </p>
                     </div>
                     <div>
-                      <p className="text-[10px] text-zinc-600">Cost per km</p>
-                      <p className="font-mono text-zinc-300 text-sm">
+                      <p className="text-[10px] text-[#9C9590]">Cost per km</p>
+                      <p className="font-mono text-[#2C2825] text-sm">
                         {tripCostPerKm ? `₦${tripCostPerKm.toLocaleString("en-NG")}` : "—"}
                       </p>
                     </div>
                     <div>
-                      <p className="text-[10px] text-zinc-600">Est. CO₂</p>
-                      <p className="font-mono text-zinc-300 text-sm">
+                      <p className="text-[10px] text-[#9C9590]">Est. CO₂</p>
+                      <p className="font-mono text-[#2C2825] text-sm">
                         {watchedTotalCO2 > 0 ? `${watchedTotalCO2.toLocaleString("en-NG")} kg` : "—"}
                       </p>
                     </div>
                     {primaryRating && (
                       <div className="col-span-2 sm:col-span-4 flex items-center gap-2">
                         <EfficiencyBadge rating={primaryRating} />
-                        <span className="text-[10px] text-zinc-600">
+                        <span className="text-[10px] text-[#9C9590]">
                           vs {FUEL_CONFIG[primaryFuel?.type as FuelType]?.defaultKmPerUnit} km/{primaryFuel?.unit ?? "L"} fleet benchmark
                         </span>
                       </div>
@@ -711,14 +711,14 @@ export default function CreateTripPage() {
             <div className="flex items-center gap-3 pb-10">
               <button
                 type="submit" disabled={submitLoading}
-                className="px-6 py-2.5 rounded-lg text-xs bg-[#C8A96E] text-[#0D1117] font-bold hover:bg-[#d4b880] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                className="px-6 py-2.5 rounded-lg text-xs bg-[#B8860B] text-[#1C1917] font-bold hover:bg-[#C9960D] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
                 {submitLoading && <div className="w-3.5 h-3.5 border-2 border-[#0D1117] border-t-transparent rounded-full animate-spin" />}
                 {submitLoading ? "Creating…" : "Log Trip"}
               </button>
               <button
                 type="button" onClick={() => router.back()}
-                className="px-6 py-2.5 rounded-lg text-xs border border-white/[0.06] text-zinc-400 hover:text-white hover:border-white/20 transition-colors"
+                className="px-6 py-2.5 rounded-lg text-xs border border-[#E8E2D9] text-[#6B6560] hover:text-[#1C1917] hover:border-[#B8860B]/30 transition-colors"
               >
                 Cancel
               </button>

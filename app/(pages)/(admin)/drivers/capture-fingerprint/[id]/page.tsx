@@ -73,7 +73,7 @@
 
 // //       <div className="mt-8 flex gap-4">
 // //         {status === 'idle' || status === 'error' ? (
-// //           <button onClick={handleStart} className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-medium transition-all shadow-lg shadow-blue-200">
+// //           <button onClick={handleStart} className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-[#1C1917] px-8 py-3 rounded-xl font-medium transition-all shadow-lg shadow-blue-200">
 // //             Start Scanning
 // //           </button>
 // //         ) : status === 'scanning' ? (
@@ -191,7 +191,7 @@
 //       <button 
 //         onClick={startScan}
 //         disabled={status === 'scanning'}
-//         className="mt-10 w-full py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl font-bold hover:opacity-90 transition-all disabled:opacity-50 flex justify-center items-center gap-3"
+//         className="mt-10 w-full py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-[#1C1917] rounded-2xl font-bold hover:opacity-90 transition-all disabled:opacity-50 flex justify-center items-center gap-3"
 //       >
 //         {status === 'scanning' ? <Loader2 className="animate-spin" /> : <RefreshCcw size={18} />}
 //         {status === 'scanning' ? 'Waiting...' : 'Start New Scan'}
@@ -352,15 +352,15 @@ export default function FingerprintCapturePage() {
   return (
     <DashboardLayout>
       <Toaster theme="dark" position="top-right" />
-      <div className="min-h-screen bg-[#0D1117] text-white flex flex-col" style={{ fontFamily: "'DM Mono', 'Fira Mono', monospace" }}>
+      <div className="min-h-screen bg-[#F8F6F1] text-[#1C1917] flex flex-col" style={{ fontFamily: "'DM Mono', 'Fira Mono', monospace" }}>
 
         {/* ── HEADER ── */}
-        <div className="border-b border-white/[0.06] bg-[#0D1117]/80 backdrop-blur">
+        <div className="border-b border-[#E8E2D9] bg-[#F8F6F1]/80 backdrop-blur">
           <div className="max-w-xl mx-auto px-6 py-4 flex items-center gap-4">
-            <button onClick={() => router.back()} className="text-zinc-500 hover:text-white transition-colors text-lg">←</button>
+            <button onClick={() => router.back()} className="text-[#9C9590] hover:text-[#1C1917] transition-colors text-lg">←</button>
             <div>
               <h1 className="text-base font-bold tracking-wider">Biometric Enrollment</h1>
-              <p className="text-xs text-zinc-500 mt-0.5">Fingerprint capture for driver registration</p>
+              <p className="text-xs text-[#9C9590] mt-0.5">Fingerprint capture for driver registration</p>
             </div>
           </div>
         </div>
@@ -374,7 +374,7 @@ export default function FingerprintCapturePage() {
             className="w-full max-w-md space-y-5"
           >
             {/* Scanner visual */}
-            <div className="bg-[#161B22] border border-white/[0.06] rounded-2xl p-8 flex flex-col items-center gap-6">
+            <div className="bg-white border border-[#E8E2D9] rounded-2xl p-8 flex flex-col items-center gap-6">
 
               {/* Fingerprint icon with status ring */}
               <div className="relative">
@@ -405,7 +405,7 @@ export default function FingerprintCapturePage() {
               <div className="text-center space-y-1">
                 <p className="text-sm font-semibold" style={{ color: cfg.textColor }}>{message}</p>
                 {attempts > 0 && (
-                  <p className="text-[10px] text-zinc-600">Scan {attempts} completed</p>
+                  <p className="text-[10px] text-[#9C9590]">Scan {attempts} completed</p>
                 )}
               </div>
 
@@ -417,7 +417,7 @@ export default function FingerprintCapturePage() {
                     Waiting for finger placement…
                   </motion.div>
                 ) : status === "connecting" ? (
-                  <motion.div key="connecting" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-2 text-xs text-zinc-500">
+                  <motion.div key="connecting" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-2 text-xs text-[#9C9590]">
                     <div className="w-4 h-4 border-2 border-zinc-600 border-t-transparent rounded-full animate-spin" />
                     Connecting to scanner…
                   </motion.div>
@@ -428,11 +428,11 @@ export default function FingerprintCapturePage() {
                   </motion.div>
                 ) : status === "success" ? (
                   <motion.div key="success" initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="flex flex-col items-center gap-2">
-                    <p className="text-[10px] text-zinc-500">Redirecting to drivers list…</p>
+                    <p className="text-[10px] text-[#9C9590]">Redirecting to drivers list…</p>
                     <button
                       type="button"
                       onClick={reset}
-                      className="px-4 py-2 rounded-lg text-xs border border-white/[0.06] text-zinc-400 hover:text-white hover:border-white/20 transition-colors"
+                      className="px-4 py-2 rounded-lg text-xs border border-[#E8E2D9] text-[#6B6560] hover:text-[#1C1917] hover:border-[#B8860B]/30 transition-colors"
                     >
                       Scan Again
                     </button>
@@ -446,7 +446,7 @@ export default function FingerprintCapturePage() {
                     type="button"
                     onClick={status === "error" ? reset : startScan}
                     //disabled={status === "connecting"}
-                    className="px-8 py-3 rounded-xl text-sm bg-[#C8A96E] text-[#0D1117] font-bold hover:bg-[#d4b880] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                    className="px-8 py-3 rounded-xl text-sm bg-[#B8860B] text-[#1C1917] font-bold hover:bg-[#C9960D] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                   >
                     {status === "error" ? "Retry" : "Start Scan"}
                   </motion.button>
@@ -455,8 +455,8 @@ export default function FingerprintCapturePage() {
             </div>
 
             {/* Instructions */}
-            <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-5 space-y-3">
-              <h3 className="text-xs font-bold uppercase tracking-widest text-zinc-400">Instructions</h3>
+            <div className="bg-white border border-[#E8E2D9] rounded-xl p-5 space-y-3">
+              <h3 className="text-xs font-bold uppercase tracking-widest text-[#6B6560]">Instructions</h3>
               {[
                 { n: "1", text: "Ensure the DigitalPersona scanner is connected to this PC" },
                 { n: "2", text: "Click 'Start Scan' and place the driver's right index finger firmly on the sensor" },
@@ -464,10 +464,10 @@ export default function FingerprintCapturePage() {
                 { n: "4", text: "The fingerprint will be saved automatically after a successful scan" },
               ].map((item) => (
                 <div key={item.n} className="flex items-start gap-3">
-                  <div className="w-5 h-5 rounded-full bg-[#C8A96E]/20 text-[#C8A96E] flex items-center justify-center text-[10px] font-bold flex-shrink-0 mt-0.5">
+                  <div className="w-5 h-5 rounded-full bg-[#B8860B]/20 text-[#B8860B] flex items-center justify-center text-[10px] font-bold flex-shrink-0 mt-0.5">
                     {item.n}
                   </div>
-                  <p className="text-[11px] text-zinc-500 leading-relaxed">{item.text}</p>
+                  <p className="text-[11px] text-[#9C9590] leading-relaxed">{item.text}</p>
                 </div>
               ))}
             </div>
@@ -477,7 +477,7 @@ export default function FingerprintCapturePage() {
               <button
                 type="button"
                 onClick={() => router.push("/drivers")}
-                className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors underline underline-offset-2"
+                className="text-xs text-[#9C9590] hover:text-[#6B6560] transition-colors underline underline-offset-2"
               >
                 Skip fingerprint capture — register later
               </button>

@@ -69,7 +69,7 @@
 // //         <button
 // //           type="submit"
 // //           disabled={isSubmitting}
-// //           className="w-full bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700"
+// //           className="w-full bg-blue-600 text-[#1C1917] p-2 rounded-md hover:bg-blue-700"
 // //         >
 // //           {isSubmitting ? "Logging in..." : "Login"}
 // //         </button>
@@ -269,7 +269,7 @@ function Field({
 }) {
   return (
     <div className="space-y-1.5">
-      <label className="block text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+      <label className="block text-[10px] font-bold uppercase tracking-widest text-[#9C9590]">
         {label}{required && <span className="text-red-400 ml-0.5">*</span>}
       </label>
       {children}
@@ -352,7 +352,7 @@ export default function LoginPage() {
       <Toaster theme="dark" position="top-right" />
 
       <main
-        className="min-h-screen bg-[#0D1117] flex items-center justify-center px-4"
+        className="min-h-screen bg-[#F8F6F1] flex items-center justify-center px-4"
         style={{ fontFamily: "'DM Mono','Fira Mono',monospace" }}
       >
         {/* Subtle background grid */}
@@ -360,7 +360,7 @@ export default function LoginPage() {
           className="pointer-events-none fixed inset-0 opacity-[0.025]"
           style={{
             backgroundImage:
-              "linear-gradient(#C8A96E 1px, transparent 1px), linear-gradient(90deg, #C8A96E 1px, transparent 1px)",
+              "linear-gradient(#B8860B 1px, transparent 1px), linear-gradient(90deg, #B8860B 1px, transparent 1px)",
             backgroundSize: "48px 48px",
           }}
         />
@@ -374,7 +374,7 @@ export default function LoginPage() {
             className="w-[420px] h-[420px] rounded-full opacity-[0.06]"
             style={{
               background:
-                "radial-gradient(circle, #C8A96E 0%, transparent 70%)",
+                "radial-gradient(circle, #B8860B 0%, transparent 70%)",
               filter: "blur(60px)",
             }}
           />
@@ -387,21 +387,21 @@ export default function LoginPage() {
           className="relative w-full max-w-sm"
         >
           {/* ── Card ────────────────────────────────────────────────────── */}
-          <div className="bg-[#161B22] border border-white/[0.06] rounded-2xl overflow-hidden shadow-2xl">
+          <div className="bg-white border border-[#E8E2D9] rounded-2xl overflow-hidden shadow-2xl">
 
             {/* Gold top bar */}
-            <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-[#C8A96E] to-transparent" />
+            <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-[#B8860B] to-transparent" />
 
             <div className="px-8 pt-8 pb-9">
 
               {/* ── Logo / Brand ─────────────────────────────────────── */}
               <div className="flex flex-col items-center gap-2 mb-8">
                 {/* Fleet icon */}
-                <div className="w-11 h-11 rounded-xl bg-[#C8A96E]/10 border border-[#C8A96E]/20
+                <div className="w-11 h-11 rounded-xl bg-[#B8860B]/10 border border-[#B8860B]/20
                   flex items-center justify-center">
                   <svg
                     viewBox="0 0 24 24" fill="none" className="w-5 h-5"
-                    stroke="#C8A96E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
+                    stroke="#B8860B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
                   >
                     <rect x="1" y="3" width="15" height="13" rx="1" />
                     <path d="M16 8h4l3 5v3h-7V8z" />
@@ -410,10 +410,10 @@ export default function LoginPage() {
                   </svg>
                 </div>
                 <div className="text-center">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#C8A96E]">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#B8860B]">
                     Fleet Manager
                   </p>
-                  <h1 className="text-sm font-bold text-white mt-0.5 tracking-wider">
+                  <h1 className="text-sm font-bold text-[#1C1917] mt-0.5 tracking-wider">
                     Sign in to your account
                   </h1>
                 </div>
@@ -429,11 +429,11 @@ export default function LoginPage() {
                     type="email"
                     autoComplete="email"
                     placeholder="you@domain.com"
-                    className={`w-full bg-[#0D1117] border rounded-lg px-3 py-2.5 text-xs text-zinc-200
-                      placeholder-zinc-600 focus:outline-none transition-colors
+                    className={`w-full bg-[#F8F6F1] border rounded-lg px-3 py-2.5 text-xs text-[#1C1917]
+                      placeholder-[#B0AAA4] focus:outline-none transition-colors
                       ${errors.email
                         ? "border-red-700/60 focus:border-red-500"
-                        : "border-white/[0.06] focus:border-[#C8A96E]/50"}`}
+                        : "border-[#E8E2D9] focus:border-[#B8860B]/50"}`}
                   />
                 </Field>
 
@@ -445,17 +445,17 @@ export default function LoginPage() {
                       type={showPassword ? "text" : "password"}
                       autoComplete="current-password"
                       placeholder="Your password"
-                      className={`w-full bg-[#0D1117] border rounded-lg px-3 py-2.5 pr-10 text-xs text-zinc-200
-                        placeholder-zinc-600 focus:outline-none transition-colors
+                      className={`w-full bg-[#F8F6F1] border rounded-lg px-3 py-2.5 pr-10 text-xs text-[#1C1917]
+                        placeholder-[#B0AAA4] focus:outline-none transition-colors
                         ${errors.password
                           ? "border-red-700/60 focus:border-red-500"
-                          : "border-white/[0.06] focus:border-[#C8A96E]/50"}`}
+                          : "border-[#E8E2D9] focus:border-[#B8860B]/50"}`}
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword((s) => !s)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-600
-                        hover:text-zinc-300 transition-colors"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9C9590]
+                        hover:text-[#2C2825] transition-colors"
                       aria-label={showPassword ? "Hide password" : "Show password"}
                     >
                       {showPassword
@@ -475,26 +475,26 @@ export default function LoginPage() {
                         {...register("remember")}
                         className="sr-only peer"
                       />
-                      <div className="w-4 h-4 rounded bg-[#0D1117] border border-white/[0.08]
-                        peer-checked:bg-[#C8A96E]/20 peer-checked:border-[#C8A96E]/50
+                      <div className="w-4 h-4 rounded bg-[#F8F6F1] border border-white/[0.08]
+                        peer-checked:bg-[#B8860B]/20 peer-checked:border-[#B8860B]/50
                         transition-colors flex items-center justify-center">
                         <svg
                           viewBox="0 0 12 12" fill="none"
                           className="w-2.5 h-2.5 opacity-0 peer-checked:opacity-100 transition-opacity"
-                          stroke="#C8A96E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                          stroke="#B8860B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
                         >
                           <polyline points="1.5,6 4.5,9 10.5,3" />
                         </svg>
                       </div>
                     </div>
-                    <span className="text-[10px] text-zinc-500 group-hover:text-zinc-400 transition-colors uppercase tracking-widest font-bold">
+                    <span className="text-[10px] text-[#9C9590] group-hover:text-[#6B6560] transition-colors uppercase tracking-widest font-bold">
                       Remember me
                     </span>
                   </label>
 
                   <a
                     href="/forgot-password"
-                    className="text-[10px] text-[#C8A96E]/70 hover:text-[#C8A96E] transition-colors
+                    className="text-[10px] text-[#B8860B]/70 hover:text-[#B8860B] transition-colors
                       uppercase tracking-widest font-bold"
                   >
                     Forgot password?
@@ -507,7 +507,7 @@ export default function LoginPage() {
                     type="submit"
                     disabled={loading}
                     className="w-full py-2.5 rounded-lg text-xs font-bold uppercase tracking-widest
-                      bg-[#C8A96E] text-[#0D1117] hover:bg-[#d4b880] transition-colors
+                      bg-[#B8860B] text-[#1C1917] hover:bg-[#C9960D] transition-colors
                       disabled:opacity-40 flex items-center justify-center gap-2"
                   >
                     {loading && (
@@ -521,7 +521,7 @@ export default function LoginPage() {
                     type="button"
                     onClick={() => router.push("/")}
                     className="w-full py-2.5 rounded-lg text-xs font-bold uppercase tracking-widest
-                      border border-white/[0.06] text-zinc-400 hover:text-white hover:border-white/20
+                      border border-[#E8E2D9] text-[#6B6560] hover:text-[#1C1917] hover:border-[#B8860B]/30
                       transition-colors"
                   >
                     Cancel
@@ -532,15 +532,15 @@ export default function LoginPage() {
             </div>
 
             {/* ── Footer ───────────────────────────────────────────────── */}
-            <div className="border-t border-white/[0.04] px-8 py-3 flex items-center justify-center">
-              <p className="text-[9px] text-zinc-700 uppercase tracking-[0.15em] font-bold">
+            <div className="border-t border-[#EDE8E0] px-8 py-3 flex items-center justify-center">
+              <p className="text-[9px] text-[#B0AAA4] uppercase tracking-[0.15em] font-bold">
                 Fleet Management System · Secure Access
               </p>
             </div>
           </div>
 
           {/* Version tag below card */}
-          <p className="text-center text-[9px] text-zinc-700 mt-4 uppercase tracking-widest font-bold">
+          <p className="text-center text-[9px] text-[#B0AAA4] mt-4 uppercase tracking-widest font-bold">
             v1.0 · Admin Portal
           </p>
         </motion.div>

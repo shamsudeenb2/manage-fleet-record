@@ -59,15 +59,15 @@ type Repair   = {
 
 // ─── Status metadata ──────────────────────────────────────────────────────────
 const STATUS_META: Record<string, { label: string; color: string; bg: string; border: string; dot: string }> = {
-  OPEN:        { label: "Open",        color: "text-zinc-300",  bg: "bg-zinc-800/60",   border: "border-zinc-700",   dot: "bg-zinc-400" },
-  IN_PROGRESS: { label: "In Progress", color: "text-sky-300",   bg: "bg-sky-900/30",    border: "border-sky-700/60", dot: "bg-sky-400" },
-  COMPLETED:   { label: "Completed",   color: "text-emerald-300", bg: "bg-emerald-900/20", border: "border-emerald-700/50", dot: "bg-emerald-400" },
-  CANCELLED:   { label: "Cancelled",   color: "text-zinc-500",  bg: "bg-zinc-900/40",   border: "border-zinc-800",   dot: "bg-zinc-600" },
+  OPEN:        { label: "Open",        color: "text-[#2C2825]",  bg: "bg-zinc-100",   border: "border-zinc-700",   dot: "bg-zinc-400" },
+  IN_PROGRESS: { label: "In Progress", color: "text-sky-300",   bg: "bg-sky-50",    border: "border-sky-700/60", dot: "bg-sky-400" },
+  COMPLETED:   { label: "Completed",   color: "text-emerald-300", bg: "bg-emerald-50", border: "border-emerald-700/50", dot: "bg-emerald-400" },
+  CANCELLED:   { label: "Cancelled",   color: "text-[#9C9590]",  bg: "bg-zinc-100",   border: "border-zinc-800",   dot: "bg-zinc-600" },
 };
 
 // ─── Priority metadata ────────────────────────────────────────────────────────
 const PRIORITY_META: Record<string, { color: string; icon: string; desc: string }> = {
-  LOW:      { color: "text-zinc-400",  icon: "●",  desc: "Schedule when convenient" },
+  LOW:      { color: "text-[#6B6560]",  icon: "●",  desc: "Schedule when convenient" },
   MEDIUM:   { color: "text-sky-400",   icon: "●",  desc: "Address within a few days" },
   HIGH:     { color: "text-amber-400", icon: "▲",  desc: "Address within 24 hours" },
   CRITICAL: { color: "text-red-400",   icon: "🚨", desc: "Immediate — vehicle off-road" },
@@ -79,11 +79,11 @@ function Field({ label, error, children, hint, required }: {
 }) {
   return (
     <div className="space-y-1.5">
-      <label className="block text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+      <label className="block text-[10px] font-bold uppercase tracking-widest text-[#9C9590]">
         {label}{required && <span className="text-red-400 ml-0.5">*</span>}
       </label>
       {children}
-      {hint  && !error && <p className="text-[10px] text-zinc-600">{hint}</p>}
+      {hint  && !error && <p className="text-[10px] text-[#9C9590]">{hint}</p>}
       {error &&           <p className="text-[10px] text-red-400">{error}</p>}
     </div>
   );
@@ -93,11 +93,11 @@ function TextInput({ error, ...props }: React.InputHTMLAttributes<HTMLInputEleme
   return (
     <input
       {...props}
-      className={`w-full bg-[#0D1117] border rounded-lg px-3 py-2.5 text-xs text-zinc-200
-        placeholder-zinc-600 focus:outline-none transition-colors
+      className={`w-full bg-[#F8F6F1] border rounded-lg px-3 py-2.5 text-xs text-[#1C1917]
+        placeholder-[#B0AAA4] focus:outline-none transition-colors
         ${error
           ? "border-red-700/60 focus:border-red-500"
-          : "border-white/[0.06] focus:border-[#C8A96E]/50"}`}
+          : "border-[#E8E2D9] focus:border-[#B8860B]/50"}`}
     />
   );
 }
@@ -106,11 +106,11 @@ function SelectInput({ error, children, ...props }: React.SelectHTMLAttributes<H
   return (
     <select
       {...props}
-      className={`w-full bg-[#0D1117] border rounded-lg px-3 py-2.5 text-xs text-zinc-200
+      className={`w-full bg-[#F8F6F1] border rounded-lg px-3 py-2.5 text-xs text-[#1C1917]
         focus:outline-none transition-colors appearance-none
         ${error
           ? "border-red-700/60 focus:border-red-500"
-          : "border-white/[0.06] focus:border-[#C8A96E]/50"}`}
+          : "border-[#E8E2D9] focus:border-[#B8860B]/50"}`}
     >
       {children}
     </select>
@@ -120,9 +120,9 @@ function SelectInput({ error, children, ...props }: React.SelectHTMLAttributes<H
 function ReadField({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
   return (
     <div className="space-y-1.5">
-      <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">{label}</p>
-      <div className={`w-full bg-[#0D1117]/60 border border-white/[0.04] rounded-lg px-3 py-2.5 text-xs font-mono font-bold
-        ${accent ? "text-[#C8A96E]" : "text-zinc-400"}`}>
+      <p className="text-[10px] font-bold uppercase tracking-widest text-[#9C9590]">{label}</p>
+      <div className={`w-full bg-[#F8F6F1]/60 border border-[#EDE8E0] rounded-lg px-3 py-2.5 text-xs font-mono font-bold
+        ${accent ? "text-[#B8860B]" : "text-[#6B6560]"}`}>
         {value}
       </div>
     </div>
@@ -131,7 +131,7 @@ function ReadField({ label, value, accent }: { label: string; value: string; acc
 
 // ─── Skeleton loader ──────────────────────────────────────────────────────────
 function Skeleton({ className }: { className?: string }) {
-  return <div className={`bg-white/[0.04] animate-pulse rounded-lg ${className}`} />;
+  return <div className={`bg-[#EBEBEB] animate-pulse rounded-lg ${className}`} />;
 }
 
 // ─── toDateInput: convert ISO datetime string → "YYYY-MM-DD" for <input type="date"> ──
@@ -244,13 +244,13 @@ export default function EditRepairPage() {
   if (notFound) {
     return (
       <DashboardLayout>
-        <div className="min-h-screen bg-[#0D1117] flex items-center justify-center" style={{ fontFamily: "'DM Mono','Fira Mono',monospace" }}>
+        <div className="min-h-screen bg-[#F8F6F1] flex items-center justify-center" style={{ fontFamily: "'DM Mono','Fira Mono',monospace" }}>
           <div className="text-center space-y-3">
             <p className="text-4xl">🔧</p>
-            <p className="text-zinc-300 text-sm font-bold">Repair not found</p>
-            <p className="text-zinc-600 text-xs">It may have been deleted or never existed.</p>
+            <p className="text-[#2C2825] text-sm font-bold">Repair not found</p>
+            <p className="text-[#9C9590] text-xs">It may have been deleted or never existed.</p>
             <button onClick={() => router.push("/maintenance/repairs")}
-              className="mt-4 px-4 py-2 rounded-lg bg-[#C8A96E] text-[#0D1117] text-xs font-bold">
+              className="mt-4 px-4 py-2 rounded-lg bg-[#B8860B] text-[#1C1917] text-xs font-bold">
               Back to Repairs
             </button>
           </div>
@@ -263,8 +263,8 @@ export default function EditRepairPage() {
   if (fetching) {
     return (
       <DashboardLayout>
-        <div className="min-h-screen bg-[#0D1117]" style={{ fontFamily: "'DM Mono','Fira Mono',monospace" }}>
-          <div className="border-b border-white/[0.06] px-6 py-4 max-w-3xl mx-auto flex items-center gap-4">
+        <div className="min-h-screen bg-[#F8F6F1]" style={{ fontFamily: "'DM Mono','Fira Mono',monospace" }}>
+          <div className="border-b border-[#E8E2D9] px-6 py-4 max-w-3xl mx-auto flex items-center gap-4">
             <Skeleton className="w-6 h-6" />
             <div className="space-y-1.5 flex-1">
               <Skeleton className="h-4 w-40" />
@@ -286,18 +286,18 @@ export default function EditRepairPage() {
   return (
     <DashboardLayout>
       <Toaster theme="dark" position="top-right" />
-      <div className="min-h-screen bg-[#0D1117] text-white" style={{ fontFamily: "'DM Mono','Fira Mono',monospace" }}>
+      <div className="min-h-screen bg-[#F8F6F1] text-[#1C1917]" style={{ fontFamily: "'DM Mono','Fira Mono',monospace" }}>
 
         {/* ── Sticky header ───────────────────────────────────────────────── */}
-        <div className="border-b border-white/[0.06] bg-[#0D1117]/90 backdrop-blur sticky top-0 z-30">
+        <div className="border-b border-[#E8E2D9] bg-[#F8F6F1]/90 backdrop-blur sticky top-0 z-30">
           <div className="max-w-3xl mx-auto px-6 py-4 flex items-center gap-4">
             <button onClick={() => router.back()}
-              className="text-zinc-500 hover:text-white transition-colors text-lg leading-none">
+              className="text-[#9C9590] hover:text-[#1C1917] transition-colors text-lg leading-none">
               ←
             </button>
             <div className="flex-1 min-w-0">
               <h1 className="text-sm font-bold tracking-wider truncate">Edit Repair</h1>
-              <p className="text-[10px] text-zinc-500 mt-0.5 truncate">
+              <p className="text-[10px] text-[#9C9590] mt-0.5 truncate">
                 {repair?.vehicle?.plateNumber} · {repair?.vehicle?.cap_no}
               </p>
             </div>
@@ -328,10 +328,10 @@ export default function EditRepairPage() {
           >
 
             {/* ── Section 1: Status (primary action — top of page) ──────── */}
-            <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-6 space-y-4">
+            <div className="bg-white border border-[#E8E2D9] rounded-xl p-6 space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Repair Status</h2>
-                <span className="text-[10px] text-zinc-600">Tap to change</span>
+                <h2 className="text-[10px] font-bold uppercase tracking-widest text-[#6B6560]">Repair Status</h2>
+                <span className="text-[10px] text-[#9C9590]">Tap to change</span>
               </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -345,12 +345,12 @@ export default function EditRepairPage() {
                       className={`relative py-3 px-2 rounded-xl border text-center transition-all duration-200
                         ${active
                           ? `${meta.border} ${meta.bg} ${meta.color}`
-                          : "border-white/[0.06] text-zinc-600 hover:text-zinc-400 hover:border-white/20"}`}
+                          : "border-[#E8E2D9] text-[#9C9590] hover:text-[#6B6560] hover:border-[#B8860B]/30"}`}
                     >
                       {active && (
                         <motion.div
                           layoutId="status-highlight"
-                          className="absolute inset-0 rounded-xl border border-[#C8A96E]/40 bg-[#C8A96E]/5"
+                          className="absolute inset-0 rounded-xl border border-[#B8860B]/40 bg-[#B8860B]/5"
                         />
                       )}
                       <div className="relative">
@@ -373,7 +373,7 @@ export default function EditRepairPage() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.15 }}
-                  className="text-[10px] text-zinc-600 border-t border-white/[0.04] pt-3"
+                  className="text-[10px] text-[#9C9590] border-t border-[#EDE8E0] pt-3"
                 >
                   {status === "OPEN"        && "⏳ Repair reported — awaiting mechanic assignment."}
                   {status === "IN_PROGRESS" && "🔧 Work in progress. Started date will auto-set if not provided."}
@@ -384,8 +384,8 @@ export default function EditRepairPage() {
             </div>
 
             {/* ── Section 2: Priority ───────────────────────────────────── */}
-            <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-6 space-y-4">
-              <h2 className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Priority</h2>
+            <div className="bg-white border border-[#E8E2D9] rounded-xl p-6 space-y-4">
+              <h2 className="text-[10px] font-bold uppercase tracking-widest text-[#6B6560]">Priority</h2>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {PRIORITIES.map(p => {
                   const meta  = PRIORITY_META[p];
@@ -396,15 +396,15 @@ export default function EditRepairPage() {
                       onClick={() => setValue("priority", p, { shouldDirty: true })}
                       className={`p-3 rounded-xl border text-center transition-all
                         ${active
-                          ? "border-[#C8A96E] bg-[#C8A96E]/10"
-                          : "border-white/[0.06] hover:border-white/20"}`}
+                          ? "border-[#B8860B] bg-[#B8860B]/10"
+                          : "border-[#E8E2D9] hover:border-[#B8860B]/30"}`}
                     >
                       <div className={`text-base ${meta.color}`}>{meta.icon}</div>
                       <div className={`text-[10px] font-bold mt-1 uppercase tracking-wider
-                        ${active ? "text-[#C8A96E]" : "text-zinc-400"}`}>
+                        ${active ? "text-[#B8860B]" : "text-[#6B6560]"}`}>
                         {p}
                       </div>
-                      <div className="text-[10px] text-zinc-600 mt-0.5 leading-tight">{meta.desc}</div>
+                      <div className="text-[10px] text-[#9C9590] mt-0.5 leading-tight">{meta.desc}</div>
                     </button>
                   );
                 })}
@@ -412,8 +412,8 @@ export default function EditRepairPage() {
             </div>
 
             {/* ── Section 3: Vehicle & Driver ───────────────────────────── */}
-            <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-6 space-y-4">
-              <h2 className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Vehicle & Driver</h2>
+            <div className="bg-white border border-[#E8E2D9] rounded-xl p-6 space-y-4">
+              <h2 className="text-[10px] font-bold uppercase tracking-widest text-[#6B6560]">Vehicle & Driver</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Field label="Vehicle" error={(errors.vehicleId as any)?.message} required>
                   <SelectInput {...register("vehicleId")} error={!!errors.vehicleId}>
@@ -446,8 +446,8 @@ export default function EditRepairPage() {
             </div>
 
             {/* ── Section 4: Fault & Repair Details ────────────────────── */}
-            <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-6 space-y-4">
-              <h2 className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Fault & Repair Details</h2>
+            <div className="bg-white border border-[#E8E2D9] rounded-xl p-6 space-y-4">
+              <h2 className="text-[10px] font-bold uppercase tracking-widest text-[#6B6560]">Fault & Repair Details</h2>
               <Field
                 label="Fault Description" required
                 error={(errors.faultDesc as any)?.message}
@@ -457,9 +457,9 @@ export default function EditRepairPage() {
                   {...register("faultDesc")}
                   rows={3}
                   placeholder="e.g. Engine overheating, brake failure, burst tyre…"
-                  className={`w-full bg-[#0D1117] border rounded-lg px-3 py-2.5 text-xs text-zinc-200
-                    placeholder-zinc-600 focus:outline-none transition-colors resize-none
-                    ${errors.faultDesc ? "border-red-700/60" : "border-white/[0.06] focus:border-[#C8A96E]/50"}`}
+                  className={`w-full bg-[#F8F6F1] border rounded-lg px-3 py-2.5 text-xs text-[#1C1917]
+                    placeholder-[#B0AAA4] focus:outline-none transition-colors resize-none
+                    ${errors.faultDesc ? "border-red-700/60" : "border-[#E8E2D9] focus:border-[#B8860B]/50"}`}
                 />
               </Field>
               <Field label="Repair Description" hint="What was done to fix it — fill when completing the repair">
@@ -467,17 +467,17 @@ export default function EditRepairPage() {
                   {...register("repairDesc")}
                   rows={3}
                   placeholder="e.g. Replaced radiator hose, bled brake lines, fitted new pads…"
-                  className="w-full bg-[#0D1117] border border-white/[0.06] rounded-lg px-3 py-2.5 text-xs
-                    text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-[#C8A96E]/50 resize-none"
+                  className="w-full bg-[#F8F6F1] border border-[#E8E2D9] rounded-lg px-3 py-2.5 text-xs
+                    text-[#1C1917] placeholder-[#B0AAA4] focus:outline-none focus:border-[#B8860B]/50 resize-none"
                 />
               </Field>
             </div>
 
             {/* ── Section 5: Timeline ───────────────────────────────────── */}
-            <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-6 space-y-4">
+            <div className="bg-white border border-[#E8E2D9] rounded-xl p-6 space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Timeline</h2>
-                <span className="text-[10px] text-zinc-600">Started & completed auto-set on status change</span>
+                <h2 className="text-[10px] font-bold uppercase tracking-widest text-[#6B6560]">Timeline</h2>
+                <span className="text-[10px] text-[#9C9590]">Started & completed auto-set on status change</span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <Field label="Reported Date" required error={(errors.reportedDate as any)?.message}>
@@ -493,8 +493,8 @@ export default function EditRepairPage() {
             </div>
 
             {/* ── Section 6: Cost & Garage ──────────────────────────────── */}
-            <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-6 space-y-4">
-              <h2 className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Cost & Garage</h2>
+            <div className="bg-white border border-[#E8E2D9] rounded-xl p-6 space-y-4">
+              <h2 className="text-[10px] font-bold uppercase tracking-widest text-[#6B6560]">Cost & Garage</h2>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <Field label="Labour Cost (₦)">
                   <TextInput
@@ -514,7 +514,7 @@ export default function EditRepairPage() {
               </div>
 
               {/* Parts cost hint */}
-              <p className="text-[10px] text-zinc-600 border-t border-white/[0.04] pt-3">
+              <p className="text-[10px] text-[#9C9590] border-t border-[#EDE8E0] pt-3">
                 Parts cost is auto-computed from logged parts and cannot be edited directly.
                 {repair?.parts?.length
                   ? ` (${repair.parts.length} part${repair.parts.length !== 1 ? "s" : ""} logged)`
@@ -535,18 +535,18 @@ export default function EditRepairPage() {
                   {...register("notes")}
                   rows={2}
                   placeholder="Any additional notes…"
-                  className="w-full bg-[#0D1117] border border-white/[0.06] rounded-lg px-3 py-2.5 text-xs
-                    text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-[#C8A96E]/50 resize-none"
+                  className="w-full bg-[#F8F6F1] border border-[#E8E2D9] rounded-lg px-3 py-2.5 text-xs
+                    text-[#1C1917] placeholder-[#B0AAA4] focus:outline-none focus:border-[#B8860B]/50 resize-none"
                 />
               </Field>
             </div>
 
             {/* ── Section 7: Linked Parts (read-only) ───────────────────── */}
             {repair?.parts && repair.parts.length > 0 && (
-              <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-6 space-y-3">
+              <div className="bg-white border border-[#E8E2D9] rounded-xl p-6 space-y-3">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Linked Parts</h2>
-                  <span className="text-[10px] text-zinc-600">{repair.parts.length} part{repair.parts.length !== 1 ? "s" : ""}</span>
+                  <h2 className="text-[10px] font-bold uppercase tracking-widest text-[#6B6560]">Linked Parts</h2>
+                  <span className="text-[10px] text-[#9C9590]">{repair.parts.length} part{repair.parts.length !== 1 ? "s" : ""}</span>
                 </div>
                 <div className="space-y-2">
                   {repair.parts.map((part, i) => (
@@ -555,21 +555,21 @@ export default function EditRepairPage() {
                       initial={{ opacity: 0, x: -8 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: i * 0.04 }}
-                      className="flex items-center justify-between bg-[#0D1117]/60 border border-white/[0.04]
+                      className="flex items-center justify-between bg-[#F8F6F1]/60 border border-[#EDE8E0]
                         rounded-lg px-3 py-2.5 gap-3"
                     >
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs text-zinc-200 font-medium truncate">{part.name}</p>
-                        <p className="text-[10px] text-zinc-600 mt-0.5">
+                        <p className="text-xs text-[#1C1917] font-medium truncate">{part.name}</p>
+                        <p className="text-[10px] text-[#9C9590] mt-0.5">
                           {part.category && <span className="mr-2">{part.category}</span>}
-                          {part.partNumber && <span className="text-zinc-700">#{part.partNumber}</span>}
+                          {part.partNumber && <span className="text-[#B0AAA4]">#{part.partNumber}</span>}
                         </p>
                       </div>
                       <div className="text-right shrink-0">
-                        <p className="text-xs text-zinc-400">
+                        <p className="text-xs text-[#6B6560]">
                           {part.quantity} × ₦{part.unitCost.toLocaleString("en-NG")}
                         </p>
-                        <p className="text-[10px] text-[#C8A96E] font-bold">
+                        <p className="text-[10px] text-[#B8860B] font-bold">
                           ₦{part.totalCost.toLocaleString("en-NG", { minimumFractionDigits: 2 })}
                         </p>
                       </div>
@@ -584,8 +584,8 @@ export default function EditRepairPage() {
               <button
                 type="submit"
                 disabled={saving || !isDirty}
-                className="px-6 py-2.5 rounded-lg text-xs bg-[#C8A96E] text-[#0D1117] font-bold
-                  hover:bg-[#d4b880] transition-colors disabled:opacity-40 flex items-center gap-2"
+                className="px-6 py-2.5 rounded-lg text-xs bg-[#B8860B] text-[#1C1917] font-bold
+                  hover:bg-[#C9960D] transition-colors disabled:opacity-40 flex items-center gap-2"
               >
                 {saving && (
                   <div className="w-3.5 h-3.5 border-2 border-[#0D1117] border-t-transparent rounded-full animate-spin" />
@@ -595,13 +595,13 @@ export default function EditRepairPage() {
               <button
                 type="button"
                 onClick={() => router.back()}
-                className="px-6 py-2.5 rounded-lg text-xs border border-white/[0.06] text-zinc-400
-                  hover:text-white transition-colors"
+                className="px-6 py-2.5 rounded-lg text-xs border border-[#E8E2D9] text-[#6B6560]
+                  hover:text-[#1C1917] transition-colors"
               >
                 Cancel
               </button>
               {!isDirty && (
-                <span className="text-[10px] text-zinc-600 ml-1">No changes yet</span>
+                <span className="text-[10px] text-[#9C9590] ml-1">No changes yet</span>
               )}
             </div>
 

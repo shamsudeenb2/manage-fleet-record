@@ -138,11 +138,11 @@ type VehicleRow = {
 
 // ─── Constants ──────────────────────────────────────────────────────────────
 const FUEL_STYLES: Record<string, string> = {
-  DIESEL:   "bg-[#C8A96E]/20 text-[#C8A96E] border border-[#C8A96E]/30",
+  DIESEL:   "bg-[#B8860B]/20 text-[#B8860B] border border-[#B8860B]/30",
   PETROL:   "bg-[#3E6B8C]/20 text-sky-400 border border-[#3E6B8C]/30",
   CNG:      "bg-[#5C9669]/20 text-emerald-400 border border-[#5C9669]/30",
   ELECTRIC: "bg-[#7B4E8C]/20 text-purple-400 border border-[#7B4E8C]/30",
-  OTHER:    "bg-zinc-700/30 text-zinc-400 border border-zinc-600/30",
+  OTHER:    "bg-zinc-700/30 text-[#6B6560] border border-zinc-600/30",
 };
 
 const FUEL_ICONS: Record<string, string> = {
@@ -165,7 +165,7 @@ function ConfirmDeleteButton({ onConfirm }: { onConfirm: () => Promise<void> }) 
     return (
       <button
         onClick={() => setPhase("confirm")}
-        className="px-2 py-1 rounded text-xs border border-red-800/40 text-red-400 hover:bg-red-900/20 transition-colors"
+        className="px-2 py-1 rounded text-xs border border-red-800/40 text-red-400 hover:bg-red-50 transition-colors"
       >
         Delete
       </button>
@@ -174,7 +174,7 @@ function ConfirmDeleteButton({ onConfirm }: { onConfirm: () => Promise<void> }) 
   if (phase === "confirm")
     return (
       <div className="flex items-center gap-1">
-        <span className="text-[10px] text-zinc-500">Sure?</span>
+        <span className="text-[10px] text-[#9C9590]">Sure?</span>
         <button
           onClick={handleConfirm}
           className="px-2 py-1 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/40 hover:bg-red-900/60 transition-colors"
@@ -183,7 +183,7 @@ function ConfirmDeleteButton({ onConfirm }: { onConfirm: () => Promise<void> }) 
         </button>
         <button
           onClick={() => setPhase("idle")}
-          className="px-2 py-1 rounded text-xs border border-white/10 text-zinc-500 hover:text-zinc-300 transition-colors"
+          className="px-2 py-1 rounded text-xs border border-white/10 text-[#9C9590] hover:text-[#2C2825] transition-colors"
         >
           No
         </button>
@@ -258,37 +258,45 @@ export default function VehiclesListPage() {
   return (
     <DashboardLayout>
       <Toaster theme="dark" position="top-right" />
-      <div className="min-h-screen bg-[#0D1117] text-white" style={{ fontFamily: "'DM Mono', 'Fira Mono', monospace" }}>
+      <div className="min-h-screen bg-[#F8F6F1] text-[#1C1917]" style={{ fontFamily: "'DM Mono', 'Fira Mono', monospace" }}>
 
         {/* ── HEADER ── */}
-        <div className="border-b border-white/[0.06] bg-[#0D1117]/80 backdrop-blur sticky top-0 z-30">
+        <div className="border-b border-[#E8E2D9] bg-[#F8F6F1]/80 backdrop-blur sticky top-0 z-30">
           <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
             <div>
               <h1 className="text-base font-bold tracking-wider">Vehicles</h1>
-              <p className="text-xs text-zinc-500 mt-0.5">{total} total trucks in fleet</p>
+              <p className="text-xs text-[#9C9590] mt-0.5">{total} total trucks in fleet</p>
             </div>
-            <button
+            <div>
+              <button
               onClick={() => router.push("/vehicles/create")}
-              className="px-4 py-2 rounded-lg text-xs bg-[#C8A96E] text-[#0D1117] font-bold hover:bg-[#d4b880] transition-colors"
+              className="px-4 py-2 mx-5 rounded-lg text-xs bg-[#B8860B] text-[#1C1917] font-bold hover:bg-[#C9960D] transition-colors"
             >
               + Upload Truck
             </button>
+            <button
+              onClick={() => router.push("/vehicles/deleted")}
+              className="px-4 py-2 rounded-lg text-xs bg-[#B8860B] text-[#1C1917] font-bold hover:bg-[#C9960D] transition-colors"
+            >
+               Restore Truck
+            </button>
+            </div>
           </div>
 
           {/* Search + Filter bar */}
           <div className="max-w-7xl mx-auto px-6 pb-3 flex items-center gap-3 flex-wrap">
             {/* Search */}
             <div className="relative flex-1 max-w-xs">
-              <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-zinc-500 text-xs">🔍</span>
+              <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[#9C9590] text-xs">🔍</span>
               <input
                 type="text"
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
                 placeholder="Search plate, VIN or CAP no…"
-                className="w-full bg-[#161B22] border border-white/[0.06] rounded-lg pl-7 pr-7 py-1.5 text-xs text-zinc-300 placeholder-zinc-600 focus:outline-none focus:border-[#C8A96E]/40"
+                className="w-full bg-white border border-[#E8E2D9] rounded-lg pl-7 pr-7 py-1.5 text-xs text-[#2C2825] placeholder-[#B0AAA4] focus:outline-none focus:border-[#B8860B]/40"
               />
               {q && (
-                <button onClick={() => setQ("")} className="absolute right-2 top-1/2 -translate-y-1/2 text-zinc-600 hover:text-zinc-300">✕</button>
+                <button onClick={() => setQ("")} className="absolute right-2 top-1/2 -translate-y-1/2 text-[#9C9590] hover:text-[#2C2825]">✕</button>
               )}
             </div>
 
@@ -300,8 +308,8 @@ export default function VehiclesListPage() {
                   onClick={() => setFuelFilter(f)}
                   className={`px-2.5 py-1 rounded-lg text-[10px] font-semibold uppercase tracking-wider transition-all ${
                     fuelFilter === f
-                      ? "bg-[#C8A96E] text-[#0D1117]"
-                      : "border border-white/[0.06] text-zinc-500 hover:text-zinc-300"
+                      ? "bg-[#B8860B] text-[#1C1917]"
+                      : "border border-[#E8E2D9] text-[#9C9590] hover:text-[#2C2825]"
                   }`}
                 >
                   {f === "ALL" ? `All Fuel` : `${FUEL_ICONS[f]} ${f}`}
@@ -317,8 +325,8 @@ export default function VehiclesListPage() {
                   onClick={() => setDriverFilter(d)}
                   className={`px-2.5 py-1 rounded-lg text-[10px] font-semibold uppercase tracking-wider transition-all ${
                     driverFilter === d
-                      ? "bg-[#C8A96E] text-[#0D1117]"
-                      : "border border-white/[0.06] text-zinc-500 hover:text-zinc-300"
+                      ? "bg-[#B8860B] text-[#1C1917]"
+                      : "border border-[#E8E2D9] text-[#9C9590] hover:text-[#2C2825]"
                   }`}
                 >
                   {d === "ALL" ? "All" : d === "ASSIGNED" ? `✓ Assigned (${assignedCount})` : `○ No Driver (${unassignedCount})`}
@@ -335,15 +343,15 @@ export default function VehiclesListPage() {
               { label: "Total Vehicles", value: total, accent: "#3E6B8C", icon: "🚛" },
               { label: "Assigned",       value: assignedCount, accent: "#5C9669", icon: "✅" },
               { label: "Unassigned",     value: unassignedCount, accent: "#8C3E3E", icon: "⚠️", alert: unassignedCount > 0 },
-              { label: "Fuel Types",     value: Object.keys(fuelCounts).length, accent: "#C8A96E", icon: "⛽" },
+              { label: "Fuel Types",     value: Object.keys(fuelCounts).length, accent: "#B8860B", icon: "⛽" },
             ].map((s, i) => (
               <motion.div
                 key={s.label}
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05 }}
-                className={`relative bg-[#161B22] border rounded-xl p-4 overflow-hidden ${
-                  s.alert ? "border-amber-700/40" : "border-white/[0.06]"
+                className={`relative bg-white border rounded-xl p-4 overflow-hidden ${
+                  s.alert ? "border-amber-700/40" : "border-[#E8E2D9]"
                 }`}
               >
                 {s.alert && <div className="absolute top-2 right-2 w-2 h-2 rounded-full bg-amber-400 animate-pulse" />}
@@ -353,10 +361,10 @@ export default function VehiclesListPage() {
                 />
                 <div className="relative">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs text-zinc-500 uppercase tracking-wider">{s.label}</span>
+                    <span className="text-xs text-[#9C9590] uppercase tracking-wider">{s.label}</span>
                     <span>{s.icon}</span>
                   </div>
-                  <div className="text-2xl font-bold font-mono text-white">{s.value}</div>
+                  <div className="text-2xl font-bold font-mono text-[#1C1917]">{s.value}</div>
                 </div>
               </motion.div>
             ))}
@@ -364,13 +372,13 @@ export default function VehiclesListPage() {
 
           {/* ── Fuel breakdown mini bar ── */}
           {Object.keys(fuelCounts).length > 0 && total > 0 && (
-            <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-4">
+            <div className="bg-white border border-[#E8E2D9] rounded-xl p-4">
               <div className="flex items-center gap-2 mb-3">
-                <span className="text-xs font-semibold uppercase tracking-widest text-zinc-400">Fleet Fuel Breakdown</span>
+                <span className="text-xs font-semibold uppercase tracking-widest text-[#6B6560]">Fleet Fuel Breakdown</span>
               </div>
               <div className="flex gap-1 h-2 rounded-full overflow-hidden">
                 {Object.entries(fuelCounts).map(([fuel, count], i) => {
-                  const PALETTE = ["#C8A96E", "#3E6B8C", "#5C9669", "#7B4E8C", "#8C3E3E"];
+                  const PALETTE = ["#B8860B", "#3E6B8C", "#5C9669", "#7B4E8C", "#8C3E3E"];
                   return (
                     <div
                       key={fuel}
@@ -383,11 +391,11 @@ export default function VehiclesListPage() {
               </div>
               <div className="flex gap-4 mt-2 flex-wrap">
                 {Object.entries(fuelCounts).map(([fuel, count], i) => {
-                  const PALETTE = ["#C8A96E", "#3E6B8C", "#5C9669", "#7B4E8C", "#8C3E3E"];
+                  const PALETTE = ["#B8860B", "#3E6B8C", "#5C9669", "#7B4E8C", "#8C3E3E"];
                   return (
                     <div key={fuel} className="flex items-center gap-1.5">
                       <div className="w-2 h-2 rounded-full" style={{ background: PALETTE[i % PALETTE.length] }} />
-                      <span className="text-[10px] text-zinc-500">{FUEL_ICONS[fuel]} {fuel} ({count})</span>
+                      <span className="text-[10px] text-[#9C9590]">{FUEL_ICONS[fuel]} {fuel} ({count})</span>
                     </div>
                   );
                 })}
@@ -396,24 +404,24 @@ export default function VehiclesListPage() {
           )}
 
           {/* ── TABLE ── */}
-          <div className="bg-[#161B22] border border-white/[0.06] rounded-xl overflow-hidden">
-            <div className="px-5 py-3 border-b border-white/[0.06] flex items-center justify-between">
-              <span className="text-xs font-semibold uppercase tracking-widest text-zinc-400">
+          <div className="bg-white border border-[#E8E2D9] rounded-xl overflow-hidden">
+            <div className="px-5 py-3 border-b border-[#E8E2D9] flex items-center justify-between">
+              <span className="text-xs font-semibold uppercase tracking-widest text-[#6B6560]">
                 {filtered.length} vehicle{filtered.length !== 1 ? "s" : ""}
                 {fuelFilter !== "ALL" ? ` · ${fuelFilter}` : ""}
                 {driverFilter !== "ALL" ? ` · ${driverFilter.toLowerCase()}` : ""}
               </span>
               {loading && (
-                <div className="w-4 h-4 border-2 border-[#C8A96E] border-t-transparent rounded-full animate-spin" />
+                <div className="w-4 h-4 border-2 border-[#B8860B] border-t-transparent rounded-full animate-spin" />
               )}
             </div>
 
             <div className="overflow-x-auto">
               <table className="w-full text-xs">
                 <thead>
-                  <tr className="border-b border-white/[0.06]">
+                  <tr className="border-b border-[#E8E2D9]">
                     {["Vehicle", "Plate / CAP", "Year & VIN", "Fuel Type", "Odometer", "Driver", "Added", "Actions"].map((h) => (
-                      <th key={h} className="text-left py-3 px-5 text-zinc-500 font-semibold uppercase tracking-wider whitespace-nowrap">
+                      <th key={h} className="text-left py-3 px-5 text-[#9C9590] font-semibold uppercase tracking-wider whitespace-nowrap">
                         {h}
                       </th>
                     ))}
@@ -434,34 +442,34 @@ export default function VehiclesListPage() {
                         <td className="py-3.5 px-5">
                           <div className="flex items-center gap-3">
                             <div
-                              className="w-9 h-9 rounded-lg bg-[#0D1117] border border-white/10 flex-shrink-0 bg-center bg-cover"
+                              className="w-9 h-9 rounded-lg bg-[#F8F6F1] border border-white/10 flex-shrink-0 bg-center bg-cover"
                               style={{ backgroundImage: v.vehicleImg ? `url(${v.vehicleImg})` : undefined }}
                             >
                               {!v.vehicleImg && (
-                                <div className="w-full h-full flex items-center justify-center text-zinc-600 text-base rounded-lg">
+                                <div className="w-full h-full flex items-center justify-center text-[#9C9590] text-base rounded-lg">
                                   🚛
                                 </div>
                               )}
                             </div>
                             <div>
-                              <div className="font-medium text-white">
+                              <div className="font-medium text-[#1C1917]">
                                 {[v.make, v.model].filter(Boolean).join(" ") || "Unknown"}
                               </div>
-                              <div className="text-zinc-600 text-[10px]">ID: {v.id.slice(0, 8)}…</div>
+                              <div className="text-[#9C9590] text-[10px]">ID: {v.id.slice(0, 8)}…</div>
                             </div>
                           </div>
                         </td>
 
                         {/* Plate / CAP */}
                         <td className="py-3.5 px-5">
-                          <div className="font-mono text-[#C8A96E] font-semibold">{v.plateNumber}</div>
-                          <div className="text-zinc-500 text-[10px] mt-0.5">{v.cap_no}</div>
+                          <div className="font-mono text-[#B8860B] font-semibold">{v.plateNumber}</div>
+                          <div className="text-[#9C9590] text-[10px] mt-0.5">{v.cap_no}</div>
                         </td>
 
                         {/* Year + VIN */}
                         <td className="py-3.5 px-5">
-                          <div className="text-zinc-300">{v.year ?? "—"}</div>
-                          {v.vin && <div className="text-zinc-600 text-[10px] font-mono mt-0.5">{v.vin}</div>}
+                          <div className="text-[#2C2825]">{v.year ?? "—"}</div>
+                          {v.vin && <div className="text-[#9C9590] text-[10px] font-mono mt-0.5">{v.vin}</div>}
                         </td>
 
                         {/* Fuel type */}
@@ -472,7 +480,7 @@ export default function VehiclesListPage() {
                         </td>
 
                         {/* Odometer */}
-                        <td className="py-3.5 px-5 font-mono text-zinc-400">
+                        <td className="py-3.5 px-5 font-mono text-[#6B6560]">
                           {v.currentOdo != null ? `${Number(v.currentOdo).toLocaleString("en-NG")} km` : "—"}
                         </td>
 
@@ -484,18 +492,18 @@ export default function VehiclesListPage() {
                               onClick={(e) => { e.stopPropagation(); router.push(`/drivers/${v.driver!.id}`); }}
                             >
                               <div
-                                className="w-6 h-6 rounded-full border border-white/10 bg-[#0D1117] flex-shrink-0 bg-center bg-cover"
+                                className="w-6 h-6 rounded-full border border-white/10 bg-[#F8F6F1] flex-shrink-0 bg-center bg-cover"
                                 style={{ backgroundImage: v.driver.profileImage ? `url(${v.driver.profileImage})` : undefined }}
                               >
                                 {!v.driver.profileImage && (
-                                  <div className="w-full h-full flex items-center justify-center text-zinc-500 text-[10px] rounded-full">
+                                  <div className="w-full h-full flex items-center justify-center text-[#9C9590] text-[10px] rounded-full">
                                     {v.driver.name[0].toUpperCase()}
                                   </div>
                                 )}
                               </div>
                               <div>
-                                <div className="text-zinc-300 group-hover/driver:text-[#C8A96E] transition-colors">{v.driver.name}</div>
-                                {v.driver.phone && <div className="text-zinc-600 text-[10px] font-mono">{v.driver.phone}</div>}
+                                <div className="text-[#2C2825] group-hover/driver:text-[#B8860B] transition-colors">{v.driver.name}</div>
+                                {v.driver.phone && <div className="text-[#9C9590] text-[10px] font-mono">{v.driver.phone}</div>}
                               </div>
                             </div>
                           ) : (
@@ -507,20 +515,20 @@ export default function VehiclesListPage() {
                         </td>
 
                         {/* Added */}
-                        <td className="py-3.5 px-5 text-zinc-500 whitespace-nowrap">{fmt(v.createdAt)}</td>
+                        <td className="py-3.5 px-5 text-[#9C9590] whitespace-nowrap">{fmt(v.createdAt)}</td>
 
                         {/* Actions */}
                         <td className="py-3.5 px-5">
                           <div className="flex items-center gap-2">
                             <button
                               onClick={() => router.push(`/vehicles/${v.id}`)}
-                              className="px-2 py-1 rounded text-xs border border-white/[0.06] text-zinc-400 hover:text-white hover:border-white/20 transition-colors whitespace-nowrap"
+                              className="px-2 py-1 rounded text-xs border border-[#E8E2D9] text-[#6B6560] hover:text-[#1C1917] hover:border-[#B8860B]/30 transition-colors whitespace-nowrap"
                             >
                               Details
                             </button>
                             <button
                               onClick={() => router.push(`/vehicles/update/${v.id}`)}
-                              className="px-2 py-1 rounded text-xs border border-[#C8A96E]/30 text-[#C8A96E] hover:bg-[#C8A96E]/10 transition-colors whitespace-nowrap"
+                              className="px-2 py-1 rounded text-xs border border-[#B8860B]/30 text-[#B8860B] hover:bg-[#B8860B]/10 transition-colors whitespace-nowrap"
                             >
                               {v.driverId ? "Reassign" : "Assign"}
                             </button>
@@ -533,7 +541,7 @@ export default function VehiclesListPage() {
 
                   {!loading && filtered.length === 0 && (
                     <tr>
-                      <td colSpan={8} className="py-16 text-center text-zinc-600">
+                      <td colSpan={8} className="py-16 text-center text-[#9C9590]">
                         {q ? `No vehicles matching "${q}"` : "No vehicles found"}
                       </td>
                     </tr>
@@ -544,15 +552,15 @@ export default function VehiclesListPage() {
 
             {/* ── PAGINATION ── */}
             {totalPages > 1 && (
-              <div className="px-5 py-3 border-t border-white/[0.06] flex items-center justify-between">
-                <span className="text-xs text-zinc-500 font-mono">
+              <div className="px-5 py-3 border-t border-[#E8E2D9] flex items-center justify-between">
+                <span className="text-xs text-[#9C9590] font-mono">
                   Page {page} of {totalPages} · {total} vehicles
                 </span>
                 <div className="flex items-center gap-1">
                   <button
                     disabled={page <= 1}
                     onClick={() => setPage((p) => Math.max(1, p - 1))}
-                    className="px-2.5 py-1 rounded text-xs border border-white/[0.06] text-zinc-500 hover:text-zinc-300 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                    className="px-2.5 py-1 rounded text-xs border border-[#E8E2D9] text-[#9C9590] hover:text-[#2C2825] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                   >
                     ← Prev
                   </button>
@@ -565,8 +573,8 @@ export default function VehiclesListPage() {
                         onClick={() => setPage(p)}
                         className={`w-7 h-7 rounded text-xs font-mono transition-colors ${
                           p === page
-                            ? "bg-[#C8A96E] text-[#0D1117] font-bold"
-                            : "border border-white/[0.06] text-zinc-500 hover:text-zinc-300"
+                            ? "bg-[#B8860B] text-[#1C1917] font-bold"
+                            : "border border-[#E8E2D9] text-[#9C9590] hover:text-[#2C2825]"
                         }`}
                       >
                         {p}
@@ -576,7 +584,7 @@ export default function VehiclesListPage() {
                   <button
                     disabled={page >= totalPages}
                     onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-                    className="px-2.5 py-1 rounded text-xs border border-white/[0.06] text-zinc-500 hover:text-zinc-300 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                    className="px-2.5 py-1 rounded text-xs border border-[#E8E2D9] text-[#9C9590] hover:text-[#2C2825] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                   >
                     Next →
                   </button>

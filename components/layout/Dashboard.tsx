@@ -23,7 +23,7 @@ import Navbar  from "./Navbar";
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <div
-      className="flex h-screen bg-[#0D1117] overflow-hidden"
+      className="flex h-screen bg-[#F8F6F1] overflow-hidden"
       style={{ fontFamily: "'DM Mono', 'Fira Mono', monospace" }}
     >
       {/* ── Sidebar (fixed width on desktop) ── */}

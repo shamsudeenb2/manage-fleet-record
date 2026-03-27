@@ -48,20 +48,20 @@ const TYPE_META: Record<string, { label: string; icon: string; desc: string }> =
 function Field({ label, error, children, hint, required }: { label: string; error?: string; children: React.ReactNode; hint?: string; required?: boolean }) {
   return (
     <div className="space-y-1.5">
-      <label className="block text-xs font-semibold uppercase tracking-widest text-zinc-400">{label}{required && <span className="text-red-400 ml-0.5">*</span>}</label>
+      <label className="block text-xs font-semibold uppercase tracking-widest text-[#6B6560]">{label}{required && <span className="text-red-400 ml-0.5">*</span>}</label>
       {children}
-      {hint && !error && <p className="text-[10px] text-zinc-600">{hint}</p>}
+      {hint && !error && <p className="text-[10px] text-[#9C9590]">{hint}</p>}
       {error && <p className="text-[10px] text-red-400">{error}</p>}
     </div>
   );
 }
 
 function TextInput({ error, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { error?: boolean }) {
-  return <input {...props} className={`w-full bg-[#0D1117] border rounded-lg px-3 py-2.5 text-xs text-zinc-200 placeholder-zinc-600 focus:outline-none transition-colors ${error ? "border-red-700/60 focus:border-red-500" : "border-white/[0.06] focus:border-[#C8A96E]/50"}`} />;
+  return <input {...props} className={`w-full bg-[#F8F6F1] border rounded-lg px-3 py-2.5 text-xs text-[#1C1917] placeholder-[#B0AAA4] focus:outline-none transition-colors ${error ? "border-red-700/60 focus:border-red-500" : "border-[#E8E2D9] focus:border-[#B8860B]/50"}`} />;
 }
 
 function SelectInput({ error, children, ...props }: React.SelectHTMLAttributes<HTMLSelectElement> & { error?: boolean }) {
-  return <select {...props} className={`w-full bg-[#0D1117] border rounded-lg px-3 py-2.5 text-xs text-zinc-200 focus:outline-none transition-colors appearance-none ${error ? "border-red-700/60 focus:border-red-500" : "border-white/[0.06] focus:border-[#C8A96E]/50"}`}>{children}</select>;
+  return <select {...props} className={`w-full bg-[#F8F6F1] border rounded-lg px-3 py-2.5 text-xs text-[#1C1917] focus:outline-none transition-colors appearance-none ${error ? "border-red-700/60 focus:border-red-500" : "border-[#E8E2D9] focus:border-[#B8860B]/50"}`}>{children}</select>;
 }
 
 export default function CreateServicePage() {
@@ -120,11 +120,11 @@ export default function CreateServicePage() {
   return (
     <DashboardLayout>
       <Toaster theme="dark" position="top-right" />
-      <div className="min-h-screen bg-[#0D1117] text-white" style={{ fontFamily: "'DM Mono','Fira Mono',monospace" }}>
-        <div className="border-b border-white/[0.06] bg-[#0D1117]/80 backdrop-blur sticky top-0 z-30">
+      <div className="min-h-screen bg-[#F8F6F1] text-[#1C1917]" style={{ fontFamily: "'DM Mono','Fira Mono',monospace" }}>
+        <div className="border-b border-[#E8E2D9] bg-[#F8F6F1]/80 backdrop-blur sticky top-0 z-30">
           <div className="max-w-3xl mx-auto px-6 py-4 flex items-center gap-4">
-            <button onClick={() => router.back()} className="text-zinc-500 hover:text-white transition-colors text-lg">←</button>
-            <div><h1 className="text-base font-bold tracking-wider">Log Service</h1><p className="text-xs text-zinc-500 mt-0.5">Record a planned or completed maintenance service</p></div>
+            <button onClick={() => router.back()} className="text-[#9C9590] hover:text-[#1C1917] transition-colors text-lg">←</button>
+            <div><h1 className="text-base font-bold tracking-wider">Log Service</h1><p className="text-xs text-[#9C9590] mt-0.5">Record a planned or completed maintenance service</p></div>
           </div>
         </div>
 
@@ -132,8 +132,8 @@ export default function CreateServicePage() {
           <motion.form initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} onSubmit={handleSubmit(onSubmit)} className="space-y-5">
 
             {/* Section 1: Vehicle & Driver */}
-            <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-6 space-y-4">
-              <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400">Vehicle & Driver</h2>
+            <div className="bg-white border border-[#E8E2D9] rounded-xl p-6 space-y-4">
+              <h2 className="text-xs font-bold uppercase tracking-widest text-[#6B6560]">Vehicle & Driver</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Field label="Vehicle" error={(errors.vehicleId as any)?.message} required>
                   <SelectInput {...register("vehicleId")} error={!!errors.vehicleId}>
@@ -151,33 +151,33 @@ export default function CreateServicePage() {
             </div>
 
             {/* Section 2: Service type picker */}
-            <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-6 space-y-4">
-              <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400">Service Type</h2>
+            <div className="bg-white border border-[#E8E2D9] rounded-xl p-6 space-y-4">
+              <h2 className="text-xs font-bold uppercase tracking-widest text-[#6B6560]">Service Type</h2>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {SERVICE_TYPES.map(t => (
                   <button key={t} type="button" onClick={() => setValue("serviceType", t, { shouldDirty: true })}
-                    className={`flex items-start gap-3 p-3 rounded-xl border text-left transition-all ${serviceType === t ? "border-[#C8A96E] bg-[#C8A96E]/10" : "border-white/[0.06] hover:border-white/20"}`}>
+                    className={`flex items-start gap-3 p-3 rounded-xl border text-left transition-all ${serviceType === t ? "border-[#B8860B] bg-[#B8860B]/10" : "border-[#E8E2D9] hover:border-[#B8860B]/30"}`}>
                     <span className="text-xl">{TYPE_META[t].icon}</span>
                     <div>
-                      <div className={`text-xs font-bold ${serviceType === t ? "text-[#C8A96E]" : "text-zinc-300"}`}>{TYPE_META[t].label}</div>
-                      <div className="text-[10px] text-zinc-600 mt-0.5">{TYPE_META[t].desc}</div>
+                      <div className={`text-xs font-bold ${serviceType === t ? "text-[#B8860B]" : "text-[#2C2825]"}`}>{TYPE_META[t].label}</div>
+                      <div className="text-[10px] text-[#9C9590] mt-0.5">{TYPE_META[t].desc}</div>
                     </div>
                   </button>
                 ))}
               </div>
               <Field label="Description" hint="Additional details about this service">
                 <textarea {...register("description")} rows={2} placeholder={`Details about this ${TYPE_META[serviceType]?.label ?? "service"}…`}
-                  className="w-full bg-[#0D1117] border border-white/[0.06] rounded-lg px-3 py-2.5 text-xs text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-[#C8A96E]/50 resize-none" />
+                  className="w-full bg-[#F8F6F1] border border-[#E8E2D9] rounded-lg px-3 py-2.5 text-xs text-[#1C1917] placeholder-[#B0AAA4] focus:outline-none focus:border-[#B8860B]/50 resize-none" />
               </Field>
             </div>
 
             {/* Section 3: Status & Dates */}
-            <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-6 space-y-4">
-              <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400">Status & Schedule</h2>
+            <div className="bg-white border border-[#E8E2D9] rounded-xl p-6 space-y-4">
+              <h2 className="text-xs font-bold uppercase tracking-widest text-[#6B6560]">Status & Schedule</h2>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                 {SERVICE_STATUSES.map(s => (
                   <button key={s} type="button" onClick={() => setValue("status", s, { shouldDirty: true })}
-                    className={`py-2 px-3 rounded-lg border text-[10px] font-bold uppercase tracking-wider transition-all ${status === s ? "border-[#C8A96E] bg-[#C8A96E]/10 text-[#C8A96E]" : "border-white/[0.06] text-zinc-600 hover:text-zinc-300 hover:border-white/20"}`}>
+                    className={`py-2 px-3 rounded-lg border text-[10px] font-bold uppercase tracking-wider transition-all ${status === s ? "border-[#B8860B] bg-[#B8860B]/10 text-[#B8860B]" : "border-[#E8E2D9] text-[#9C9590] hover:text-[#2C2825] hover:border-[#B8860B]/30"}`}>
                     {s.replace("_", " ")}
                   </button>
                 ))}
@@ -193,8 +193,8 @@ export default function CreateServicePage() {
             </div>
 
             {/* Section 4: Odometer & Next Service */}
-            <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-6 space-y-4">
-              <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400">Odometer & Next Service</h2>
+            <div className="bg-white border border-[#E8E2D9] rounded-xl p-6 space-y-4">
+              <h2 className="text-xs font-bold uppercase tracking-widest text-[#6B6560]">Odometer & Next Service</h2>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <Field label="Odometer at Service (km)" hint="Auto-filled from vehicle">
                   <TextInput {...register("odometerKm", { valueAsNumber: true })} type="number" placeholder="Current km" />
@@ -209,8 +209,8 @@ export default function CreateServicePage() {
             </div>
 
             {/* Section 5: Cost & Garage */}
-            <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-6 space-y-4">
-              <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400">Cost & Garage</h2>
+            <div className="bg-white border border-[#E8E2D9] rounded-xl p-6 space-y-4">
+              <h2 className="text-xs font-bold uppercase tracking-widest text-[#6B6560]">Cost & Garage</h2>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <Field label="Labour Cost (₦)">
                   <TextInput {...register("laborCost", { valueAsNumber: true })} type="number" step="0.01" placeholder="0.00" />
@@ -219,7 +219,7 @@ export default function CreateServicePage() {
                   <TextInput {...register("partsCost", { valueAsNumber: true })} type="number" step="0.01" placeholder="0.00" />
                 </Field>
                 <Field label="Total Cost (₦)" hint="Auto-computed">
-                  <div className="w-full bg-[#0D1117]/60 border border-white/[0.04] rounded-lg px-3 py-2.5 text-xs font-mono text-[#C8A96E] font-bold">
+                  <div className="w-full bg-[#F8F6F1]/60 border border-[#EDE8E0] rounded-lg px-3 py-2.5 text-xs font-mono text-[#B8860B] font-bold">
                     ₦{totalCost.toLocaleString("en-NG", { minimumFractionDigits: 2 })}
                   </div>
                   <input type="hidden" {...register("totalCost", { valueAsNumber: true })} />
@@ -234,16 +234,16 @@ export default function CreateServicePage() {
                 </Field>
               </div>
               <Field label="Notes" hint="Optional">
-                <textarea {...register("notes")} rows={2} placeholder="Any additional notes…" className="w-full bg-[#0D1117] border border-white/[0.06] rounded-lg px-3 py-2.5 text-xs text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-[#C8A96E]/50 resize-none" />
+                <textarea {...register("notes")} rows={2} placeholder="Any additional notes…" className="w-full bg-[#F8F6F1] border border-[#E8E2D9] rounded-lg px-3 py-2.5 text-xs text-[#1C1917] placeholder-[#B0AAA4] focus:outline-none focus:border-[#B8860B]/50 resize-none" />
               </Field>
             </div>
 
             <div className="flex items-center gap-3 pb-10">
-              <button type="submit" disabled={loading} className="px-6 py-2.5 rounded-lg text-xs bg-[#C8A96E] text-[#0D1117] font-bold hover:bg-[#d4b880] transition-colors disabled:opacity-50 flex items-center gap-2">
+              <button type="submit" disabled={loading} className="px-6 py-2.5 rounded-lg text-xs bg-[#B8860B] text-[#1C1917] font-bold hover:bg-[#C9960D] transition-colors disabled:opacity-50 flex items-center gap-2">
                 {loading && <div className="w-3.5 h-3.5 border-2 border-[#0D1117] border-t-transparent rounded-full animate-spin" />}
                 {loading ? "Saving…" : "Log Service"}
               </button>
-              <button type="button" onClick={() => router.back()} className="px-6 py-2.5 rounded-lg text-xs border border-white/[0.06] text-zinc-400 hover:text-white transition-colors">Cancel</button>
+              <button type="button" onClick={() => router.back()} className="px-6 py-2.5 rounded-lg text-xs border border-[#E8E2D9] text-[#6B6560] hover:text-[#1C1917] transition-colors">Cancel</button>
             </div>
           </motion.form>
         </div>

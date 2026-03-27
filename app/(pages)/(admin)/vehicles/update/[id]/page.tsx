@@ -226,10 +226,10 @@ function SelectInput({
   return (
     <select
       {...props}
-      className={`w-full bg-[#0D1117] border rounded-lg px-3 py-2.5 text-xs text-zinc-200 focus:outline-none transition-colors appearance-none ${
+      className={`w-full bg-[#F8F6F1] border rounded-lg px-3 py-2.5 text-xs text-[#1C1917] focus:outline-none transition-colors appearance-none ${
         error
           ? "border-red-700/60 focus:border-red-500"
-          : "border-white/[0.06] focus:border-[#C8A96E]/50"
+          : "border-[#E8E2D9] focus:border-[#B8860B]/50"
       }`}
     >
       {children}
@@ -339,10 +339,10 @@ export default function UpdateVehiclePage() {
   if (fetchLoading) {
     return (
       <DashboardLayout>
-        <div className="min-h-screen bg-[#0D1117] flex items-center justify-center">
+        <div className="min-h-screen bg-[#F8F6F1] flex items-center justify-center">
           <div className="space-y-3 text-center">
-            <div className="w-10 h-10 border-2 border-[#C8A96E] border-t-transparent rounded-full animate-spin mx-auto" />
-            <p className="text-zinc-500 text-sm tracking-wider">LOADING VEHICLE</p>
+            <div className="w-10 h-10 border-2 border-[#B8860B] border-t-transparent rounded-full animate-spin mx-auto" />
+            <p className="text-[#9C9590] text-sm tracking-wider">LOADING VEHICLE</p>
           </div>
         </div>
       </DashboardLayout>
@@ -356,29 +356,29 @@ export default function UpdateVehiclePage() {
     <DashboardLayout>
       <Toaster theme="dark" position="top-right" />
       <div
-        className="min-h-screen bg-[#0D1117] text-white"
+        className="min-h-screen bg-[#F8F6F1] text-[#1C1917]"
         style={{ fontFamily: "'DM Mono', 'Fira Mono', monospace" }}
       >
         {/* ── HEADER ── */}
-        <div className="border-b border-white/[0.06] bg-[#0D1117]/80 backdrop-blur sticky top-0 z-30">
+        <div className="border-b border-[#E8E2D9] bg-[#F8F6F1]/80 backdrop-blur sticky top-0 z-30">
           <div className="max-w-2xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
             <div className="flex items-center gap-4">
               <button
                 onClick={() => router.back()}
-                className="text-zinc-500 hover:text-white transition-colors text-lg"
+                className="text-[#9C9590] hover:text-[#1C1917] transition-colors text-lg"
               >
                 ←
               </button>
               <div>
                 <h1 className="text-base font-bold tracking-wider">{pageTitle}</h1>
-                <p className="text-xs text-zinc-500 mt-0.5">
+                <p className="text-xs text-[#9C9590] mt-0.5">
                   {vehicle?.plateNumber} · {vehicle?.cap_no}
                 </p>
               </div>
             </div>
             <button
               onClick={() => router.push(`/vehicles/${id}`)}
-              className="px-3 py-1.5 rounded-lg text-xs border border-white/[0.06] text-zinc-400 hover:text-white hover:border-white/20 transition-colors"
+              className="px-3 py-1.5 rounded-lg text-xs border border-[#E8E2D9] text-[#6B6560] hover:text-[#1C1917] hover:border-[#B8860B]/30 transition-colors"
             >
               View Details →
             </button>
@@ -393,11 +393,11 @@ export default function UpdateVehiclePage() {
             className="space-y-5"
           >
             {/* ── Vehicle summary card ── */}
-            <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-5">
-              <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-4">Vehicle</h2>
+            <div className="bg-white border border-[#E8E2D9] rounded-xl p-5">
+              <h2 className="text-xs font-bold uppercase tracking-widest text-[#6B6560] mb-4">Vehicle</h2>
               <div className="flex items-center gap-4">
                 <div
-                  className="w-16 h-16 rounded-xl border border-white/10 bg-[#0D1117] flex items-center justify-center overflow-hidden flex-shrink-0"
+                  className="w-16 h-16 rounded-xl border border-white/10 bg-[#F8F6F1] flex items-center justify-center overflow-hidden flex-shrink-0"
                   style={{
                     backgroundImage: vehicle?.vehicleImg ? `url(${vehicle.vehicleImg})` : undefined,
                     backgroundSize: "cover",
@@ -408,18 +408,18 @@ export default function UpdateVehiclePage() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="font-mono text-[#C8A96E] font-bold text-sm">{vehicle?.plateNumber}</span>
-                    <span className="text-zinc-600 text-xs">{vehicle?.cap_no}</span>
+                    <span className="font-mono text-[#B8860B] font-bold text-sm">{vehicle?.plateNumber}</span>
+                    <span className="text-[#9C9590] text-xs">{vehicle?.cap_no}</span>
                   </div>
-                  <div className="text-xs text-zinc-400 mt-0.5">
+                  <div className="text-xs text-[#6B6560] mt-0.5">
                     {[vehicle?.make, vehicle?.model, vehicle?.year].filter(Boolean).join(" · ")}
                   </div>
                   <div className="flex items-center gap-3 mt-2">
-                    <span className="text-[10px] text-zinc-500">
+                    <span className="text-[10px] text-[#9C9590]">
                       {FUEL_ICONS[vehicle?.fuelType ?? "OTHER"]} {vehicle?.fuelType}
                     </span>
                     {vehicle?.currentOdo != null && (
-                      <span className="text-[10px] text-zinc-500 font-mono">
+                      <span className="text-[10px] text-[#9C9590] font-mono">
                         📍 {Number(vehicle.currentOdo).toLocaleString("en-NG")} km
                       </span>
                     )}
@@ -431,10 +431,10 @@ export default function UpdateVehiclePage() {
             {/* ── Current driver card ── */}
             <div className={`rounded-xl p-5 border ${
               hasDriver
-                ? "bg-[#161B22] border-white/[0.06]"
-                : "bg-[#0D1117] border-dashed border-white/10"
+                ? "bg-white border-[#E8E2D9]"
+                : "bg-[#F8F6F1] border-dashed border-white/10"
             }`}>
-              <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-4">
+              <h2 className="text-xs font-bold uppercase tracking-widest text-[#6B6560] mb-4">
                 Current Driver
               </h2>
 
@@ -442,19 +442,19 @@ export default function UpdateVehiclePage() {
                 <div className="flex items-center justify-between gap-3">
                   <div className="flex items-center gap-3">
                     <div
-                      className="w-10 h-10 rounded-full border border-white/10 bg-[#0D1117] flex-shrink-0 bg-center bg-cover"
+                      className="w-10 h-10 rounded-full border border-white/10 bg-[#F8F6F1] flex-shrink-0 bg-center bg-cover"
                       style={{ backgroundImage: vehicle.driver.profileImage ? `url(${vehicle.driver.profileImage})` : undefined }}
                     >
                       {!vehicle.driver.profileImage && (
-                        <div className="w-full h-full flex items-center justify-center text-zinc-500 font-bold rounded-full">
+                        <div className="w-full h-full flex items-center justify-center text-[#9C9590] font-bold rounded-full">
                           {vehicle.driver.name[0].toUpperCase()}
                         </div>
                       )}
                     </div>
                     <div>
-                      <div className="text-sm font-medium text-white">{vehicle.driver.name}</div>
+                      <div className="text-sm font-medium text-[#1C1917]">{vehicle.driver.name}</div>
                       {vehicle.driver.phone && (
-                        <div className="text-xs text-zinc-500 font-mono">{vehicle.driver.phone}</div>
+                        <div className="text-xs text-[#9C9590] font-mono">{vehicle.driver.phone}</div>
                       )}
                     </div>
                   </div>
@@ -465,13 +465,13 @@ export default function UpdateVehiclePage() {
                       <button
                         type="button"
                         onClick={() => setConfirmRemove(true)}
-                        className="px-3 py-1.5 rounded-lg text-xs border border-red-800/40 text-red-400 hover:bg-red-900/20 transition-colors"
+                        className="px-3 py-1.5 rounded-lg text-xs border border-red-800/40 text-red-400 hover:bg-red-50 transition-colors"
                       >
                         Remove Driver
                       </button>
                     ) : (
                       <div className="flex items-center gap-2">
-                        <span className="text-[10px] text-zinc-500">Are you sure?</span>
+                        <span className="text-[10px] text-[#9C9590]">Are you sure?</span>
                         <button
                           type="button"
                           onClick={handleRemoveDriver}
@@ -484,7 +484,7 @@ export default function UpdateVehiclePage() {
                         <button
                           type="button"
                           onClick={() => setConfirmRemove(false)}
-                          className="px-2.5 py-1 rounded text-xs border border-white/10 text-zinc-500 hover:text-zinc-300 transition-colors"
+                          className="px-2.5 py-1 rounded text-xs border border-white/10 text-[#9C9590] hover:text-[#2C2825] transition-colors"
                         >
                           Cancel
                         </button>
@@ -493,11 +493,11 @@ export default function UpdateVehiclePage() {
                   </div>
                 </div>
               ) : (
-                <div className="flex items-center gap-3 text-zinc-600">
+                <div className="flex items-center gap-3 text-[#9C9590]">
                   <span className="text-2xl">○</span>
                   <div>
-                    <p className="text-sm text-zinc-500">No driver assigned</p>
-                    <p className="text-[10px] text-zinc-700">This vehicle is currently unassigned</p>
+                    <p className="text-sm text-[#9C9590]">No driver assigned</p>
+                    <p className="text-[10px] text-[#B0AAA4]">This vehicle is currently unassigned</p>
                   </div>
                 </div>
               )}
@@ -505,8 +505,8 @@ export default function UpdateVehiclePage() {
 
             {/* ── Assign form ── */}
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-5 space-y-4">
-                <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400">
+              <div className="bg-white border border-[#E8E2D9] rounded-xl p-5 space-y-4">
+                <h2 className="text-xs font-bold uppercase tracking-widest text-[#6B6560]">
                   {hasDriver ? "Select New Driver" : "Select Driver to Assign"}
                 </h2>
 
@@ -521,7 +521,7 @@ export default function UpdateVehiclePage() {
                 )}
 
                 <div className="space-y-1.5">
-                  <label className="block text-xs font-semibold uppercase tracking-widest text-zinc-400">
+                  <label className="block text-xs font-semibold uppercase tracking-widest text-[#6B6560]">
                     Available Drivers
                   </label>
                   <SelectInput
@@ -543,7 +543,7 @@ export default function UpdateVehiclePage() {
                   {errors.assignDriverId && (
                     <p className="text-[10px] text-red-400">{errors.assignDriverId.message}</p>
                   )}
-                  <p className="text-[10px] text-zinc-600">
+                  <p className="text-[10px] text-[#9C9590]">
                     {driversLoading
                       ? "Loading…"
                       : `${drivers.length} unassigned driver(s) available`}
@@ -557,21 +557,21 @@ export default function UpdateVehiclePage() {
                       initial={{ opacity: 0, y: 4 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -4 }}
-                      className="flex items-center gap-3 bg-[#0D1117] rounded-lg px-3 py-2.5 border border-[#5C9669]/30"
+                      className="flex items-center gap-3 bg-[#F8F6F1] rounded-lg px-3 py-2.5 border border-[#5C9669]/30"
                     >
                       <div
-                        className="w-8 h-8 rounded-full border border-white/10 bg-[#161B22] flex-shrink-0 bg-center bg-cover"
+                        className="w-8 h-8 rounded-full border border-white/10 bg-white flex-shrink-0 bg-center bg-cover"
                         style={{ backgroundImage: selectedDriver.profileImage ? `url(${selectedDriver.profileImage})` : undefined }}
                       >
                         {!selectedDriver.profileImage && (
-                          <div className="w-full h-full flex items-center justify-center text-zinc-500 text-xs rounded-full">
+                          <div className="w-full h-full flex items-center justify-center text-[#9C9590] text-xs rounded-full">
                             {selectedDriver.name[0].toUpperCase()}
                           </div>
                         )}
                       </div>
                       <div>
                         <div className="text-xs font-medium text-emerald-400">{selectedDriver.name}</div>
-                        <div className="text-[10px] text-zinc-500">
+                        <div className="text-[10px] text-[#9C9590]">
                           {hasDriver ? "Will replace current driver" : "Will be assigned to this vehicle"}
                           {selectedDriver.phone && ` · ${selectedDriver.phone}`}
                         </div>
@@ -581,7 +581,7 @@ export default function UpdateVehiclePage() {
                 </AnimatePresence>
 
                 {drivers.length === 0 && !driversLoading && (
-                  <div className="flex items-center gap-2 text-[10px] text-zinc-600 bg-[#0D1117] rounded-lg px-3 py-2.5 border border-white/[0.04]">
+                  <div className="flex items-center gap-2 text-[10px] text-[#9C9590] bg-[#F8F6F1] rounded-lg px-3 py-2.5 border border-[#EDE8E0]">
                     <span>ℹ️</span>
                     All drivers are currently assigned to vehicles. Unassign a driver first.
                   </div>
@@ -593,7 +593,7 @@ export default function UpdateVehiclePage() {
                 <button
                   type="submit"
                   disabled={submitLoading || !selectedDriverId}
-                  className="px-6 py-2.5 rounded-lg text-xs bg-[#C8A96E] text-[#0D1117] font-bold hover:bg-[#d4b880] transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2"
+                  className="px-6 py-2.5 rounded-lg text-xs bg-[#B8860B] text-[#1C1917] font-bold hover:bg-[#C9960D] transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2"
                 >
                   {submitLoading && (
                     <div className="w-3.5 h-3.5 border-2 border-[#0D1117] border-t-transparent rounded-full animate-spin" />
@@ -605,7 +605,7 @@ export default function UpdateVehiclePage() {
                 <button
                   type="button"
                   onClick={() => router.back()}
-                  className="px-6 py-2.5 rounded-lg text-xs border border-white/[0.06] text-zinc-400 hover:text-white hover:border-white/20 transition-colors"
+                  className="px-6 py-2.5 rounded-lg text-xs border border-[#E8E2D9] text-[#6B6560] hover:text-[#1C1917] hover:border-[#B8860B]/30 transition-colors"
                 >
                   Cancel
                 </button>

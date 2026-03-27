@@ -288,11 +288,11 @@ function Field({
 }) {
   return (
     <div className="space-y-1.5">
-      <label className="block text-xs font-semibold uppercase tracking-widest text-zinc-400">
+      <label className="block text-xs font-semibold uppercase tracking-widest text-[#6B6560]">
         {label}
       </label>
       {children}
-      {hint && !error && <p className="text-[10px] text-zinc-600">{hint}</p>}
+      {hint && !error && <p className="text-[10px] text-[#9C9590]">{hint}</p>}
       {error && <p className="text-[10px] text-red-400">{error}</p>}
     </div>
   );
@@ -305,10 +305,10 @@ function TextInput({
   return (
     <input
       {...props}
-      className={`w-full bg-[#0D1117] border rounded-lg px-3 py-2.5 text-xs text-zinc-200 placeholder-zinc-600 focus:outline-none transition-colors ${
+      className={`w-full bg-[#F8F6F1] border rounded-lg px-3 py-2.5 text-xs text-[#1C1917] placeholder-[#B0AAA4] focus:outline-none transition-colors ${
         error
           ? "border-red-700/60 focus:border-red-500"
-          : "border-white/[0.06] focus:border-[#C8A96E]/50"
+          : "border-[#E8E2D9] focus:border-[#B8860B]/50"
       }`}
     />
   );
@@ -325,7 +325,7 @@ function PasswordStrength({ password }: { password?: string }) {
     { label: "Special", ok: /[^A-Za-z0-9]/.test(password) },
   ];
   const score = checks.filter((c) => c.ok).length;
-  const color = score <= 1 ? "#8C3E3E" : score <= 3 ? "#C8A96E" : "#5C9669";
+  const color = score <= 1 ? "#8C3E3E" : score <= 3 ? "#B8860B" : "#5C9669";
   const label = score <= 1 ? "Weak" : score <= 3 ? "Moderate" : score === 4 ? "Strong" : "Very Strong";
 
   return (
@@ -345,7 +345,7 @@ function PasswordStrength({ password }: { password?: string }) {
             <span
               key={c.label}
               className={`text-[10px] flex items-center gap-1 ${
-                c.ok ? "text-emerald-400" : "text-zinc-600"
+                c.ok ? "text-emerald-400" : "text-[#9C9590]"
               }`}
             >
               <span>{c.ok ? "✓" : "○"}</span>
@@ -374,7 +374,7 @@ const ROLES = [
     value: "ADMIN",
     label: "Admin",
     desc: "Full access to all fleet data and settings",
-    color: "#C8A96E",
+    color: "#B8860B",
     icon: "🔐",
   },
   {
@@ -387,7 +387,7 @@ const ROLES = [
 ];
 
 const ROLE_STYLES: Record<string, string> = {
-  ADMIN: "bg-[#C8A96E]/20 text-[#C8A96E] border border-[#C8A96E]/30",
+  ADMIN: "bg-[#B8860B]/20 text-[#B8860B] border border-[#B8860B]/30",
   DATA_ENTRY: "bg-[#3E6B8C]/20 text-sky-400 border border-[#3E6B8C]/30",
   DRIVER: "bg-[#5C9669]/20 text-emerald-400 border border-[#5C9669]/30",
 };
@@ -525,10 +525,10 @@ export default function EditUserPage() {
   if (fetchLoading) {
     return (
       <DashboardLayout>
-        <div className="min-h-screen bg-[#0D1117] flex items-center justify-center">
+        <div className="min-h-screen bg-[#F8F6F1] flex items-center justify-center">
           <div className="space-y-3 text-center">
-            <div className="w-10 h-10 border-2 border-[#C8A96E] border-t-transparent rounded-full animate-spin mx-auto" />
-            <p className="text-zinc-500 text-sm tracking-wider">LOADING USER</p>
+            <div className="w-10 h-10 border-2 border-[#B8860B] border-t-transparent rounded-full animate-spin mx-auto" />
+            <p className="text-[#9C9590] text-sm tracking-wider">LOADING USER</p>
           </div>
         </div>
       </DashboardLayout>
@@ -541,22 +541,22 @@ export default function EditUserPage() {
     <DashboardLayout>
       <Toaster theme="dark" position="top-right" />
       <div
-        className="min-h-screen bg-[#0D1117] text-white"
+        className="min-h-screen bg-[#F8F6F1] text-[#1C1917]"
         style={{ fontFamily: "'DM Mono', 'Fira Mono', monospace" }}
       >
         {/* ── HEADER ── */}
-        <div className="border-b border-white/[0.06] bg-[#0D1117]/80 backdrop-blur sticky top-0 z-30">
+        <div className="border-b border-[#E8E2D9] bg-[#F8F6F1]/80 backdrop-blur sticky top-0 z-30">
           <div className="max-w-3xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
             <div className="flex items-center gap-4">
               <button
                 onClick={() => router.back()}
-                className="text-zinc-500 hover:text-white transition-colors text-lg"
+                className="text-[#9C9590] hover:text-[#1C1917] transition-colors text-lg"
               >
                 ←
               </button>
               <div>
                 <h1 className="text-base font-bold tracking-wider">Edit User</h1>
-                <p className="text-xs text-zinc-500 mt-0.5">
+                <p className="text-xs text-[#9C9590] mt-0.5">
                   {isSelf ? "Editing your own account" : `Updating user account`}
                   {userMeta?.updatedAt && (
                     <span>
@@ -575,7 +575,7 @@ export default function EditUserPage() {
             {/* Current role badge */}
             <span
               className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
-                ROLE_STYLES[selectedRole] ?? "bg-zinc-700/30 text-zinc-400 border border-zinc-600/30"
+                ROLE_STYLES[selectedRole] ?? "bg-zinc-700/30 text-[#6B6560] border border-zinc-600/30"
               }`}
             >
               {selectedRole.replace("_", " ")}
@@ -593,8 +593,8 @@ export default function EditUserPage() {
             className="space-y-5"
           >
             {/* Profile image + basic info */}
-            <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-6 space-y-5">
-              <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400">
+            <div className="bg-white border border-[#E8E2D9] rounded-xl p-6 space-y-5">
+              <h2 className="text-xs font-bold uppercase tracking-widest text-[#6B6560]">
                 Basic Information
               </h2>
 
@@ -602,7 +602,7 @@ export default function EditUserPage() {
               <div className="flex items-center gap-5">
                 <div className="relative group flex-shrink-0">
                   <div
-                    className="w-20 h-20 rounded-full border-2 border-white/10 bg-[#0D1117] flex items-center justify-center overflow-hidden"
+                    className="w-20 h-20 rounded-full border-2 border-white/10 bg-[#F8F6F1] flex items-center justify-center overflow-hidden"
                     style={{
                       backgroundImage: displayImage ? `url(${displayImage})` : undefined,
                       backgroundSize: "cover",
@@ -610,13 +610,13 @@ export default function EditUserPage() {
                     }}
                   >
                     {!displayImage && (
-                      <span className="text-zinc-600 text-2xl">
+                      <span className="text-[#9C9590] text-2xl">
                         {nameValue?.[0]?.toUpperCase() ?? "?"}
                       </span>
                     )}
                   </div>
                   <label className="absolute inset-0 rounded-full cursor-pointer flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-[10px] text-white font-semibold">CHANGE</span>
+                    <span className="text-[10px] text-[#1C1917] font-semibold">CHANGE</span>
                     <input
                       type="file"
                       accept="image/*"
@@ -626,8 +626,8 @@ export default function EditUserPage() {
                   </label>
                 </div>
                 <div className="flex-1 space-y-1">
-                  <p className="text-xs text-zinc-300 font-medium">Profile photo</p>
-                  <p className="text-[11px] text-zinc-600">
+                  <p className="text-xs text-[#2C2825] font-medium">Profile photo</p>
+                  <p className="text-[11px] text-[#9C9590]">
                     Hover over the avatar to upload a new photo. PNG, JPG accepted.
                   </p>
                   <div className="flex gap-3">
@@ -651,7 +651,7 @@ export default function EditUserPage() {
                     )}
                   </div>
                   {userMeta?.createdAt && (
-                    <p className="text-[10px] text-zinc-600 pt-1">
+                    <p className="text-[10px] text-[#9C9590] pt-1">
                       Account created{" "}
                       {new Date(userMeta.createdAt).toLocaleDateString("en-NG", {
                         day: "2-digit",
@@ -688,9 +688,9 @@ export default function EditUserPage() {
             </div>
 
             {/* Password section */}
-            <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-6 space-y-5">
+            <div className="bg-white border border-[#E8E2D9] rounded-xl p-6 space-y-5">
               <div className="flex items-center justify-between">
-                <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400">
+                <h2 className="text-xs font-bold uppercase tracking-widest text-[#6B6560]">
                   Password
                 </h2>
                 <button
@@ -704,8 +704,8 @@ export default function EditUserPage() {
                   }}
                   className={`text-[10px] font-semibold px-2.5 py-1 rounded-lg border transition-colors ${
                     changePassword
-                      ? "border-[#C8A96E]/40 text-[#C8A96E] bg-[#C8A96E]/10"
-                      : "border-white/[0.06] text-zinc-500 hover:text-zinc-300"
+                      ? "border-[#B8860B]/40 text-[#B8860B] bg-[#B8860B]/10"
+                      : "border-[#E8E2D9] text-[#9C9590] hover:text-[#2C2825]"
                   }`}
                 >
                   {changePassword ? "✓ Changing password" : "Change password"}
@@ -713,11 +713,11 @@ export default function EditUserPage() {
               </div>
 
               {!changePassword ? (
-                <div className="flex items-center gap-3 py-3 px-4 bg-[#0D1117] rounded-lg border border-white/[0.04]">
+                <div className="flex items-center gap-3 py-3 px-4 bg-[#F8F6F1] rounded-lg border border-[#EDE8E0]">
                   <span className="text-lg">🔒</span>
                   <div>
-                    <p className="text-xs text-zinc-400">Password is set</p>
-                    <p className="text-[10px] text-zinc-600">
+                    <p className="text-xs text-[#6B6560]">Password is set</p>
+                    <p className="text-[10px] text-[#9C9590]">
                       Click "Change password" above to update it
                     </p>
                   </div>
@@ -735,7 +735,7 @@ export default function EditUserPage() {
                       <button
                         type="button"
                         onClick={() => setShowPassword((s) => !s)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition-colors"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9C9590] hover:text-[#2C2825] transition-colors"
                       >
                         {showPassword ? <EyeOff size={14} /> : <Eye size={14} />}
                       </button>
@@ -754,7 +754,7 @@ export default function EditUserPage() {
                       <button
                         type="button"
                         onClick={() => setShowConfirm((s) => !s)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition-colors"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9C9590] hover:text-[#2C2825] transition-colors"
                       >
                         {showConfirm ? <EyeOff size={14} /> : <Eye size={14} />}
                       </button>
@@ -766,13 +766,13 @@ export default function EditUserPage() {
 
             {/* Role (admin only, cannot demote yourself) */}
             {isAdmin && (
-              <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-6 space-y-4">
+              <div className="bg-white border border-[#E8E2D9] rounded-xl p-6 space-y-4">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400">
+                  <h2 className="text-xs font-bold uppercase tracking-widest text-[#6B6560]">
                     Role & Permissions
                   </h2>
                   {isSelf && (
-                    <span className="text-[10px] text-amber-400 border border-amber-700/40 bg-amber-900/20 px-2 py-0.5 rounded">
+                    <span className="text-[10px] text-amber-400 border border-amber-700/40 bg-amber-50 px-2 py-0.5 rounded">
                       ⚠ You are editing your own role
                     </span>
                   )}
@@ -787,8 +787,8 @@ export default function EditUserPage() {
                         onClick={() => setValue("role", r.value as any, { shouldDirty: true })}
                         className={`relative text-left p-4 rounded-xl border transition-all ${
                           isSelected
-                            ? "border-[#C8A96E]/50 bg-[#C8A96E]/5"
-                            : "border-white/[0.06] hover:border-white/10 bg-[#0D1117]"
+                            ? "border-[#B8860B]/50 bg-[#B8860B]/5"
+                            : "border-[#E8E2D9] hover:border-white/10 bg-[#F8F6F1]"
                         }`}
                       >
                         {isSelected && (
@@ -804,7 +804,7 @@ export default function EditUserPage() {
                         >
                           {r.label}
                         </div>
-                        <div className="text-[10px] text-zinc-600 leading-relaxed">{r.desc}</div>
+                        <div className="text-[10px] text-[#9C9590] leading-relaxed">{r.desc}</div>
                       </button>
                     );
                   })}
@@ -836,7 +836,7 @@ export default function EditUserPage() {
               <button
                 type="submit"
                 disabled={submitLoading}
-                className="px-6 py-2.5 rounded-lg text-xs bg-[#C8A96E] text-[#0D1117] font-bold hover:bg-[#d4b880] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                className="px-6 py-2.5 rounded-lg text-xs bg-[#B8860B] text-[#1C1917] font-bold hover:bg-[#C9960D] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
                 {submitLoading && (
                   <div className="w-3.5 h-3.5 border-2 border-[#0D1117] border-t-transparent rounded-full animate-spin" />
@@ -846,7 +846,7 @@ export default function EditUserPage() {
               <button
                 type="button"
                 onClick={() => router.back()}
-                className="px-6 py-2.5 rounded-lg text-xs border border-white/[0.06] text-zinc-400 hover:text-white hover:border-white/20 transition-colors"
+                className="px-6 py-2.5 rounded-lg text-xs border border-[#E8E2D9] text-[#6B6560] hover:text-[#1C1917] hover:border-[#B8860B]/30 transition-colors"
               >
                 Cancel
               </button>

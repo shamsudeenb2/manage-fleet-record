@@ -307,12 +307,12 @@ function Field({
 }) {
   return (
     <div className="space-y-1.5">
-      <label className="block text-xs font-semibold uppercase tracking-widest text-zinc-400">
+      <label className="block text-xs font-semibold uppercase tracking-widest text-[#6B6560]">
         {label}
         {required && <span className="text-red-400 ml-0.5">*</span>}
       </label>
       {children}
-      {hint && !error && <p className="text-[10px] text-zinc-600">{hint}</p>}
+      {hint && !error && <p className="text-[10px] text-[#9C9590]">{hint}</p>}
       {error && <p className="text-[10px] text-red-400">{error}</p>}
     </div>
   );
@@ -325,10 +325,10 @@ function TextInput({
   return (
     <input
       {...props}
-      className={`w-full bg-[#0D1117] border rounded-lg px-3 py-2.5 text-xs text-zinc-200 placeholder-zinc-600 focus:outline-none transition-colors ${
+      className={`w-full bg-[#F8F6F1] border rounded-lg px-3 py-2.5 text-xs text-[#1C1917] placeholder-[#B0AAA4] focus:outline-none transition-colors ${
         error
           ? "border-red-700/60 focus:border-red-500"
-          : "border-white/[0.06] focus:border-[#C8A96E]/50"
+          : "border-[#E8E2D9] focus:border-[#B8860B]/50"
       }`}
     />
   );
@@ -342,10 +342,10 @@ function TextArea({
     <textarea
       {...props}
       rows={3}
-      className={`w-full bg-[#0D1117] border rounded-lg px-3 py-2.5 text-xs text-zinc-200 placeholder-zinc-600 focus:outline-none transition-colors resize-none ${
+      className={`w-full bg-[#F8F6F1] border rounded-lg px-3 py-2.5 text-xs text-[#1C1917] placeholder-[#B0AAA4] focus:outline-none transition-colors resize-none ${
         error
           ? "border-red-700/60 focus:border-red-500"
-          : "border-white/[0.06] focus:border-[#C8A96E]/50"
+          : "border-[#E8E2D9] focus:border-[#B8860B]/50"
       }`}
     />
   );
@@ -371,10 +371,10 @@ function FileTile({
 }) {
   return (
     <div className="space-y-1.5">
-      <label className="block text-xs font-semibold uppercase tracking-widest text-zinc-400">{label}</label>
+      <label className="block text-xs font-semibold uppercase tracking-widest text-[#6B6560]">{label}</label>
       <div className="relative group">
         <div
-          className="w-full h-24 rounded-xl border-2 border-dashed border-white/10 bg-[#0D1117] flex items-center justify-center overflow-hidden transition-colors group-hover:border-[#C8A96E]/40"
+          className="w-full h-24 rounded-xl border-2 border-dashed border-white/10 bg-[#F8F6F1] flex items-center justify-center overflow-hidden transition-colors group-hover:border-[#B8860B]/40"
           style={
             preview
               ? { backgroundImage: `url(${preview})`, backgroundSize: "cover", backgroundPosition: "center", borderStyle: "solid", borderColor: "rgba(200,169,110,0.3)" }
@@ -384,7 +384,7 @@ function FileTile({
           {!preview && (
             <div className="text-center pointer-events-none">
               <div className="text-2xl mb-1">{icon}</div>
-              <p className="text-[10px] text-zinc-600">Click to upload</p>
+              <p className="text-[10px] text-[#9C9590]">Click to upload</p>
             </div>
           )}
         </div>
@@ -392,7 +392,7 @@ function FileTile({
           <input type="file" accept={accept} className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) onFile(f); }} />
         </label>
       </div>
-      {hint && <p className="text-[10px] text-zinc-600">{hint}</p>}
+      {hint && <p className="text-[10px] text-[#9C9590]">{hint}</p>}
       {preview && (
         <button type="button" onClick={onRemove} className="text-[10px] text-red-400 hover:text-red-300 transition-colors">
           Remove
@@ -495,15 +495,15 @@ export default function DriverCreatePage() {
   return (
     <DashboardLayout>
       <Toaster theme="dark" position="top-right" />
-      <div className="min-h-screen bg-[#0D1117] text-white" style={{ fontFamily: "'DM Mono', 'Fira Mono', monospace" }}>
+      <div className="min-h-screen bg-[#F8F6F1] text-[#1C1917]" style={{ fontFamily: "'DM Mono', 'Fira Mono', monospace" }}>
 
         {/* ── HEADER ── */}
-        <div className="border-b border-white/[0.06] bg-[#0D1117]/80 backdrop-blur sticky top-0 z-30">
+        <div className="border-b border-[#E8E2D9] bg-[#F8F6F1]/80 backdrop-blur sticky top-0 z-30">
           <div className="max-w-3xl mx-auto px-6 py-4 flex items-center gap-4">
-            <button onClick={() => router.back()} className="text-zinc-500 hover:text-white transition-colors text-lg">←</button>
+            <button onClick={() => router.back()} className="text-[#9C9590] hover:text-[#1C1917] transition-colors text-lg">←</button>
             <div>
               <h1 className="text-base font-bold tracking-wider">Driver Onboarding</h1>
-              <p className="text-xs text-zinc-500 mt-0.5">Register a new driver to the fleet</p>
+              <p className="text-xs text-[#9C9590] mt-0.5">Register a new driver to the fleet</p>
             </div>
           </div>
         </div>
@@ -517,28 +517,28 @@ export default function DriverCreatePage() {
             className="space-y-5"
           >
             {/* ── Section 1: Profile photo + personal info ── */}
-            <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-6 space-y-5">
-              <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400">Personal Information</h2>
+            <div className="bg-white border border-[#E8E2D9] rounded-xl p-6 space-y-5">
+              <h2 className="text-xs font-bold uppercase tracking-widest text-[#6B6560]">Personal Information</h2>
 
               {/* Avatar */}
               <div className="flex items-center gap-5">
                 <div className="relative group flex-shrink-0">
                   <div
-                    className="w-20 h-20 rounded-full border-2 border-white/10 bg-[#0D1117] flex items-center justify-center overflow-hidden"
+                    className="w-20 h-20 rounded-full border-2 border-white/10 bg-[#F8F6F1] flex items-center justify-center overflow-hidden"
                     style={profilePreview ? { backgroundImage: `url(${profilePreview})`, backgroundSize: "cover", backgroundPosition: "center" } : undefined}
                   >
                     {!profilePreview && (
-                      <span className="text-zinc-600 text-3xl">{watched.name?.[0]?.toUpperCase() ?? "👤"}</span>
+                      <span className="text-[#9C9590] text-3xl">{watched.name?.[0]?.toUpperCase() ?? "👤"}</span>
                     )}
                   </div>
                   <label className="absolute inset-0 rounded-full cursor-pointer flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-[10px] text-white font-semibold">CHANGE</span>
+                    <span className="text-[10px] text-[#1C1917] font-semibold">CHANGE</span>
                     <input type="file" accept="image/*" className="hidden" onChange={(e) => setProfileFile(e.target.files?.[0] ?? null)} />
                   </label>
                 </div>
                 <div className="flex-1 space-y-1">
-                  <p className="text-xs text-zinc-300 font-medium">Profile photo</p>
-                  <p className="text-[11px] text-zinc-600">Hover to upload. PNG or JPG recommended.</p>
+                  <p className="text-xs text-[#2C2825] font-medium">Profile photo</p>
+                  <p className="text-[11px] text-[#9C9590]">Hover to upload. PNG or JPG recommended.</p>
                   {profilePreview && (
                     <button type="button" onClick={() => { setProfilePreview(null); setProfileFile(null); }} className="text-[10px] text-red-400 hover:text-red-300 transition-colors">
                       Remove photo
@@ -566,8 +566,8 @@ export default function DriverCreatePage() {
             </div>
 
             {/* ── Section 2: License ── */}
-            <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-6 space-y-5">
-              <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400">Driver's License</h2>
+            <div className="bg-white border border-[#E8E2D9] rounded-xl p-6 space-y-5">
+              <h2 className="text-xs font-bold uppercase tracking-widest text-[#6B6560]">Driver's License</h2>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Field label="License Number">
@@ -596,8 +596,8 @@ export default function DriverCreatePage() {
             </div>
 
             {/* ── Section 3: Bank details ── */}
-            <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-6 space-y-4">
-              <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400">Bank Details</h2>
+            <div className="bg-white border border-[#E8E2D9] rounded-xl p-6 space-y-4">
+              <h2 className="text-xs font-bold uppercase tracking-widest text-[#6B6560]">Bank Details</h2>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <Field label="Bank Name">
                   <TextInput {...register("bank")} placeholder="e.g. GTBank" />
@@ -612,8 +612,8 @@ export default function DriverCreatePage() {
             </div>
 
             {/* ── Section 4: Documents ── */}
-            <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-6 space-y-4">
-              <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400">Supporting Documents</h2>
+            <div className="bg-white border border-[#E8E2D9] rounded-xl p-6 space-y-4">
+              <h2 className="text-xs font-bold uppercase tracking-widest text-[#6B6560]">Supporting Documents</h2>
               <FileTile
                 label="Guarantor Form"
                 icon="📄"
@@ -626,11 +626,11 @@ export default function DriverCreatePage() {
             </div>
 
             {/* ── Fingerprint notice ── */}
-            <div className="flex items-center gap-3 bg-[#161B22] border border-[#C8A96E]/20 rounded-xl px-5 py-4">
+            <div className="flex items-center gap-3 bg-white border border-[#B8860B]/20 rounded-xl px-5 py-4">
               <span className="text-2xl flex-shrink-0">🖐</span>
               <div>
-                <p className="text-xs font-semibold text-[#C8A96E]">Fingerprint Capture</p>
-                <p className="text-[10px] text-zinc-500 mt-0.5">
+                <p className="text-xs font-semibold text-[#B8860B]">Fingerprint Capture</p>
+                <p className="text-[10px] text-[#9C9590] mt-0.5">
                   After creating the driver, you'll be redirected to the biometric enrollment page to capture the fingerprint.
                 </p>
               </div>
@@ -641,7 +641,7 @@ export default function DriverCreatePage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="px-6 py-2.5 rounded-lg text-xs bg-[#C8A96E] text-[#0D1117] font-bold hover:bg-[#d4b880] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                className="px-6 py-2.5 rounded-lg text-xs bg-[#B8860B] text-[#1C1917] font-bold hover:bg-[#C9960D] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
                 {loading && <div className="w-3.5 h-3.5 border-2 border-[#0D1117] border-t-transparent rounded-full animate-spin" />}
                 {loading ? "Creating…" : "Create Driver"}
@@ -649,7 +649,7 @@ export default function DriverCreatePage() {
               <button
                 type="button"
                 onClick={() => router.back()}
-                className="px-6 py-2.5 rounded-lg text-xs border border-white/[0.06] text-zinc-400 hover:text-white hover:border-white/20 transition-colors"
+                className="px-6 py-2.5 rounded-lg text-xs border border-[#E8E2D9] text-[#6B6560] hover:text-[#1C1917] hover:border-[#B8860B]/30 transition-colors"
               >
                 Cancel
               </button>

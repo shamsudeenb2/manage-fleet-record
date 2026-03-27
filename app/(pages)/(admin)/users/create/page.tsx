@@ -47,11 +47,11 @@ function Field({
 }) {
   return (
     <div className="space-y-1.5">
-      <label className="block text-xs font-semibold uppercase tracking-widest text-zinc-400">
+      <label className="block text-xs font-semibold uppercase tracking-widest text-[#6B6560]">
         {label}
       </label>
       {children}
-      {hint && !error && <p className="text-[10px] text-zinc-600">{hint}</p>}
+      {hint && !error && <p className="text-[10px] text-[#9C9590]">{hint}</p>}
       {error && <p className="text-[10px] text-red-400">{error}</p>}
     </div>
   );
@@ -64,10 +64,10 @@ function TextInput({
   return (
     <input
       {...props}
-      className={`w-full bg-[#0D1117] border rounded-lg px-3 py-2.5 text-xs text-zinc-200 placeholder-zinc-600 focus:outline-none transition-colors ${
+      className={`w-full bg-[#F8F6F1] border rounded-lg px-3 py-2.5 text-xs text-[#1C1917] placeholder-[#B0AAA4] focus:outline-none transition-colors ${
         error
           ? "border-red-700/60 focus:border-red-500"
-          : "border-white/[0.06] focus:border-[#C8A96E]/50"
+          : "border-[#E8E2D9] focus:border-[#B8860B]/50"
       }`}
     />
   );
@@ -84,7 +84,7 @@ function PasswordStrength({ password }: { password: string }) {
   ];
   const score = checks.filter((c) => c.ok).length;
   const color =
-    score <= 1 ? "#8C3E3E" : score <= 3 ? "#C8A96E" : "#5C9669";
+    score <= 1 ? "#8C3E3E" : score <= 3 ? "#B8860B" : "#5C9669";
   const label =
     score <= 1 ? "Weak" : score <= 3 ? "Moderate" : score === 4 ? "Strong" : "Very Strong";
 
@@ -107,7 +107,7 @@ function PasswordStrength({ password }: { password: string }) {
             <span
               key={c.label}
               className={`text-[10px] flex items-center gap-1 ${
-                c.ok ? "text-emerald-400" : "text-zinc-600"
+                c.ok ? "text-emerald-400" : "text-[#9C9590]"
               }`}
             >
               <span>{c.ok ? "✓" : "○"}</span>
@@ -135,7 +135,7 @@ const ROLES = [
     value: "ADMIN",
     label: "Admin",
     desc: "Full access to all fleet data and settings",
-    color: "#C8A96E",
+    color: "#B8860B",
     icon: "🔐",
   },
   {
@@ -233,21 +233,21 @@ export default function CreateUserPage() {
     <DashboardLayout>
       <Toaster theme="dark" position="top-right" />
       <div
-        className="min-h-screen bg-[#0D1117] text-white"
+        className="min-h-screen bg-[#F8F6F1] text-[#1C1917]"
         style={{ fontFamily: "'DM Mono', 'Fira Mono', monospace" }}
       >
         {/* ── HEADER ── */}
-        <div className="border-b border-white/[0.06] bg-[#0D1117]/80 backdrop-blur sticky top-0 z-30">
+        <div className="border-b border-[#E8E2D9] bg-[#F8F6F1]/80 backdrop-blur sticky top-0 z-30">
           <div className="max-w-3xl mx-auto px-6 py-4 flex items-center gap-4">
             <button
               onClick={() => router.back()}
-              className="text-zinc-500 hover:text-white transition-colors text-lg"
+              className="text-[#9C9590] hover:text-[#1C1917] transition-colors text-lg"
             >
               ←
             </button>
             <div>
               <h1 className="text-base font-bold tracking-wider">Create User</h1>
-              <p className="text-xs text-zinc-500 mt-0.5">Add a new user account</p>
+              <p className="text-xs text-[#9C9590] mt-0.5">Add a new user account</p>
             </div>
           </div>
         </div>
@@ -262,8 +262,8 @@ export default function CreateUserPage() {
             className="space-y-5"
           >
             {/* Profile image + basic info */}
-            <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-6 space-y-5">
-              <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-1">
+            <div className="bg-white border border-[#E8E2D9] rounded-xl p-6 space-y-5">
+              <h2 className="text-xs font-bold uppercase tracking-widest text-[#6B6560] mb-1">
                 Basic Information
               </h2>
 
@@ -271,17 +271,17 @@ export default function CreateUserPage() {
               <div className="flex items-center gap-5">
                 <div className="relative group">
                   <div
-                    className="w-20 h-20 rounded-full border-2 border-white/10 bg-[#0D1117] flex items-center justify-center overflow-hidden"
+                    className="w-20 h-20 rounded-full border-2 border-white/10 bg-[#F8F6F1] flex items-center justify-center overflow-hidden"
                     style={{ backgroundImage: preview ? `url(${preview})` : undefined, backgroundSize: "cover", backgroundPosition: "center" }}
                   >
                     {!preview && (
-                      <span className="text-zinc-600 text-2xl">
+                      <span className="text-[#9C9590] text-2xl">
                         {watch("name")?.[0]?.toUpperCase() ?? "?"}
                       </span>
                     )}
                   </div>
                   <label className="absolute inset-0 rounded-full cursor-pointer flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-[10px] text-white font-semibold">CHANGE</span>
+                    <span className="text-[10px] text-[#1C1917] font-semibold">CHANGE</span>
                     <input
                       type="file"
                       accept="image/*"
@@ -291,8 +291,8 @@ export default function CreateUserPage() {
                   </label>
                 </div>
                 <div className="flex-1 space-y-1">
-                  <p className="text-xs text-zinc-300 font-medium">Profile photo</p>
-                  <p className="text-[11px] text-zinc-600">
+                  <p className="text-xs text-[#2C2825] font-medium">Profile photo</p>
+                  <p className="text-[11px] text-[#9C9590]">
                     Hover over the avatar to upload. PNG, JPG accepted.
                   </p>
                   {preview && (
@@ -328,8 +328,8 @@ export default function CreateUserPage() {
             </div>
 
             {/* Password */}
-            <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-6 space-y-5">
-              <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-1">
+            <div className="bg-white border border-[#E8E2D9] rounded-xl p-6 space-y-5">
+              <h2 className="text-xs font-bold uppercase tracking-widest text-[#6B6560] mb-1">
                 Password
               </h2>
 
@@ -344,7 +344,7 @@ export default function CreateUserPage() {
                   <button
                     type="button"
                     onClick={() => setShowPassword((s) => !s)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition-colors"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9C9590] hover:text-[#2C2825] transition-colors"
                   >
                     {showPassword ? <EyeOff size={14} /> : <Eye size={14} />}
                   </button>
@@ -363,7 +363,7 @@ export default function CreateUserPage() {
                   <button
                     type="button"
                     onClick={() => setShowConfirm((s) => !s)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition-colors"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9C9590] hover:text-[#2C2825] transition-colors"
                   >
                     {showConfirm ? <EyeOff size={14} /> : <Eye size={14} />}
                   </button>
@@ -373,8 +373,8 @@ export default function CreateUserPage() {
 
             {/* Role (admin only) */}
             {isAdmin && (
-              <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-6 space-y-4">
-                <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-1">
+              <div className="bg-white border border-[#E8E2D9] rounded-xl p-6 space-y-4">
+                <h2 className="text-xs font-bold uppercase tracking-widest text-[#6B6560] mb-1">
                   Role & Permissions
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -387,8 +387,8 @@ export default function CreateUserPage() {
                         onClick={() => setValue("role", r.value as any)}
                         className={`relative text-left p-4 rounded-xl border transition-all ${
                           isSelected
-                            ? "border-[#C8A96E]/50 bg-[#C8A96E]/5"
-                            : "border-white/[0.06] hover:border-white/10 bg-[#0D1117]"
+                            ? "border-[#B8860B]/50 bg-[#B8860B]/5"
+                            : "border-[#E8E2D9] hover:border-white/10 bg-[#F8F6F1]"
                         }`}
                       >
                         {isSelected && (
@@ -404,7 +404,7 @@ export default function CreateUserPage() {
                         >
                           {r.label}
                         </div>
-                        <div className="text-[10px] text-zinc-600 leading-relaxed">{r.desc}</div>
+                        <div className="text-[10px] text-[#9C9590] leading-relaxed">{r.desc}</div>
                       </button>
                     );
                   })}
@@ -425,7 +425,7 @@ export default function CreateUserPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="px-6 py-2.5 rounded-lg text-xs bg-[#C8A96E] text-[#0D1117] font-bold hover:bg-[#d4b880] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                className="px-6 py-2.5 rounded-lg text-xs bg-[#B8860B] text-[#1C1917] font-bold hover:bg-[#C9960D] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
                 {loading && (
                   <div className="w-3.5 h-3.5 border-2 border-[#0D1117] border-t-transparent rounded-full animate-spin" />
@@ -435,7 +435,7 @@ export default function CreateUserPage() {
               <button
                 type="button"
                 onClick={() => router.back()}
-                className="px-6 py-2.5 rounded-lg text-xs border border-white/[0.06] text-zinc-400 hover:text-white hover:border-white/20 transition-colors"
+                className="px-6 py-2.5 rounded-lg text-xs border border-[#E8E2D9] text-[#6B6560] hover:text-[#1C1917] hover:border-[#B8860B]/30 transition-colors"
               >
                 Cancel
               </button>

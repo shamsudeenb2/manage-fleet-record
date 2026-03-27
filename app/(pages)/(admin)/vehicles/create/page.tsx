@@ -271,12 +271,12 @@ function Field({
 }) {
   return (
     <div className="space-y-1.5">
-      <label className="block text-xs font-semibold uppercase tracking-widest text-zinc-400">
+      <label className="block text-xs font-semibold uppercase tracking-widest text-[#6B6560]">
         {label}
         {required && <span className="text-red-400 ml-0.5">*</span>}
       </label>
       {children}
-      {hint && !error && <p className="text-[10px] text-zinc-600">{hint}</p>}
+      {hint && !error && <p className="text-[10px] text-[#9C9590]">{hint}</p>}
       {error && <p className="text-[10px] text-red-400">{error}</p>}
     </div>
   );
@@ -289,10 +289,10 @@ function TextInput({
   return (
     <input
       {...props}
-      className={`w-full bg-[#0D1117] border rounded-lg px-3 py-2.5 text-xs text-zinc-200 placeholder-zinc-600 focus:outline-none transition-colors ${
+      className={`w-full bg-[#F8F6F1] border rounded-lg px-3 py-2.5 text-xs text-[#1C1917] placeholder-[#B0AAA4] focus:outline-none transition-colors ${
         error
           ? "border-red-700/60 focus:border-red-500"
-          : "border-white/[0.06] focus:border-[#C8A96E]/50"
+          : "border-[#E8E2D9] focus:border-[#B8860B]/50"
       }`}
     />
   );
@@ -306,10 +306,10 @@ function SelectInput({
   return (
     <select
       {...props}
-      className={`w-full bg-[#0D1117] border rounded-lg px-3 py-2.5 text-xs text-zinc-200 focus:outline-none transition-colors appearance-none ${
+      className={`w-full bg-[#F8F6F1] border rounded-lg px-3 py-2.5 text-xs text-[#1C1917] focus:outline-none transition-colors appearance-none ${
         error
           ? "border-red-700/60 focus:border-red-500"
-          : "border-white/[0.06] focus:border-[#C8A96E]/50"
+          : "border-[#E8E2D9] focus:border-[#B8860B]/50"
       }`}
     >
       {children}
@@ -319,7 +319,7 @@ function SelectInput({
 
 // ─── Fuel type cards ─────────────────────────────────────────────────────────
 const FUEL_TYPES = [
-  { value: "DIESEL",   label: "Diesel",   icon: "⛽", color: "#C8A96E", desc: "Standard diesel engine" },
+  { value: "DIESEL",   label: "Diesel",   icon: "⛽", color: "#B8860B", desc: "Standard diesel engine" },
   { value: "PETROL",   label: "Petrol",   icon: "🔴", color: "#3E6B8C", desc: "Petrol / gasoline" },
   { value: "CNG",      label: "CNG",      icon: "💨", color: "#5C9669", desc: "Compressed natural gas" },
   { value: "ELECTRIC", label: "Electric", icon: "⚡", color: "#7B4E8C", desc: "Battery electric vehicle" },
@@ -433,21 +433,21 @@ export default function CreateVehiclePage() {
     <DashboardLayout>
       <Toaster theme="dark" position="top-right" />
       <div
-        className="min-h-screen bg-[#0D1117] text-white"
+        className="min-h-screen bg-[#F8F6F1] text-[#1C1917]"
         style={{ fontFamily: "'DM Mono', 'Fira Mono', monospace" }}
       >
         {/* ── HEADER ── */}
-        <div className="border-b border-white/[0.06] bg-[#0D1117]/80 backdrop-blur sticky top-0 z-30">
+        <div className="border-b border-[#E8E2D9] bg-[#F8F6F1]/80 backdrop-blur sticky top-0 z-30">
           <div className="max-w-3xl mx-auto px-6 py-4 flex items-center gap-4">
             <button
               onClick={() => router.back()}
-              className="text-zinc-500 hover:text-white transition-colors text-lg"
+              className="text-[#9C9590] hover:text-[#1C1917] transition-colors text-lg"
             >
               ←
             </button>
             <div>
               <h1 className="text-base font-bold tracking-wider">Vehicle Onboarding</h1>
-              <p className="text-xs text-zinc-500 mt-0.5">Add a new truck to the fleet</p>
+              <p className="text-xs text-[#9C9590] mt-0.5">Add a new truck to the fleet</p>
             </div>
           </div>
         </div>
@@ -462,12 +462,12 @@ export default function CreateVehiclePage() {
             className="space-y-5"
           >
             {/* ── Section 1: Vehicle Image ── */}
-            <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-6 space-y-4">
-              <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400">Vehicle Photo</h2>
+            <div className="bg-white border border-[#E8E2D9] rounded-xl p-6 space-y-4">
+              <h2 className="text-xs font-bold uppercase tracking-widest text-[#6B6560]">Vehicle Photo</h2>
               <div className="flex items-center gap-5">
                 <div className="relative group flex-shrink-0">
                   <div
-                    className="w-24 h-24 rounded-xl border-2 border-white/10 bg-[#0D1117] flex items-center justify-center overflow-hidden"
+                    className="w-24 h-24 rounded-xl border-2 border-white/10 bg-[#F8F6F1] flex items-center justify-center overflow-hidden"
                     style={{
                       backgroundImage: profilePreview ? `url(${profilePreview})` : undefined,
                       backgroundSize: "cover",
@@ -477,7 +477,7 @@ export default function CreateVehiclePage() {
                     {!profilePreview && <span className="text-4xl">🚛</span>}
                   </div>
                   <label className="absolute inset-0 rounded-xl cursor-pointer flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-[10px] text-white font-semibold">UPLOAD</span>
+                    <span className="text-[10px] text-[#1C1917] font-semibold">UPLOAD</span>
                     <input
                       type="file"
                       accept="image/*"
@@ -487,8 +487,8 @@ export default function CreateVehiclePage() {
                   </label>
                 </div>
                 <div className="flex-1 space-y-1">
-                  <p className="text-xs text-zinc-300 font-medium">Truck photo</p>
-                  <p className="text-[11px] text-zinc-600">
+                  <p className="text-xs text-[#2C2825] font-medium">Truck photo</p>
+                  <p className="text-[11px] text-[#9C9590]">
                     Hover over the image to upload. PNG or JPG recommended.
                   </p>
                   {profilePreview && (
@@ -505,8 +505,8 @@ export default function CreateVehiclePage() {
             </div>
 
             {/* ── Section 2: Identity ── */}
-            <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-6 space-y-4">
-              <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400">Vehicle Identity</h2>
+            <div className="bg-white border border-[#E8E2D9] rounded-xl p-6 space-y-4">
+              <h2 className="text-xs font-bold uppercase tracking-widest text-[#6B6560]">Vehicle Identity</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Field label="Plate Number" error={errors.plateNumber?.message} required>
                   <TextInput
@@ -554,8 +554,8 @@ export default function CreateVehiclePage() {
             </div>
 
             {/* ── Section 3: Fuel Type ── */}
-            <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-6 space-y-4">
-              <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400">Fuel Configuration</h2>
+            <div className="bg-white border border-[#E8E2D9] rounded-xl p-6 space-y-4">
+              <h2 className="text-xs font-bold uppercase tracking-widest text-[#6B6560]">Fuel Configuration</h2>
               <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
                 {FUEL_TYPES.map((f) => {
                   const isSelected = selectedFuel === f.value;
@@ -566,8 +566,8 @@ export default function CreateVehiclePage() {
                       onClick={() => setValue("fuelType", f.value as any)}
                       className={`relative text-left p-3 rounded-xl border transition-all ${
                         isSelected
-                          ? "border-[#C8A96E]/50 bg-[#C8A96E]/5"
-                          : "border-white/[0.06] hover:border-white/10 bg-[#0D1117]"
+                          ? "border-[#B8860B]/50 bg-[#B8860B]/5"
+                          : "border-[#E8E2D9] hover:border-white/10 bg-[#F8F6F1]"
                       }`}
                     >
                       {isSelected && (
@@ -608,10 +608,10 @@ export default function CreateVehiclePage() {
             </div>
 
             {/* ── Section 4: Driver Assignment ── */}
-            <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-6 space-y-4">
+            <div className="bg-white border border-[#E8E2D9] rounded-xl p-6 space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400">Driver Assignment</h2>
-                <span className="text-[10px] text-zinc-600">Optional — can be assigned later</span>
+                <h2 className="text-xs font-bold uppercase tracking-widest text-[#6B6560]">Driver Assignment</h2>
+                <span className="text-[10px] text-[#9C9590]">Optional — can be assigned later</span>
               </div>
 
               <Field
@@ -636,12 +636,12 @@ export default function CreateVehiclePage() {
                 <motion.div
                   initial={{ opacity: 0, y: 4 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="flex items-center gap-3 bg-[#0D1117] rounded-lg px-3 py-2.5 border border-[#5C9669]/30"
+                  className="flex items-center gap-3 bg-[#F8F6F1] rounded-lg px-3 py-2.5 border border-[#5C9669]/30"
                 >
                   <span className="text-lg">✅</span>
                   <div>
                     <div className="text-xs font-medium text-emerald-400">{selectedDriver.name}</div>
-                    <div className="text-[10px] text-zinc-500">
+                    <div className="text-[10px] text-[#9C9590]">
                       Will be assigned when vehicle is created
                       {selectedDriver.phone && ` · ${selectedDriver.phone}`}
                     </div>
@@ -650,7 +650,7 @@ export default function CreateVehiclePage() {
               )}
 
               {drivers.length === 0 && !driversLoading && (
-                <div className="flex items-center gap-2 text-[10px] text-zinc-600 bg-[#0D1117] rounded-lg px-3 py-2.5 border border-white/[0.04]">
+                <div className="flex items-center gap-2 text-[10px] text-[#9C9590] bg-[#F8F6F1] rounded-lg px-3 py-2.5 border border-[#EDE8E0]">
                   <span>ℹ️</span> No unassigned drivers available. You can assign a driver later from the vehicle detail page.
                 </div>
               )}
@@ -661,7 +661,7 @@ export default function CreateVehiclePage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="px-6 py-2.5 rounded-lg text-xs bg-[#C8A96E] text-[#0D1117] font-bold hover:bg-[#d4b880] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                className="px-6 py-2.5 rounded-lg text-xs bg-[#B8860B] text-[#1C1917] font-bold hover:bg-[#C9960D] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
                 {loading && (
                   <div className="w-3.5 h-3.5 border-2 border-[#0D1117] border-t-transparent rounded-full animate-spin" />
@@ -671,7 +671,7 @@ export default function CreateVehiclePage() {
               <button
                 type="button"
                 onClick={() => router.back()}
-                className="px-6 py-2.5 rounded-lg text-xs border border-white/[0.06] text-zinc-400 hover:text-white hover:border-white/20 transition-colors"
+                className="px-6 py-2.5 rounded-lg text-xs border border-[#E8E2D9] text-[#6B6560] hover:text-[#1C1917] hover:border-[#B8860B]/30 transition-colors"
               >
                 Cancel
               </button>

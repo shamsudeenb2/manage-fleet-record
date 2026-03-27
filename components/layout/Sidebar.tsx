@@ -118,14 +118,14 @@ export default function Sidebar() {
       style={{ fontFamily: "'DM Mono', 'Fira Mono', monospace" }}
     >
       {/* ── Logo ── */}
-      <div className="px-5 py-5 border-b border-white/[0.06]">
+      <div className="px-5 py-5 border-b border-[#E8E2D9]">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-[#C8A96E] flex items-center justify-center flex-shrink-0">
-            <Truck className="w-4 h-4 text-[#0D1117]" />
+          <div className="w-8 h-8 rounded-lg bg-[#B8860B] flex items-center justify-center flex-shrink-0">
+            <Truck className="w-4 h-4 text-[#1C1917]" />
           </div>
           <div>
-            <div className="text-sm font-bold tracking-wider text-white">OGBE</div>
-            <div className="text-[10px] text-zinc-500 uppercase tracking-widest">Trading Venture</div>
+            <div className="text-sm font-bold tracking-wider text-[#1C1917]">OGBE</div>
+            <div className="text-[10px] text-[#9C9590] uppercase tracking-widest">Trading Venture</div>
           </div>
         </div>
       </div>
@@ -151,8 +151,8 @@ export default function Sidebar() {
                     onClick={() => toggleGroup(item.prefix)}
                     className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all text-left ${
                       active
-                        ? "bg-[#C8A96E]/10 text-[#C8A96E]"
-                        : "text-zinc-500 hover:text-zinc-300 hover:bg-white/[0.04]"
+                        ? "bg-[#B8860B]/10 text-[#B8860B]"
+                        : "text-[#9C9590] hover:text-[#2C2825] hover:bg-[#EBEBEB]"
                     }`}
                   >
                     <item.icon className="w-4 h-4 flex-shrink-0" />
@@ -172,7 +172,7 @@ export default function Sidebar() {
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.2 }}
-                        className="overflow-hidden ml-7 mt-0.5 space-y-0.5 border-l border-white/[0.06] pl-3"
+                        className="overflow-hidden ml-7 mt-0.5 space-y-0.5 border-l border-[#E8E2D9] pl-3"
                       >
                         {item.children!.map((child) => {
                           const childActive = isActive(child.prefix);
@@ -183,12 +183,12 @@ export default function Sidebar() {
                               onClick={() => setOpen(false)}
                               className={`flex items-center gap-2 px-2 py-2 rounded-lg transition-all text-xs ${
                                 childActive
-                                  ? "text-[#C8A96E] bg-[#C8A96E]/10 font-semibold"
-                                  : "text-zinc-600 hover:text-zinc-300 hover:bg-white/[0.04]"
+                                  ? "text-[#B8860B] bg-[#B8860B]/10 font-semibold"
+                                  : "text-[#9C9590] hover:text-[#2C2825] hover:bg-[#EBEBEB]"
                               }`}
                             >
                               {childActive && (
-                                <div className="w-1.5 h-1.5 rounded-full bg-[#C8A96E] flex-shrink-0" />
+                                <div className="w-1.5 h-1.5 rounded-full bg-[#B8860B] flex-shrink-0" />
                               )}
                               {!childActive && (
                                 <div className="w-1.5 h-1.5 rounded-full bg-zinc-700 flex-shrink-0" />
@@ -208,12 +208,12 @@ export default function Sidebar() {
                   onClick={() => setOpen(false)}
                   className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all ${
                     active
-                      ? "bg-[#C8A96E]/10 text-[#C8A96E] font-semibold"
-                      : "text-zinc-500 hover:text-zinc-300 hover:bg-white/[0.04]"
+                      ? "bg-[#B8860B]/10 text-[#B8860B] font-semibold"
+                      : "text-[#9C9590] hover:text-[#2C2825] hover:bg-[#EBEBEB]"
                   }`}
                 >
                   {/* Active indicator bar */}
-                  <div className={`w-0.5 h-4 rounded-full flex-shrink-0 transition-all ${active ? "bg-[#C8A96E]" : "bg-transparent"}`} />
+                  <div className={`w-0.5 h-4 rounded-full flex-shrink-0 transition-all ${active ? "bg-[#B8860B]" : "bg-transparent"}`} />
                   <item.icon className="w-4 h-4 flex-shrink-0" />
                   <span className="text-xs font-semibold uppercase tracking-wider">{item.name}</span>
                 </Link>
@@ -224,27 +224,27 @@ export default function Sidebar() {
       </nav>
 
       {/* ── User card + Logout ── */}
-      <div className="px-3 pb-4 border-t border-white/[0.06] pt-4 space-y-1">
+      <div className="px-3 pb-4 border-t border-[#E8E2D9] pt-4 space-y-1">
         {/* User info */}
-        <div className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-white/[0.03] border border-white/[0.04] mb-2">
+        <div className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-white/[0.03] border border-[#EDE8E0] mb-2">
           <div
-            className="w-8 h-8 rounded-full bg-[#C8A96E]/20 border border-[#C8A96E]/30 flex-shrink-0 flex items-center justify-center bg-center bg-cover"
+            className="w-8 h-8 rounded-full bg-[#B8860B]/20 border border-[#B8860B]/30 flex-shrink-0 flex items-center justify-center bg-center bg-cover"
             style={userImage ? { backgroundImage: `url(${userImage})` } : undefined}
           >
             {!userImage && (
-              <span className="text-[#C8A96E] text-xs font-bold">{userName[0]?.toUpperCase()}</span>
+              <span className="text-[#B8860B] text-xs font-bold">{userName[0]?.toUpperCase()}</span>
             )}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-xs font-semibold text-zinc-300 truncate">{userName}</p>
-            <p className="text-[10px] text-zinc-600">{ROLE_LABELS[currentRole]}</p>
+            <p className="text-xs font-semibold text-[#2C2825] truncate">{userName}</p>
+            <p className="text-[10px] text-[#9C9590]">{ROLE_LABELS[currentRole]}</p>
           </div>
         </div>
 
         {/* Logout */}
         <button
           onClick={() => signOut({ callbackUrl: "/" })}
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-zinc-600 hover:text-red-400 hover:bg-red-900/10 transition-all"
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-[#9C9590] hover:text-red-400 hover:bg-red-900/10 transition-all"
         >
           <div className="w-0.5 h-4 rounded-full flex-shrink-0 bg-transparent" />
           <LogOut className="w-4 h-4 flex-shrink-0" />
@@ -253,8 +253,8 @@ export default function Sidebar() {
       </div>
 
       {/* ── Footer ── */}
-      <div className="px-5 py-3 border-t border-white/[0.06]">
-        <p className="text-[10px] text-zinc-700">© {new Date().getFullYear()} Ogbe Trading</p>
+      <div className="px-5 py-3 border-t border-[#E8E2D9]">
+        <p className="text-[10px] text-[#B0AAA4]">© {new Date().getFullYear()} Ogbe Trading</p>
       </div>
     </div>
   );
@@ -263,7 +263,7 @@ export default function Sidebar() {
     <>
       {/* ── Mobile toggle button ── */}
       <button
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-[#161B22] border border-white/[0.06] text-white rounded-lg shadow"
+        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-white border border-[#E8E2D9] text-[#1C1917] rounded-lg shadow"
         onClick={() => setOpen((o) => !o)}
         aria-label="Toggle menu"
       >
@@ -289,7 +289,7 @@ export default function Sidebar() {
         animate={{ x: open ? 0 : undefined }}
         className={`
           fixed top-0 left-0 h-full w-60 z-40
-          bg-[#0D1117] border-r border-white/[0.06]
+          bg-[#F8F6F1] border-r border-[#E8E2D9]
           transform transition-transform duration-300 ease-in-out
           ${open ? "translate-x-0" : "-translate-x-full"}
           lg:translate-x-0 lg:static lg:block

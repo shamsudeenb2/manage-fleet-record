@@ -297,11 +297,11 @@ function Field({ label, error, children, hint, required }: {
 }) {
   return (
     <div className="space-y-1.5">
-      <label className="block text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+      <label className="block text-[10px] font-bold uppercase tracking-widest text-[#9C9590]">
         {label}{required && <span className="text-red-400 ml-0.5">*</span>}
       </label>
       {children}
-      {hint  && !error && <p className="text-[10px] text-zinc-600">{hint}</p>}
+      {hint  && !error && <p className="text-[10px] text-[#9C9590]">{hint}</p>}
       {error &&           <p className="text-[10px] text-red-400">{error}</p>}
     </div>
   );
@@ -311,11 +311,11 @@ function TextInput({ error, ...props }: React.InputHTMLAttributes<HTMLInputEleme
   return (
     <input
       {...props}
-      className={`w-full bg-[#0D1117] border rounded-lg px-3 py-2.5 text-xs text-zinc-200
-        placeholder-zinc-600 focus:outline-none transition-colors
+      className={`w-full bg-[#F8F6F1] border rounded-lg px-3 py-2.5 text-xs text-[#1C1917]
+        placeholder-[#B0AAA4] focus:outline-none transition-colors
         ${error
           ? "border-red-700/60 focus:border-red-500"
-          : "border-white/[0.06] focus:border-[#C8A96E]/50"}`}
+          : "border-[#E8E2D9] focus:border-[#B8860B]/50"}`}
     />
   );
 }
@@ -325,18 +325,18 @@ function ReadField({ label, value, accent, sub }: {
 }) {
   return (
     <div className="space-y-1.5">
-      <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">{label}</p>
-      <div className={`w-full bg-[#0D1117]/60 border border-white/[0.04] rounded-lg px-3 py-2.5 text-xs font-mono font-bold
-        ${accent ? "text-[#C8A96E]" : "text-zinc-400"}`}>
+      <p className="text-[10px] font-bold uppercase tracking-widest text-[#9C9590]">{label}</p>
+      <div className={`w-full bg-[#F8F6F1]/60 border border-[#EDE8E0] rounded-lg px-3 py-2.5 text-xs font-mono font-bold
+        ${accent ? "text-[#B8860B]" : "text-[#6B6560]"}`}>
         {value}
       </div>
-      {sub && <p className="text-[10px] text-zinc-600">{sub}</p>}
+      {sub && <p className="text-[10px] text-[#9C9590]">{sub}</p>}
     </div>
   );
 }
 
 function Skeleton({ className }: { className?: string }) {
-  return <div className={`bg-white/[0.04] animate-pulse rounded-lg ${className}`} />;
+  return <div className={`bg-[#EBEBEB] animate-pulse rounded-lg ${className}`} />;
 }
 
 // ─── Main page ────────────────────────────────────────────────────────────────
@@ -428,14 +428,14 @@ export default function EditPartPage() {
   if (notFound) {
     return (
       <DashboardLayout>
-        <div className="min-h-screen bg-[#0D1117] flex items-center justify-center"
+        <div className="min-h-screen bg-[#F8F6F1] flex items-center justify-center"
           style={{ fontFamily: "'DM Mono','Fira Mono',monospace" }}>
           <div className="text-center space-y-3">
             <p className="text-4xl">🔩</p>
-            <p className="text-zinc-300 text-sm font-bold">Part not found</p>
-            <p className="text-zinc-600 text-xs">It may have been deleted or never existed.</p>
+            <p className="text-[#2C2825] text-sm font-bold">Part not found</p>
+            <p className="text-[#9C9590] text-xs">It may have been deleted or never existed.</p>
             <button onClick={() => router.push("/maintenance/parts")}
-              className="mt-4 px-4 py-2 rounded-lg bg-[#C8A96E] text-[#0D1117] text-xs font-bold">
+              className="mt-4 px-4 py-2 rounded-lg bg-[#B8860B] text-[#1C1917] text-xs font-bold">
               Back to Parts
             </button>
           </div>
@@ -448,8 +448,8 @@ export default function EditPartPage() {
   if (fetching) {
     return (
       <DashboardLayout>
-        <div className="min-h-screen bg-[#0D1117]" style={{ fontFamily: "'DM Mono','Fira Mono',monospace" }}>
-          <div className="border-b border-white/[0.06] px-6 py-4 max-w-3xl mx-auto flex items-center gap-4">
+        <div className="min-h-screen bg-[#F8F6F1]" style={{ fontFamily: "'DM Mono','Fira Mono',monospace" }}>
+          <div className="border-b border-[#E8E2D9] px-6 py-4 max-w-3xl mx-auto flex items-center gap-4">
             <Skeleton className="w-6 h-6" />
             <div className="space-y-1.5 flex-1">
               <Skeleton className="h-4 w-40" />
@@ -470,22 +470,22 @@ export default function EditPartPage() {
   return (
     <DashboardLayout>
       <Toaster theme="dark" position="top-right" />
-      <div className="min-h-screen bg-[#0D1117] text-white"
+      <div className="min-h-screen bg-[#F8F6F1] text-[#1C1917]"
         style={{ fontFamily: "'DM Mono','Fira Mono',monospace" }}>
 
         {/* ── Sticky header ───────────────────────────────────────────────── */}
-        <div className="border-b border-white/[0.06] bg-[#0D1117]/90 backdrop-blur sticky top-0 z-30">
+        <div className="border-b border-[#E8E2D9] bg-[#F8F6F1]/90 backdrop-blur sticky top-0 z-30">
           <div className="max-w-3xl mx-auto px-6 py-4 flex items-center gap-4">
             <button onClick={() => router.back()}
-              className="text-zinc-500 hover:text-white transition-colors text-lg leading-none">
+              className="text-[#9C9590] hover:text-[#1C1917] transition-colors text-lg leading-none">
               ←
             </button>
             <div className="flex-1 min-w-0">
               <h1 className="text-sm font-bold tracking-wider truncate">Edit Part</h1>
-              <p className="text-[10px] text-zinc-500 mt-0.5 truncate">
+              <p className="text-[10px] text-[#9C9590] mt-0.5 truncate">
                 {part?.vehicle?.plateNumber} · {part?.vehicle?.cap_no}
                 {part?.repair && (
-                  <span className="ml-2 text-zinc-600">
+                  <span className="ml-2 text-[#9C9590]">
                     · Linked to repair: {part.repair.faultDesc.slice(0, 40)}
                   </span>
                 )}
@@ -502,10 +502,10 @@ export default function EditPartPage() {
                   transition={{ duration: 0.15 }}
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-[10px] font-bold uppercase tracking-wider ${
                     wStatus === "valid"
-                      ? "bg-emerald-900/20 border-emerald-700/40 text-emerald-300"
+                      ? "bg-emerald-50 border-emerald-700/40 text-emerald-300"
                       : wStatus === "expiring"
-                      ? "bg-amber-900/20 border-amber-700/40 text-amber-300 animate-pulse"
-                      : "bg-red-900/20 border-red-700/40 text-red-300"
+                      ? "bg-amber-50 border-amber-700/40 text-amber-300 animate-pulse"
+                      : "bg-red-50 border-red-700/40 text-red-300"
                   }`}
                 >
                   <span className={`w-1.5 h-1.5 rounded-full ${
@@ -532,8 +532,8 @@ export default function EditPartPage() {
           >
 
             {/* ── Section 1: Read-only context ──────────────────────────── */}
-            <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-6 space-y-4">
-              <h2 className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Vehicle & Repair Link</h2>
+            <div className="bg-white border border-[#E8E2D9] rounded-xl p-6 space-y-4">
+              <h2 className="text-[10px] font-bold uppercase tracking-widest text-[#6B6560]">Vehicle & Repair Link</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <ReadField
                   label="Vehicle"
@@ -557,8 +557,8 @@ export default function EditPartPage() {
             </div>
 
             {/* ── Section 2: Part Details ───────────────────────────────── */}
-            <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-6 space-y-4">
-              <h2 className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Part Details</h2>
+            <div className="bg-white border border-[#E8E2D9] rounded-xl p-6 space-y-4">
+              <h2 className="text-[10px] font-bold uppercase tracking-widest text-[#6B6560]">Part Details</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Field label="Part Name" required error={(errors.name as any)?.message}>
                   <TextInput
@@ -582,8 +582,8 @@ export default function EditPartPage() {
                       className={`flex flex-col items-center gap-1 p-2 rounded-lg border text-[10px] font-bold
                         uppercase tracking-wider transition-all
                         ${category === c
-                          ? "border-[#C8A96E] bg-[#C8A96E]/10 text-[#C8A96E]"
-                          : "border-white/[0.06] text-zinc-600 hover:text-zinc-300 hover:border-white/20"}`}
+                          ? "border-[#B8860B] bg-[#B8860B]/10 text-[#B8860B]"
+                          : "border-[#E8E2D9] text-[#9C9590] hover:text-[#2C2825] hover:border-[#B8860B]/30"}`}
                     >
                       <span className="text-base">{CAT_ICONS[c]}</span>
                       {c}
@@ -594,8 +594,8 @@ export default function EditPartPage() {
             </div>
 
             {/* ── Section 3: Cost ───────────────────────────────────────── */}
-            <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-6 space-y-4">
-              <h2 className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Cost</h2>
+            <div className="bg-white border border-[#E8E2D9] rounded-xl p-6 space-y-4">
+              <h2 className="text-[10px] font-bold uppercase tracking-widest text-[#6B6560]">Cost</h2>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <Field label="Quantity" required error={(errors.quantity as any)?.message}>
                   <TextInput
@@ -630,9 +630,9 @@ export default function EditPartPage() {
             </div>
 
             {/* ── Section 4: Dates ──────────────────────────────────────── */}
-            <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-6 space-y-4">
+            <div className="bg-white border border-[#E8E2D9] rounded-xl p-6 space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Dates</h2>
+                <h2 className="text-[10px] font-bold uppercase tracking-widest text-[#6B6560]">Dates</h2>
                 {/* Warranty status inline hint */}
                 <AnimatePresence mode="wait">
                   {warrantyExpiry && (
@@ -665,11 +665,11 @@ export default function EditPartPage() {
                   <TextInput
                     {...register("warrantyExpiry")}
                     type="date"
-                    className={`w-full bg-[#0D1117] border rounded-lg px-3 py-2.5 text-xs text-zinc-200
-                      placeholder-zinc-600 focus:outline-none transition-colors
+                    className={`w-full bg-[#F8F6F1] border rounded-lg px-3 py-2.5 text-xs text-[#1C1917]
+                      placeholder-[#B0AAA4] focus:outline-none transition-colors
                       ${wStatus === "expired"  ? "border-red-700/50 focus:border-red-500" :
                         wStatus === "expiring" ? "border-amber-700/50 focus:border-amber-500" :
-                        "border-white/[0.06] focus:border-[#C8A96E]/50"}`}
+                        "border-[#E8E2D9] focus:border-[#B8860B]/50"}`}
                   />
                 </Field>
               </div>
@@ -679,36 +679,36 @@ export default function EditPartPage() {
                   {...register("notes")}
                   rows={2}
                   placeholder="Any notes about this part…"
-                  className="w-full bg-[#0D1117] border border-white/[0.06] rounded-lg px-3 py-2.5 text-xs
-                    text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-[#C8A96E]/50 resize-none"
+                  className="w-full bg-[#F8F6F1] border border-[#E8E2D9] rounded-lg px-3 py-2.5 text-xs
+                    text-[#1C1917] placeholder-[#B0AAA4] focus:outline-none focus:border-[#B8860B]/50 resize-none"
                 />
               </Field>
             </div>
 
             {/* ── Section 5: Repair context (read-only) ─────────────────── */}
             {part?.repair && (
-              <div className="bg-[#161B22] border border-white/[0.06] rounded-xl p-6 space-y-3">
-                <h2 className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Linked Repair</h2>
-                <div className="bg-[#0D1117]/60 border border-white/[0.04] rounded-lg px-4 py-3 flex items-start justify-between gap-3">
+              <div className="bg-white border border-[#E8E2D9] rounded-xl p-6 space-y-3">
+                <h2 className="text-[10px] font-bold uppercase tracking-widest text-[#6B6560]">Linked Repair</h2>
+                <div className="bg-[#F8F6F1]/60 border border-[#EDE8E0] rounded-lg px-4 py-3 flex items-start justify-between gap-3">
                   <div>
-                    <p className="text-xs text-zinc-200 font-medium">{part.repair.faultDesc}</p>
-                    <p className="text-[10px] text-zinc-600 mt-0.5">
+                    <p className="text-xs text-[#1C1917] font-medium">{part.repair.faultDesc}</p>
+                    <p className="text-[10px] text-[#9C9590] mt-0.5">
                       {part.vehicle.plateNumber} · {part.vehicle.cap_no}
                     </p>
                   </div>
                   <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded border ${
                     part.repair.status === "COMPLETED"
-                      ? "bg-emerald-900/20 text-emerald-400 border-emerald-700/30"
+                      ? "bg-emerald-50 text-emerald-400 border-emerald-700/30"
                       : part.repair.status === "IN_PROGRESS"
                       ? "bg-sky-900/20 text-sky-400 border-sky-700/30"
                       : part.repair.status === "OPEN"
-                      ? "bg-red-900/20 text-red-400 border-red-700/30"
-                      : "bg-zinc-700/30 text-zinc-400 border-zinc-600/30"
+                      ? "bg-red-50 text-red-400 border-red-700/30"
+                      : "bg-zinc-700/30 text-[#6B6560] border-zinc-600/30"
                   }`}>
                     {part.repair.status.replace(/_/g, " ")}
                   </span>
                 </div>
-                <p className="text-[10px] text-zinc-600">
+                <p className="text-[10px] text-[#9C9590]">
                   This part's cost flows into the linked repair's total. The repair link cannot be changed here.
                 </p>
               </div>
@@ -719,8 +719,8 @@ export default function EditPartPage() {
               <button
                 type="submit"
                 disabled={saving || !isDirty}
-                className="px-6 py-2.5 rounded-lg text-xs bg-[#C8A96E] text-[#0D1117] font-bold
-                  hover:bg-[#d4b880] transition-colors disabled:opacity-40 flex items-center gap-2"
+                className="px-6 py-2.5 rounded-lg text-xs bg-[#B8860B] text-[#1C1917] font-bold
+                  hover:bg-[#C9960D] transition-colors disabled:opacity-40 flex items-center gap-2"
               >
                 {saving && (
                   <div className="w-3.5 h-3.5 border-2 border-[#0D1117] border-t-transparent rounded-full animate-spin" />
@@ -730,13 +730,13 @@ export default function EditPartPage() {
               <button
                 type="button"
                 onClick={() => router.back()}
-                className="px-6 py-2.5 rounded-lg text-xs border border-white/[0.06] text-zinc-400
-                  hover:text-white transition-colors"
+                className="px-6 py-2.5 rounded-lg text-xs border border-[#E8E2D9] text-[#6B6560]
+                  hover:text-[#1C1917] transition-colors"
               >
                 Cancel
               </button>
               {!isDirty && (
-                <span className="text-[10px] text-zinc-600 ml-1">No changes yet</span>
+                <span className="text-[10px] text-[#9C9590] ml-1">No changes yet</span>
               )}
             </div>
 

@@ -17,7 +17,7 @@ type UserRow = {
 };
 
 const ROLE_STYLES: Record<string, string> = {
-  ADMIN: "bg-[#C8A96E]/20 text-[#C8A96E] border border-[#C8A96E]/30",
+  ADMIN: "bg-[#B8860B]/20 text-[#B8860B] border border-[#B8860B]/30",
   DATA_ENTRY: "bg-[#3E6B8C]/20 text-sky-400 border border-[#3E6B8C]/30",
   MANAGER: "bg-[#5C9669]/20 text-emerald-400 border border-[#5C9669]/30",
 };
@@ -45,7 +45,7 @@ function ConfirmDeleteButton({ onConfirm }: { onConfirm: () => Promise<void> }) 
     return (
       <button
         onClick={() => setPhase("confirm")}
-        className="px-2 py-1 rounded text-xs border border-red-800/40 text-red-400 hover:bg-red-900/20 transition-colors"
+        className="px-2 py-1 rounded text-xs border border-red-800/40 text-red-400 hover:bg-red-50 transition-colors"
       >
         Delete
       </button>
@@ -54,7 +54,7 @@ function ConfirmDeleteButton({ onConfirm }: { onConfirm: () => Promise<void> }) 
   if (phase === "confirm")
     return (
       <div className="flex items-center gap-1">
-        <span className="text-[10px] text-zinc-500">Sure?</span>
+        <span className="text-[10px] text-[#9C9590]">Sure?</span>
         <button
           onClick={handleConfirm}
           className="px-2 py-1 rounded text-xs bg-red-900/40 text-red-400 border border-red-700/40 hover:bg-red-900/60 transition-colors"
@@ -63,7 +63,7 @@ function ConfirmDeleteButton({ onConfirm }: { onConfirm: () => Promise<void> }) 
         </button>
         <button
           onClick={() => setPhase("idle")}
-          className="px-2 py-1 rounded text-xs border border-white/10 text-zinc-500 hover:text-zinc-300 transition-colors"
+          className="px-2 py-1 rounded text-xs border border-white/10 text-[#9C9590] hover:text-[#2C2825] transition-colors"
         >
           No
         </button>
@@ -142,18 +142,18 @@ export default function UsersPage() {
   return (
     <DashboardLayout>
       <Toaster theme="dark" position="top-right" />
-      <div className="min-h-screen bg-[#0D1117] text-white" style={{ fontFamily: "'DM Mono', 'Fira Mono', monospace" }}>
+      <div className="min-h-screen bg-[#F8F6F1] text-[#1C1917]" style={{ fontFamily: "'DM Mono', 'Fira Mono', monospace" }}>
 
         {/* ── HEADER ── */}
-        <div className="border-b border-white/[0.06] bg-[#0D1117]/80 backdrop-blur sticky top-0 z-30">
+        <div className="border-b border-[#E8E2D9] bg-[#F8F6F1]/80 backdrop-blur sticky top-0 z-30">
           <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
             <div>
               <h1 className="text-base font-bold tracking-wider">Users</h1>
-              <p className="text-xs text-zinc-500 mt-0.5">{total} total registered users</p>
+              <p className="text-xs text-[#9C9590] mt-0.5">{total} total registered users</p>
             </div>
             <button
               onClick={() => router.push("/users/create")}
-              className="px-4 py-2 rounded-lg text-xs bg-[#C8A96E] text-[#0D1117] font-bold hover:bg-[#d4b880] transition-colors"
+              className="px-4 py-2 rounded-lg text-xs bg-[#B8860B] text-[#1C1917] font-bold hover:bg-[#C9960D] transition-colors"
             >
               + Create User
             </button>
@@ -162,18 +162,18 @@ export default function UsersPage() {
           {/* Search + Filter bar */}
           <div className="max-w-6xl mx-auto px-6 pb-3 flex items-center gap-3 flex-wrap">
             <div className="relative flex-1 max-w-xs">
-              <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-zinc-500 text-xs">🔍</span>
+              <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[#9C9590] text-xs">🔍</span>
               <input
                 type="text"
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
                 placeholder="Search name or email…"
-                className="w-full bg-[#161B22] border border-white/[0.06] rounded-lg pl-7 pr-3 py-1.5 text-xs text-zinc-300 placeholder-zinc-600 focus:outline-none focus:border-[#C8A96E]/40"
+                className="w-full bg-white border border-[#E8E2D9] rounded-lg pl-7 pr-3 py-1.5 text-xs text-[#2C2825] placeholder-[#B0AAA4] focus:outline-none focus:border-[#B8860B]/40"
               />
               {q && (
                 <button
                   onClick={() => setQ("")}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 text-zinc-600 hover:text-zinc-300"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-[#9C9590] hover:text-[#2C2825]"
                 >
                   ✕
                 </button>
@@ -188,8 +188,8 @@ export default function UsersPage() {
                   onClick={() => setRoleFilter(r)}
                   className={`px-2.5 py-1 rounded-lg text-[10px] font-semibold uppercase tracking-wider transition-all ${
                     roleFilter === r
-                      ? "bg-[#C8A96E] text-[#0D1117]"
-                      : "border border-white/[0.06] text-zinc-500 hover:text-zinc-300"
+                      ? "bg-[#B8860B] text-[#1C1917]"
+                      : "border border-[#E8E2D9] text-[#9C9590] hover:text-[#2C2825]"
                   }`}
                 >
                   {r === "ALL" ? `All (${total})` : `${r.replace("_", " ")} (${roleCounts[r] ?? 0})`}
@@ -204,7 +204,7 @@ export default function UsersPage() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
             {[
               { label: "Total Users", value: total, accent: "#3E6B8C", icon: "👥" },
-              { label: "Admins", value: roleCounts["ADMIN"] ?? 0, accent: "#C8A96E", icon: "🔐" },
+              { label: "Admins", value: roleCounts["ADMIN"] ?? 0, accent: "#B8860B", icon: "🔐" },
               { label: "Data Entry", value: roleCounts["DATA_ENTRY"] ?? 0, accent: "#3E7B8C", icon: "📋" },
               { label: "MANAGERs", value: roleCounts["MANAGER"] ?? 0, accent: "#5C9669", icon: "🚛" },
             ].map((s, i) => (
@@ -213,7 +213,7 @@ export default function UsersPage() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05 }}
-                className="relative bg-[#161B22] border border-white/[0.06] rounded-xl p-4 overflow-hidden"
+                className="relative bg-white border border-[#E8E2D9] rounded-xl p-4 overflow-hidden"
               >
                 <div
                   className="absolute inset-0 opacity-10 pointer-events-none"
@@ -221,35 +221,35 @@ export default function UsersPage() {
                 />
                 <div className="relative">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs text-zinc-500 uppercase tracking-wider">{s.label}</span>
+                    <span className="text-xs text-[#9C9590] uppercase tracking-wider">{s.label}</span>
                     <span>{s.icon}</span>
                   </div>
-                  <div className="text-2xl font-bold font-mono text-white">{s.value}</div>
+                  <div className="text-2xl font-bold font-mono text-[#1C1917]">{s.value}</div>
                 </div>
               </motion.div>
             ))}
           </div>
 
           {/* ── TABLE ── */}
-          <div className="bg-[#161B22] border border-white/[0.06] rounded-xl overflow-hidden">
-            <div className="px-5 py-3 border-b border-white/[0.06] flex items-center justify-between">
-              <span className="text-xs font-semibold uppercase tracking-widest text-zinc-400">
+          <div className="bg-white border border-[#E8E2D9] rounded-xl overflow-hidden">
+            <div className="px-5 py-3 border-b border-[#E8E2D9] flex items-center justify-between">
+              <span className="text-xs font-semibold uppercase tracking-widest text-[#6B6560]">
                 {filtered.length} user{filtered.length !== 1 ? "s" : ""}
                 {roleFilter !== "ALL" ? ` · ${roleFilter.replace("_", " ")}` : ""}
               </span>
               {loading && (
-                <div className="w-4 h-4 border-2 border-[#C8A96E] border-t-transparent rounded-full animate-spin" />
+                <div className="w-4 h-4 border-2 border-[#B8860B] border-t-transparent rounded-full animate-spin" />
               )}
             </div>
 
             <div className="overflow-x-auto">
               <table className="w-full text-xs">
                 <thead>
-                  <tr className="border-b border-white/[0.06]">
+                  <tr className="border-b border-[#E8E2D9]">
                     {["User", "Email", "Role", "Created", "Actions"].map((h) => (
                       <th
                         key={h}
-                        className="text-left py-3 px-5 text-zinc-500 font-semibold uppercase tracking-wider whitespace-nowrap"
+                        className="text-left py-3 px-5 text-[#9C9590] font-semibold uppercase tracking-wider whitespace-nowrap"
                       >
                         {h}
                       </th>
@@ -271,7 +271,7 @@ export default function UsersPage() {
                         <td className="py-3.5 px-5">
                           <div className="flex items-center gap-3">
                             <div
-                              className="w-8 h-8 rounded-full bg-center bg-cover border border-white/10 flex-shrink-0 bg-[#0D1117]"
+                              className="w-8 h-8 rounded-full bg-center bg-cover border border-white/10 flex-shrink-0 bg-[#F8F6F1]"
                               style={{
                                 backgroundImage: u.profileImage
                                   ? `url(${u.profileImage})`
@@ -279,25 +279,25 @@ export default function UsersPage() {
                               }}
                             >
                               {!u.profileImage && (
-                                <div className="w-full h-full flex items-center justify-center text-zinc-500 text-sm rounded-full">
+                                <div className="w-full h-full flex items-center justify-center text-[#9C9590] text-sm rounded-full">
                                   {(u.name ?? u.email)[0].toUpperCase()}
                                 </div>
                               )}
                             </div>
                             <div>
-                              <div className="font-medium text-white">{u.name ?? "—"}</div>
+                              <div className="font-medium text-[#1C1917]">{u.name ?? "—"}</div>
                             </div>
                           </div>
                         </td>
 
                         {/* Email */}
-                        <td className="py-3.5 px-5 font-mono text-zinc-400">{u.email}</td>
+                        <td className="py-3.5 px-5 font-mono text-[#6B6560]">{u.email}</td>
 
                         {/* Role */}
                         <td className="py-3.5 px-5">
                           <span
                             className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
-                              ROLE_STYLES[u.role] ?? "bg-zinc-700/30 text-zinc-400 border border-zinc-600/30"
+                              ROLE_STYLES[u.role] ?? "bg-zinc-700/30 text-[#6B6560] border border-zinc-600/30"
                             }`}
                           >
                             {u.role.replace("_", " ")}
@@ -305,20 +305,20 @@ export default function UsersPage() {
                         </td>
 
                         {/* Created */}
-                        <td className="py-3.5 px-5 text-zinc-500 whitespace-nowrap">{fmt(u.createdAt)}</td>
+                        <td className="py-3.5 px-5 text-[#9C9590] whitespace-nowrap">{fmt(u.createdAt)}</td>
 
                         {/* Actions */}
                         <td className="py-3.5 px-5">
                           <div className="flex items-center gap-2">
                             {/* <button
                               onClick={() => router.push(`/users/${u.id}`)}
-                              className="px-2 py-1 rounded text-xs border border-white/[0.06] text-zinc-400 hover:text-white hover:border-white/20 transition-colors"
+                              className="px-2 py-1 rounded text-xs border border-[#E8E2D9] text-[#6B6560] hover:text-[#1C1917] hover:border-[#B8860B]/30 transition-colors"
                             >
                               View
                             </button> */}
                             <button
                               onClick={() => router.push(`/users/update/${u.id}`)}
-                              className="px-2 py-1 rounded text-xs border border-[#C8A96E]/30 text-[#C8A96E] hover:bg-[#C8A96E]/10 transition-colors"
+                              className="px-2 py-1 rounded text-xs border border-[#B8860B]/30 text-[#B8860B] hover:bg-[#B8860B]/10 transition-colors"
                             >
                               Edit
                             </button>
@@ -331,7 +331,7 @@ export default function UsersPage() {
 
                   {!loading && filtered.length === 0 && (
                     <tr>
-                      <td colSpan={5} className="py-16 text-center text-zinc-600">
+                      <td colSpan={5} className="py-16 text-center text-[#9C9590]">
                         {q ? `No users matching "${q}"` : "No users found"}
                       </td>
                     </tr>
@@ -342,15 +342,15 @@ export default function UsersPage() {
 
             {/* ── PAGINATION ── */}
             {totalPages > 1 && (
-              <div className="px-5 py-3 border-t border-white/[0.06] flex items-center justify-between">
-                <span className="text-xs text-zinc-500 font-mono">
+              <div className="px-5 py-3 border-t border-[#E8E2D9] flex items-center justify-between">
+                <span className="text-xs text-[#9C9590] font-mono">
                   Page {page} of {totalPages} · {total} users
                 </span>
                 <div className="flex items-center gap-1">
                   <button
                     disabled={page <= 1}
                     onClick={() => setPage((p) => Math.max(1, p - 1))}
-                    className="px-2.5 py-1 rounded text-xs border border-white/[0.06] text-zinc-500 hover:text-zinc-300 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                    className="px-2.5 py-1 rounded text-xs border border-[#E8E2D9] text-[#9C9590] hover:text-[#2C2825] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                   >
                     ← Prev
                   </button>
@@ -364,8 +364,8 @@ export default function UsersPage() {
                         onClick={() => setPage(p)}
                         className={`w-7 h-7 rounded text-xs font-mono transition-colors ${
                           p === page
-                            ? "bg-[#C8A96E] text-[#0D1117] font-bold"
-                            : "border border-white/[0.06] text-zinc-500 hover:text-zinc-300"
+                            ? "bg-[#B8860B] text-[#1C1917] font-bold"
+                            : "border border-[#E8E2D9] text-[#9C9590] hover:text-[#2C2825]"
                         }`}
                       >
                         {p}
@@ -376,7 +376,7 @@ export default function UsersPage() {
                   <button
                     disabled={page >= totalPages}
                     onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-                    className="px-2.5 py-1 rounded text-xs border border-white/[0.06] text-zinc-500 hover:text-zinc-300 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                    className="px-2.5 py-1 rounded text-xs border border-[#E8E2D9] text-[#9C9590] hover:text-[#2C2825] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                   >
                     Next →
                   </button>
